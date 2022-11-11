@@ -2,7 +2,7 @@
 Personalized Travel Planning Agent
 
 ## Setup
-1. Pull the repository
+1. Pull the code
 
 ### Frontend
 1. Change Directory to frontend

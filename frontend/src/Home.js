@@ -5,9 +5,10 @@ import background from './images/homepage.jpeg'
 
 function Home() {
   return (
-    <div class='background'>
+    <div>
+      <Navbar />
       <div class='container'>
-        <Navbar />
+
       </div>
     </div>
   )

@@ -1,15 +1,8 @@
 import React from 'react';
-import {
-  Nav,
-  NavLink,
-  Bars,
-  NavMenu,
-  NavBtn,
-  NavBtnLink,
-} from './NavbarElements';
 import { Link } from 'react-router-dom';
 import logo from '../images/Trippy-1.png';
 import './Navbar.css';
+import Grid from '@mui/material/Grid';
 
 const Navbar = () => {
   return (
@@ -18,7 +11,6 @@ const Navbar = () => {
       <Link to="/">
         <img className="navbar__logo" src={logo} alt="Trippy" />
       </Link>
-
 
       <div className='navbar__emptyspace'></div>
 

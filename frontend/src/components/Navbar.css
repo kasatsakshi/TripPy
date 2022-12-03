@@ -1,9 +1,9 @@
 .navbar {
-  padding-top: 20px;
+  padding-top: 2px;
   display: flex;
   align-items: center;
-  /* margin-left: 200px;
-  margin-right: 200px; */
+  margin-left: 100px;
+  margin-right: 200px;
   margin-top: 5px;
   margin-bottom: 5px;
   height: 80px;
@@ -11,12 +11,12 @@
 }
 
 .navbar__logo {
-  width: 30%;
-  margin-left: 200px;
+  width: 50%;
+  margin-left:30px;
 }
 
 .navbar__emptyspace{
-  width:40%;
+  width: 280px;
 }
 
 .navbar__options{
@@ -28,7 +28,7 @@
 }
 
 .signin__button {
-  height: 35px;
+  height: 45px;
   margin-right: 10px;
   background: black;
   border-radius: 10px;
@@ -36,7 +36,7 @@
   color: white;
   font-size: 15px;
   font-weight: bold;
-  width: 80px;
+  width: 100px;
 }
 
 .signin__button:hover{
@@ -45,11 +45,11 @@
 }
 
 .navbar__button{
-  height: 35px;
-  font-size: 15px;
+  height: 45px;
+  font-size: 20px;
   font-weight: bold;
   border-radius: 10px;
-  width: 100px;
+  width: 180px;
   color: black;
   background-color: transparent;
   border: none;

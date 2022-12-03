@@ -16,6 +16,13 @@
   width: 100%;
 }
 
+.home__image {
+  width: 100%;
+  /* height: 20%; */
+  /* margin-top: 30px; */
+  object-fit: contain;
+}
+
 .background img {
   position: absolute; 
   top: 0; 

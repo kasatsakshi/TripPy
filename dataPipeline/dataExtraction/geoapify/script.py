@@ -5,10 +5,8 @@ import pandas as pd
 df = pd.read_csv("us_cities.csv")
 
 def form_url(row):
-    
     long = row.LONGITUDE
     lat = row.LATITUDE
-    
     url = "https://api.geoapify.com/v2/places?categories=tourism,entertainment,catering.restaurant&filter=circle:{},{},1000&bias=proximity:{},{}&limit=500&apiKey=c8a825d7da834647b40102fcad6d5b3f".format(long,lat,long,lat)
     return url
 
@@ -19,6 +17,9 @@ df_top = df_top.reset_index()
 
 pat = ""
 authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
+
+url="https://api.geoapify.com/v2/places?categories=tourism,entertainment,catering.restaurant,beach&filter=circle:-73.996705,40.74838,1000&bias=proximity:-73.996705,40.74838&limit=500&apiKey=c8a825d7da834647b40102fcad6d5b3f"
+
 headers = {
  'Accept': 'application/json',
  'Authorization': 'Basic '+authorization
@@ -37,3 +38,4 @@ for index, row in df_top.iterrows():
 
     with open(filename, "wb") as text_file:
         text_file.write(response.content)
+

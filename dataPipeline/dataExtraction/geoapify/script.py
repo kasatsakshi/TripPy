@@ -2,7 +2,7 @@ import requests
 import base64
 import pandas as pd
 
-df = pd.read_csv("us_cities.csv")
+df = pd.read_csv('../us_cities.csv')
 
 def form_url(row):
     long = row.LONGITUDE
@@ -25,6 +25,7 @@ headers = {
  'Authorization': 'Basic '+authorization
 }
 
+# df.to_csv('longLat.csv')
 for index, row in df_top.iterrows():
     
     city = row["CITY"]

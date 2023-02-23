@@ -15,18 +15,10 @@ df = pd.read_csv('../us_cities.csv')
 
 
 top_cities = ["New York", "Los Angeles", "Las Vegas", "Orlando", "Miami", "San Francisco"]
+top_cities = ["New York"]
+
 df_top = df[df['CITY'].isin(top_cities)]
 df_top = df_top.reset_index()  
-
-pat = ""
-authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
-
-url="https://api.geoapify.com/v2/places?categories=tourism,entertainment,catering.restaurant,beach&filter=circle:-73.996705,40.74838,1000&bias=proximity:-73.996705,40.74838&limit=500&apiKey=c8a825d7da834647b40102fcad6d5b3f"
-
-headers = {
- 'Accept': 'application/json',
- 'Authorization': 'Basic '+authorization
-}
 
 # df.to_csv('longLat.csv')
 for index, row in df_top.iterrows():
@@ -36,10 +28,11 @@ for index, row in df_top.iterrows():
     county = row["COUNTY"]
     long = row.LONGITUDE
     lat = row.LATITUDE
-    photos = flickr.photos.search(lat=lat, lon=long, accuracy=11)
+    photos = flickr.photos.search(lat=lat, lon=long, accuracy=11,min_date_taken='2010-01-01', max_date_taken='2023-12-31', extras = 'geo, tag, date_taken')
+    df_photos = pd.DataFrame(photos['photos']['photo'])
+    print(df_photos)
     
     filename = city+'-'+state+'photos.json'
     
-    print(photos)
     with open(filename, "w") as text_file:
         json.dump(photos, text_file)

@@ -1,38 +1,61 @@
 import auth
-import requests
-import base64
-import json
 import pandas as pd
 flickr = auth.connect()
-# sets   = flickr.photosets.getList(user_id='73509078@N00')
-# title  = sets['photosets']['photoset'][0]['title']['_content']
-# photos = flickr.photos.search(lat=37.773972, lon=-122.431297, accuracy=11)
-# print(photos)
-# tags =
 
 
-df = pd.read_csv('../us_cities.csv')
+#need to move this in a separate file
+cities= {
+   "New York":{
+      "latitude":40.730610,
+      "longitude":-73.935242
+   },
+   "Los Angeles":{
+      "latitude":34.052235,
+      "longitude":-118.243683
+   },
+   "Las Vegas":{
+      "latitude":36.188110,
+      "longitude":-115.176468
+   },
+   "Orlando":{
+      "latitude":28.538336,
+      "longitude":-81.379234
+   },
+   "Miami":{
+      "latitude":25.761681,
+      "longitude":-80.191788
+   },
+   "San Francisco":{
+      "latitude":37.773972,
+      "longitude":-122.431297
+   }
+}
 
-
-top_cities = ["New York", "Los Angeles", "Las Vegas", "Orlando", "Miami", "San Francisco"]
-top_cities = ["New York"]
-
-df_top = df[df['CITY'].isin(top_cities)]
-df_top = df_top.reset_index()  
-
-# df.to_csv('longLat.csv')
-for index, row in df_top.iterrows():
+def getlonglat(row):
+    res = flickr.photos.geo.getLocation(photo_id=str(row['id']))
     
-    city = row["CITY"]
-    state = row["STATE_CODE"]
-    county = row["COUNTY"]
-    long = row.LONGITUDE
-    lat = row.LATITUDE
-    photos = flickr.photos.search(lat=lat, lon=long, accuracy=11,min_date_taken='2010-01-01', max_date_taken='2023-12-31', extras = 'geo, tag, date_taken')
-    df_photos = pd.DataFrame(photos['photos']['photo'])
-    print(df_photos)
-    
-    filename = city+'-'+state+'photos.json'
-    
-    with open(filename, "w") as text_file:
-        json.dump(photos, text_file)
+    location = res['photo']['location']
+    row['latitude'] = location['latitude']
+    row['longitude'] = location['longitude']
+    return row
+
+for k,v in cities.items():
+    data=[]
+    pages = 8
+    city = k
+    long = v['longitude']
+    lat = v['latitude']
+    filename= city+'-photos.csv'
+
+    for p in range(1, pages+1):
+        
+        photos = flickr.photos.search(lat=lat, lon=long, accuracy=11, radius = 20, radius_units='mi',min_date_taken='2010-01-01', max_date_taken='2023-12-31', extras=["date", "date_upload", "date_taken", "owner_name"], page=p)
+
+        df_photos = pd.DataFrame(photos['photos']['photo'])
+        df_photos = df_photos.drop(['secret', 'farm', 'server', 'ispublic', 'isfriend', 'isfamily'], axis=1)
+        df_photos = df_photos.apply(getlonglat, axis=1)
+        df_photos = df_photos.drop(df_photos.columns[0], axis=1)
+        df_photos = df_photos.drop_duplicates()
+        data.append(df_photos)
+    data = pd.concat(data)
+    data.to_csv(filename)

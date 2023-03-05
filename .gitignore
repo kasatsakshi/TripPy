@@ -3,3 +3,4 @@ node_modules
 .ipynb_checkpoints
 cert.pem
 **/__pycache__/**
+.env

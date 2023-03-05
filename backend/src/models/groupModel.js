@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema;
 
@@ -16,4 +16,4 @@ const groupSchema = new Schema({
 
 const groupModel = mongoose.model("group",groupSchema);
 
-module.exports =groupModel;
+export default groupModel

@@ -1,8 +1,10 @@
-
-
-const mongoose = require('mongoose');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import mongoose from "mongoose";
 
 const connectionString = 'mongodb+srv://trippy-cluster0.qo2gbyq.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -41,6 +43,4 @@ async function connect() {
     })
 }
 
-module.exports = {
-    getConnection
-}
+export default getConnection

@@ -1,0 +1,24 @@
+.dashboard__heading{
+  margin-top: 30px;
+  margin-bottom: 5px;
+  font-family: serif;
+  font-size: 40px;
+  text-align: center;
+}
+
+.dashboard_subheading{
+  text-align: center;
+  font-family: serif;
+  font-size: 28px;
+  font-weight: lighter;
+  margin-top: 50px;
+}
+
+.dashboard__paragraph{
+  margin-top: 0px;
+  font-family: serif;
+  font-size: 20px;
+  text-align: center;
+  margin-left: 80px;
+  margin-right: 80px;
+}

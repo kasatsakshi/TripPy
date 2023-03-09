@@ -11,7 +11,7 @@
 }
 
 .navbar__logo {
-  width: 50%;
+  width: 30%;
   margin-left:30px;
 }
 
@@ -59,4 +59,91 @@
 .navbar__button:hover {
   background-color: lightgrey;
   transition: 0.7s;
+}
+
+.navbar {
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* .navbar__searchBox {
+  display: flex;
+  flex: 1;
+} */
+
+.navbar__searchInput {
+  height: 33px;
+  border-radius: 25px;
+  padding-left: 20px;
+  font-size: 20px;
+  border-color: grey;
+  width: 100%;
+  margin-right: 30px;
+}
+
+.navbar__searchInput:focus{
+  outline: 2px black;
+}
+
+.navbar__userSection{
+  align-items: center;
+  display: flex;
+}
+
+.navbar__icons{
+  margin-right: 20px;
+  color: black;
+}
+
+.navbar__accountCircle{
+  color: grey;
+  size: 30px;
+}
+
+.navbar__button {
+  height: 35px;
+  margin-right: 20px;
+  background: none;
+  border-radius: 10px;
+  border-color: white;
+  font-size: 12px;
+  font-weight: bold;
+  width: 70px;
+}
+
+.navbar__button:hover {
+  background-color: lightgrey;
+}
+
+.navbar__categories{
+  margin-left: 100px;
+  margin-right: 100px;
+  padding-top: 10px;
+  /* padding-bottom: 10px; */
+}
+
+.navbar__categoryLink{
+  color: black;
+  text-decoration:none;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.footer__currency{
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 10px;
+  background-color: #232347;
+  border: none;
+  color: white;
+}
+
+.navbar__line{
+  border-top: 1px solid lightgrey ;
+  margin-top: 10px;
 }

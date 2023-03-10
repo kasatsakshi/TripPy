@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   LineElement,
@@ -61,11 +61,15 @@ function LineChart() {
     datasets: [{
       label: 'Current Period',
       data: currentValues,
+      backgroundColor: 'rgb(63, 81, 181)',
+      borderColor: 'rgb(63, 81, 181)',
       borderWidth: 1
     },
     {
       label: 'Previous Period',
       data: previousValues,
+      backgroundColor: 'rgb(159, 168, 218)',
+      borderColor: 'rgb(159, 168, 218)',
       borderWidth: 1
     }]
   }

@@ -45,7 +45,8 @@ function BarChart() {
     labels: xvalues,
     datasets: [{
       label: 'Demand',
-      data: currentValues
+      data: currentValues,
+      backgroundColor: 'rgb(63, 81, 181)'
     }]
   }
   const options = {}

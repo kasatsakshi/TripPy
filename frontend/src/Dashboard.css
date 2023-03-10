@@ -22,3 +22,17 @@
   margin-left: 80px;
   margin-right: 80px;
 }
+
+.dashboard__cards{
+  align-items: center;
+  align-content: center;
+  margin-left: 250px;
+  margin-right: 250px;
+  margin-top: 50px;
+  margin-bottom: 100px;
+}
+
+.dashboard__image{
+  height: 400px;
+  width: 100%;
+}

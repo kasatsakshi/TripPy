@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Line, Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  LineElement,
-  CategoryScale,
-  LinearScale,
-  PointElement
-} from 'chart.js'
-import './LineChart.css'
-import dataFilePath from './../utils/TravelTrends.csv'
+import { Bar } from "react-chartjs-2";
+import dataFilePath from './../utils/GeographicDemand.csv'
 import Papa from 'papaparse'
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement)
-
-function LineChart() {
+function BarChart() {
   //State to store table Column name
   const [xvalues, setXarray] = useState([]);
 
   //State to store the values
   const [currentValues, setCurrentValues] = useState([]);
-
-  const [previousValues, setPreviousValues] = useState([]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -33,18 +21,16 @@ function LineChart() {
         complete: function (results) {
           const xArray = [];
           const yCurrent = [];
-          const yPrev = [];
 
           // Iterating data to get column name and their values
           results.data.map((d) => {
-            xArray.push((d.date));
-            yCurrent.push(d.current_market_queries);
-            yPrev.push(d.last_year_market_queries);
+            xArray.push((d.location));
+            yCurrent.push(d.rank);
           });
 
           setXarray(xArray);
           setCurrentValues(yCurrent);
-          setPreviousValues(yPrev);
+          // setPreviousValues(yPrev);
 
         },
         error: function (err, file, inputElem, reason) {
@@ -55,33 +41,20 @@ function LineChart() {
     fetchData()
   }, []);
 
-
   const data = {
     labels: xvalues,
     datasets: [{
-      label: 'Current Period',
-      data: currentValues,
-      borderWidth: 1
-    },
-    {
-      label: 'Previous Period',
-      data: previousValues,
-      borderWidth: 1
+      label: 'Demand',
+      data: currentValues
     }]
   }
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  }
+  const options = {}
 
-  // reader.readAsArrayBuffer(e.target.files[0])
   return (
     <div>
-      <Line className="chart__container" data={data} options={options}></Line>
+      <Bar className="chart__container" data={data} options={options}></Bar>
     </div>
-  );
+  )
 }
-export default LineChart;
+
+export default BarChart

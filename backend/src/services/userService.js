@@ -15,8 +15,6 @@ export class UserService {
               res.status(400).send("All input is required");
             }
             const user = await userModel.findOne({ username: username })
-            // .populate("followers", ["username", "fname", "lname"])
-            // .populate("following", ["username", "imgKey", "name"]);
         
             if (user && (await bcrypt.compare(password, user.password))) {
               const token = jwt.sign(
@@ -41,7 +39,6 @@ export class UserService {
 
     signup = async (req, res) => {
 		const { username, email, password } = req.body;
-     // console.log(username, email, password);
         const user = await userModel.findOne({ $or: [{ username: username }, { email: email }] });
 
         if (user) {

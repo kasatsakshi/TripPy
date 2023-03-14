@@ -9,6 +9,7 @@ import Dashboard from './Dashboard';
 import Login from './Login';
 import SignUp from './SignUp';
 import Tour from './Tour';
+import GroupDashboard from './GroupDashboard';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/tour" element={<Tour />} />
+          <Route path="/groupboard" element={<GroupDashboard />} />
         </Routes>
       </div>
     </Router>

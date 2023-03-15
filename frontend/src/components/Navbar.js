@@ -12,18 +12,20 @@ const Navbar = () => {
       <Stack>
         <nav className="navbar">
           {/* Logo */}
-          <Link to="/">
-            <img className="navbar__logo" src={logo} alt="Trippy" />
+          <Link className='navbar__logo' to="/">
+            {/* <img className="navbar__logo" src={logo} alt="Trippy" /> */}
+            Trippy
           </Link>
 
           <div className="navbar__searchBox">
-            <Link to="/login"><button className="navbar__button">Plan a trip</button></Link>
-            <Link to="/dashboard"><button className="navbar__button">Dashboard</button></Link>
+
           </div>
 
           {/* User section */}
           <div className="navbar__userSection">
             <>
+              <Link to="/login"><button className="navbar__button">Plan a trip</button></Link>
+              <Link to="/dashboard"><button className="navbar__button">Dashboard</button></Link>
               <Link to="/login"><button className="navbar__button">Login</button></Link>
               <Link to="/signup"><button className="navbar__button">Signup</button></Link>
             </>
@@ -31,7 +33,6 @@ const Navbar = () => {
 
         </nav>
       </Stack>
-      <hr className="navbar__line" />
     </div>
     // <nav className='navbar'>
 

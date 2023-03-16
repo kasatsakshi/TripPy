@@ -10,6 +10,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 import Tour from './Tour';
 import GroupDashboard from './GroupDashboard';
+import Plan from './Plan';
 
 function App() {
   return (
@@ -18,8 +19,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/plan" element={<Plan />} />
           <Route path="/tour" element={<Tour />} />
           <Route path="/groupboard" element={<GroupDashboard />} />
         </Routes>

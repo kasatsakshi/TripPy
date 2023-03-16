@@ -7,7 +7,7 @@ import { CategoryScale } from "chart.js";
 import LineChart from "./components/LineChart";
 import BarChart from './components/BarChart';
 import Stack from '@mui/material/Stack';
-import image from './images/visualize.jpeg'
+import image from './images/dash1.png'
 
 Chart.register(CategoryScale);
 

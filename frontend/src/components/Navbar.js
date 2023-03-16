@@ -24,7 +24,7 @@ const Navbar = () => {
           {/* User section */}
           <div className="navbar__userSection">
             <>
-              <Link to="/login"><button className="navbar__button">Plan a trip</button></Link>
+              <Link to="/plan"><button className="navbar__button">Plan a trip</button></Link>
               <Link to="/dashboard"><button className="navbar__button">Dashboard</button></Link>
               <Link to="/login"><button className="navbar__button">Login</button></Link>
               <Link to="/signup"><button className="navbar__button">Signup</button></Link>

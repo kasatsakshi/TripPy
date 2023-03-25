@@ -9,7 +9,8 @@ export class ItineraryService {
               res.status(400).send("Mandatory fields missing");
             }
             
-            var prompt = `Generate a ${duration}-day itinerary for a trip to ${location}. The itinerary should have a budget of ${budget} and include activities related to ${interests}.`
+            var prompt = `Generate a ${duration}-day itinerary for a trip to ${location}. The itinerary should have a budget of ${budget} and include activities related to ${interests}.
+            format result day-wise and breakdown of each day as Morning, Afternoon, Evening and Night. Give estimated trip cost at the end. Include related social media blogs along with links at the end.`
             
             
             openaiquery(prompt)

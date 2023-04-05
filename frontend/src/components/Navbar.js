@@ -1,12 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import logo from '../images/Trippy-1.png';
 import { ShoppingCart, AccountCircle } from '@mui/icons-material';
 import Stack from '@mui/material/Stack';
 import './Navbar.css';
 import Grid from '@mui/material/Grid';
+import { logout } from '../redux/user';
 
 const Navbar = () => {
+  const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
   return (
     <div>
       <Stack>
@@ -26,8 +30,14 @@ const Navbar = () => {
             <>
               <Link to="/plan"><button className="navbar__button">Plan a trip</button></Link>
               <Link to="/dashboard"><button className="navbar__button">Dashboard</button></Link>
-              <Link to="/login"><button className="navbar__button">Login</button></Link>
-              <Link to="/signup"><button className="navbar__button">Signup</button></Link>
+              <input type="button" className="navbar__button" value="Logout" onClick={() => logout(dispatch)} />
+              {user ? (<></>)
+                : (
+                  <>
+                    <Link to="/login"><button className="navbar__button">Login</button></Link>
+                    <Link to="/signup"><button className="navbar__button">Signup</button></Link>
+                  </>)}
+
             </>
           </div>
 

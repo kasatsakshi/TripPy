@@ -19,15 +19,16 @@ function Home() {
   return (
     <div>
       <Navbar />
-      <Stack>
+      <Stack style={{ paddingTop: 25, paddingBottom: 20 }}>
         <Grid className='home__content' container spacing={1}>
           <Grid item xs={7}>
-            <div className='home_maintext'>Plan your trip with Trippy</div>
-            <div className='home_subtext'>Build, organize, and map your itineraries with your travel buddies.
-              Designed to ease and reduce your travel planning efforts.</div>
+            <div className='home_maintext'>Plan your itinerary with Trippy</div>
+            <div className='home_subtext'>The ultimate destination for personalized travel itineraries! We believe that every trip is unique, and that's why we've created a platform that allows you to plan your dream vacation based on your interests and preferences.<br /><br />
+              Our website uses advanced algorithms to suggest travel itineraries that are tailored to your specific tastes. Whether you're into food, culture, adventure, or relaxation, we've got you covered.
+              Simply tell us what you're looking for, and we'll suggest a range of itineraries that match your interests.</div>
           </Grid>
           <Grid item xs={5}>
-            <img style={{ width: 500, height: 500, borderRadius: 1000 }} src={img3} />
+            <img style={{ width: 500, height: 500, borderRadius: 1000, marginTop: 25 }} src={img3} />
           </Grid>
         </Grid>
       </Stack>
@@ -38,7 +39,8 @@ function Home() {
           </Grid>
           <Grid item xs={7}>
             {/* <div className='home_'>Plan your trip with Trippy</div> */}
-            <div className='home__groupinfo'>A travel itinerary that you can curate along with your travel group into consideration your interests</div>
+            <div className='home__groupinfo'>We also understand that travel is more fun when you do it with friends! <br />That's why we've built in a collaboration feature that allows you to invite your friends to contribute to your itinerary.
+              You can all work together to create a custom travel plan that's perfect for your group.</div>
           </Grid>
         </Grid>
       </Stack>

@@ -37,7 +37,7 @@ export class UserService {
         };
 
 
-    signup = async (req, res) => {
+  signup = async (req, res) => {
 		const { username, email, password } = req.body;
         const user = await userModel.findOne({ $or: [{ username: username }, { email: email }] });
 
@@ -72,7 +72,24 @@ export class UserService {
             console.log(error)
             res.status(400).send(error)
             })
-        }
+        };
+  
+  findUserByEmail = async (req, res) => {
+    try {
+      const {email} = req.body;
+      const user = await userModel.findOne({email});
+      if (!user) {
+        return res.status(400).send({
+          error: "No user with this email has account with Trippy"
+        });
+      }
+      return res.status(200).send(user);
+    } catch (err) {
+      console.log(err)
+      res.status(500).send(err)
+    }
+  }
+    
 
 }
 export default UserService;

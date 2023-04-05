@@ -5,6 +5,7 @@ const userRouter = express.Router();
 const userService = new UserService();
 
 userRouter.get("/user/login", userService.login);
-userRouter.post("/user/signup", userService.signup)
+userRouter.post("/user/signup", userService.signup);
+userRouter.get("/user/email", userService.findUserByEmail);
 
 export default userRouter;

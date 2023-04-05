@@ -1,4 +1,6 @@
+import groupModel from "../models/groupModel.js";
 import itineraryModel from "../models/itineraryModel.js";
+import userModel from "../models/userModel.js";
 import openaiquery from "../utils/openai.js";
 // import 'csv-writer';
 // import { Parser } from '@json2csv/plainjs';
@@ -53,7 +55,7 @@ export class ItineraryService {
       console.log(req.body);
       let {
         startDate, endDate, duration, type, destination, budget, interests,
-        createdBy} = req.body;
+        createdBy, groupId} = req.body;
         if (!duration) {
           duration = (new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 3600 * 24)
         }
@@ -68,7 +70,7 @@ export class ItineraryService {
           destination,
           budget,
           interests,
-          type,
+          // type, No type in the itinerary model
           stayPeriod: {
             startDate,
             endDate
@@ -76,6 +78,7 @@ export class ItineraryService {
           createdBy,
           createdTimestamp: currentTimeStamp,
           updatedTimestamp: currentTimeStamp,
+          bookmarkedBy: null,
         }
 
         const itinerary = new itineraryModel(itineraryPayload);
@@ -88,6 +91,95 @@ export class ItineraryService {
     } catch (err) {
       console.error(err)
       res.status(500).send(err)
+    }
+  }
+
+  bookmarkItinerary = async (req, res) => {
+    try {
+      const { itineraryId, type, isBookmarked, bookmarkedBy, groupId } = req.body;
+      let itinerary = await itineraryModel.findById(itineraryId);
+      if (!itinerary) {
+        res.status(400).send({error: "No such itinerary doesnt exist"})
+      }
+      if (!(type == "individual" || type == "group" )) {
+        res.status(400).send({error: "Wrong Itinerary Type"})
+      }
+      let user, group, bookmarkedItineraries, index;
+      if (type=="individual") {
+        // console.log("====1==");
+        user = await userModel.findById(bookmarkedBy);
+        if (!user) {
+          res.status(400).send({error: "No such user"});
+          return
+        }
+        console.log("user", user);
+        bookmarkedItineraries = user.bookmarkedItineraries;
+        if (!bookmarkedItineraries){
+          bookmarkedItineraries = []
+        }
+        index =  (bookmarkedItineraries && bookmarkedItineraries.length > 0) ? bookmarkedItineraries.indexOf(itineraryId): -1;
+        if (!isBookmarked) {
+          // console.log("====2==");
+          // TODO: Remove it from individual user and change itinerary status
+          if (index > -1) { // only splice array when item is found
+            // console.log("====3==");
+            bookmarkedItineraries.splice(index, 1); // 2nd parameter means remove one item only
+          }
+          itinerary.bookmarkedBy = null
+        } else {
+          // console.log("====4==", bookmarkedItineraries);
+          if (index == -1) {
+            // console.log("====5==");
+            bookmarkedItineraries.push(itineraryId);
+          }
+          itinerary.bookmarkedBy = bookmarkedBy;
+        }
+        // console.log("====6==");
+        user.bookmarkedItineraries = bookmarkedItineraries;
+        user = await user.save();
+
+      } else {
+        // console.log("====7==");
+        group = await groupModel.findById(groupId);
+        if (!group) {
+          res.status(400).send({error: "No such group"});
+        }
+        bookmarkedItineraries = group.bookmarkedItineraries;
+        if (!bookmarkedItineraries) {
+          bookmarkedItineraries = []
+        }
+        index =  (bookmarkedItineraries && bookmarkedItineraries.length > 0) ? bookmarkedItineraries.indexOf(itineraryId): -1;
+        if (!isBookmarked) {
+          // console.log("====8==");
+          // TODO: Remove it from individual user and change itinerary status
+          if (index > -1) { // only splice array when item is found
+            bookmarkedItineraries.splice(index, 1); // 2nd parameter means remove one item only
+          }
+          itinerary.bookmarkedBy = null;
+        } else {
+          // console.log("====9==");
+          if (index == -1) {
+            bookmarkedItineraries.push(itineraryId);
+          }
+          itinerary.bookmarkedBy = bookmarkedBy;
+        }
+        // console.log("bookmarkedItineraries:", bookmarkedItineraries);
+        group.bookmarkedItineraries = bookmarkedItineraries;
+        group = await group.save();
+        // console.log("savedgroup", group);
+      }
+      itinerary = await itinerary.save()
+      const resObj = {
+        itinerary,
+        user,
+        group
+      }
+      // console.log("====10==", resObj);
+      res.status(200).send(resObj);
+      return
+
+    } catch(err) {
+      console.error(err)
     }
   }
 

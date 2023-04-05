@@ -15,11 +15,11 @@ const itinerarySchema = new Schema({
       }],
     bookmarkedBy : {type: mongoose.Schema.Types.ObjectId,
     ref: "user"},
-    interests: {
+    interests: [{
         interest: String,
         enteredBy: {type: mongoose.Schema.Types.ObjectId,
             ref: "user"}
-    },
+    }],
     createdBy: {type: mongoose.Schema.Types.ObjectId,
         ref: "user"},
     createdTimestamp: {type: Date},

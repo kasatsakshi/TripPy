@@ -55,6 +55,7 @@ export class UserService {
         };
 
         const newUser = new userModel(query);
+        newUser.bookmarkedItineraries = [];
         let result = await newUser.save().then(newUser => {
             const token = jwt.sign(
             { user_id: newUser._id, email },

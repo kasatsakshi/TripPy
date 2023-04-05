@@ -23,6 +23,7 @@ export class GroupService {
                 groupName,
                 members: memIds,
                 createdBy,
+                bookmarkedItineraries: [],
             }
             console.log(groupPayload);
             const group = new groupModel(groupPayload);

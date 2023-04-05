@@ -6,5 +6,6 @@ const itineraryService = new ItineraryService();
 
 itineraryRouter.post("/itinerary/generate", itineraryService.generate);
 itineraryRouter.post("/itinerary", itineraryService.createItinerary);
+itineraryRouter.put("/itinerary/bookmark", itineraryService.bookmarkItinerary);
 
 export default itineraryRouter;

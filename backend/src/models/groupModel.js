@@ -8,7 +8,7 @@ const groupSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
       }],
-    bookMarkeditineraries: [{
+    bookmarkedItineraries: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "itinerary",
       }],

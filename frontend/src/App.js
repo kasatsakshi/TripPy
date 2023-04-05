@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import { useSelector } from 'react-redux';
 import Navbar from './components/Navbar';
 import {
   BrowserRouter as Router, Routes, Route, Navigate,
@@ -13,14 +14,15 @@ import GroupDashboard from './GroupDashboard';
 import Plan from './Plan';
 
 function App() {
+  const user = useSelector((state) => state.user.currentUser);
   return (
     <Router>
       <div className="app">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+          <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUp />} />
           <Route path="/plan" element={<Plan />} />
           <Route path="/tour" element={<Tour />} />
           <Route path="/groupboard" element={<GroupDashboard />} />

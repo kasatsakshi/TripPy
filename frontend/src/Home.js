@@ -1,8 +1,8 @@
 import React from 'react'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import './Home.css'
 import background from './images/group.jpg'
-import img1 from './images/img2.jpeg'
 import img3 from './images/img3.jpeg'
 import img6 from './images/img8.webp'
 import userImage from './images/user.jpeg'
@@ -28,7 +28,7 @@ function Home() {
               Simply tell us what you're looking for, and we'll suggest a range of itineraries that match your interests.</div>
           </Grid>
           <Grid item xs={5}>
-            <img style={{ width: 500, height: 500, borderRadius: 1000, marginTop: 25 }} src={img3} />
+            <img style={{ width: 500, height: 500, borderRadius: 1000, marginTop: 25, marginLeft: 50 }} src={img3} />
           </Grid>
         </Grid>
       </Stack>
@@ -39,12 +39,13 @@ function Home() {
           </Grid>
           <Grid item xs={7}>
             {/* <div className='home_'>Plan your trip with Trippy</div> */}
+            <div className='home_groupmain'>Collaborate with Friends and Family</div>
             <div className='home__groupinfo'>We also understand that travel is more fun when you do it with friends! <br />That's why we've built in a collaboration feature that allows you to invite your friends to contribute to your itinerary.
               You can all work together to create a custom travel plan that's perfect for your group.</div>
           </Grid>
         </Grid>
       </Stack>
-      <Stack>
+      <Stack sx={{ marginBottom: 10 }}>
         <div className='home__teamtitle'>Meet the team</div>
         <Stack
           direction="row"
@@ -61,15 +62,15 @@ function Home() {
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Name
+                  Weider Yu
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Work done
+                  Advisor
                 </Typography>
               </CardContent>
             </CardActionArea>
           </Card>
-          <Card sx={{ maxWidth: 200 }}>
+          <Card sx={{ maxWidth: 250 }}>
             <CardActionArea>
               <CardMedia
                 component="img"
@@ -79,28 +80,10 @@ function Home() {
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Name
+                  Ratika Bhuwalka
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Work done
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card sx={{ width: 200 }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="200"
-                image={userImage}
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Name
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Work done
+                  Student
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -115,10 +98,28 @@ function Home() {
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Name
+                  Ayush Gupta
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Work done
+                  Student
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          <Card sx={{ width: 200 }}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="200"
+                image={userImage}
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Sakshi Kasat
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Student
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -133,17 +134,17 @@ function Home() {
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Name
+                  Chetan Nain
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Work done
+                  Student
                 </Typography>
               </CardContent>
             </CardActionArea>
           </Card>
         </Stack>
       </Stack>
-
+      <Footer />
     </div>
   )
 }

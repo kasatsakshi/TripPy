@@ -22,16 +22,19 @@ const Navbar = () => {
           </Link>
 
           <div className="navbar__searchBox">
+            <Link to="/plan" className='navbar__links'>Plan a trip</Link>
+            <Link to="/dashboard" className='navbar__links'>Dashboard</Link>
 
           </div>
 
           {/* User section */}
           <div className="navbar__userSection">
             <>
-              <Link to="/plan"><button className="navbar__button">Plan a trip</button></Link>
-              <Link to="/dashboard"><button className="navbar__button">Dashboard</button></Link>
-              <input type="button" className="navbar__button" value="Logout" onClick={() => logout(dispatch)} />
-              {user ? (<></>)
+
+              {user ? (<>
+                <Link to="/user"><AccountCircle className="navbar__accountCircle" sx={{ fontSize: 40 }} /></Link>
+                <input type="button" className="navbar__button" value="Logout" onClick={() => logout(dispatch)} />
+              </>)
                 : (
                   <>
                     <Link to="/login"><button className="navbar__button">Login</button></Link>
@@ -43,6 +46,7 @@ const Navbar = () => {
 
         </nav>
       </Stack>
+      <hr />
     </div>
     // <nav className='navbar'>
 

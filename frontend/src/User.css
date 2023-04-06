@@ -1,0 +1,16 @@
+.user__content{
+  align-items: center;
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-top: 70px;
+}
+
+.user__title{
+  padding-top: 50px;
+  text-align: center;
+  margin-top: 80px;
+  padding-bottom: 10px;
+  font-family: serif;
+  font-weight: 300;
+  font-size: 40px;
+}

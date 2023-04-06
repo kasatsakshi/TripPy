@@ -14,6 +14,7 @@ import Checkbox from '@mui/material/Checkbox';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
+import { useNavigate } from 'react-router-dom';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -44,6 +45,8 @@ function Plan() {
   const [interests, setInterests] = useState([]);
   const [budget, setBudget] = useState('');
 
+  const navigate = new useNavigate();
+
   const handleChange = (event) => {
     const {
       target: { value },
@@ -65,6 +68,7 @@ function Plan() {
     });
     const responseData = await response.text();
     console.log(responseData);
+    navigate()
   }
   return (
     <div>

@@ -12,6 +12,7 @@ import SignUp from './SignUp';
 import Tour from './Tour';
 import GroupDashboard from './GroupDashboard';
 import Plan from './Plan';
+import User from './User';
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -26,6 +27,7 @@ function App() {
           <Route path="/plan" element={<Plan />} />
           <Route path="/tour" element={<Tour />} />
           <Route path="/groupboard" element={<GroupDashboard />} />
+          <Route path="/user" element={<User />} />
         </Routes>
       </div>
     </Router>

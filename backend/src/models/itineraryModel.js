@@ -4,17 +4,20 @@ const Schema = mongoose.Schema;
 
 const itinerarySchema = new Schema({
     destination: { type: String},
-    stayPeriod: {
-        startDate: {type: Date },
-        endDate: {type: Date}
-    },
+    startDate: {type: Date },
+    endDate: {type: Date},
 	budget: { type: Number },
     itineraryItems: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "itineraryItem",
       }],
+    members: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+    }],
     bookmarkedBy : {type: mongoose.Schema.Types.ObjectId,
     ref: "user"},
+    // Interests are given by users
     interests: [{
         interest: String,
         enteredBy: {type: mongoose.Schema.Types.ObjectId,

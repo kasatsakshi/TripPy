@@ -2,15 +2,16 @@ import groupModel from "../models/groupModel.js";
 import itineraryModel from "../models/itineraryModel.js";
 import userModel from "../models/userModel.js";
 import openaiquery from "../utils/openai.js";
-// import 'csv-writer';
-// import { Parser } from '@json2csv/plainjs';
+import {itineraryData} from "../utils/commonutil.js";
+import itineraryItemModel from "../models/itineraryItemModel.js";
+
 
 export class ItineraryService {
 
   generate = async (req, res) => {
     try {
       console.log(req.body);
-      const { startDate, endDate, duration, location, interests, budget, season } = req.body;
+      const { startDate, endDate, duration, location, interests, budget } = req.body;
       if (!duration) {
         duration = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
       }
@@ -18,12 +19,7 @@ export class ItineraryService {
         res.status(400).send("Mandatory fields missing");
       }
 
-      // const { location} = req.body;
-
       var prompt = `Generate a ${duration}-day itinerary for a trip to ${location}. The itinerary should have a budget of ${budget} and include activities related to ${interests}.`
-      // var prompt = `Generate a 2-day itinerary for a trip to ${location}.`
-      // let prompt = `provide information about top 3 tourist attractions in ${location} in JSON format. Details to be included are name of the place, latitude, longitude, location category, travel time, description and popularity`
-      // console.log(prompt)
       openaiquery(prompt)
         .then((itinerary) => {
           console.log(itinerary)
@@ -54,35 +50,60 @@ export class ItineraryService {
     try {
       console.log(req.body);
       let {
-        startDate, endDate, duration, type, destination, budget, interests,
-        createdBy, groupId} = req.body;
+        startDate, endDate, duration, destination, budget, interests,
+        createdBy, memberIds} = req.body;
         if (!duration) {
           duration = (new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 3600 * 24)
         }
-        console.log("duration:", duration);
         if (!(destination && duration)) {
           res.status(400).send("Mandatory fields missing");
         }
         const currentTimeStamp = new Date();
         // TODO: Adding itinerary Items in itineraryItemModel and save it inside
         // itinerary as well as alone
+        const days = Object.keys(itineraryData);
+        let dcount = days.length;
+        let itemIds = []
+        for (let x = 0; x < dcount; x++){
+          let d = days[x];
+          for (let i =0 ; i < itineraryData[d].length; i++ ) {
+            let c = itineraryData[d][i].category;
+            if (Array.isArray(c)){
+              c = c.join(',');
+            }
+            let p = {
+              placeName: itineraryData[d][i]["place name"],
+              latitude: itineraryData[d][i].latitude,
+              longitude: itineraryData[d][i].longitude,
+              travelTime: itineraryData[d][i]["travel time"],
+              popularity: itineraryData[d][i].popularity,
+              description: itineraryData[d][i].description,
+              category: c,
+              day: x+1
+            }
+            let item = new itineraryItemModel(p);
+            item = await item.save();
+            itemIds.push(item["_id"])
+          }
+        }
+
         const itineraryPayload = {
           destination,
           budget,
           interests,
-          // type, No type in the itinerary model
-          stayPeriod: {
-            startDate,
-            endDate
-          },
+          startDate,
+          endDate,
           createdBy,
           createdTimestamp: currentTimeStamp,
           updatedTimestamp: currentTimeStamp,
           bookmarkedBy: null,
+          itineraryItems: itemIds,
         }
-
+          
         const itinerary = new itineraryModel(itineraryPayload);
-        const savedItinerary = await itinerary.save();
+        
+        let savedItinerary = await itinerary.save();
+        savedItinerary = await savedItinerary.populate("itineraryItems")
 
         res.status(200).send(savedItinerary);
         return
@@ -119,27 +140,21 @@ export class ItineraryService {
         }
         index =  (bookmarkedItineraries && bookmarkedItineraries.length > 0) ? bookmarkedItineraries.indexOf(itineraryId): -1;
         if (!isBookmarked) {
-          // console.log("====2==");
           // TODO: Remove it from individual user and change itinerary status
           if (index > -1) { // only splice array when item is found
-            // console.log("====3==");
             bookmarkedItineraries.splice(index, 1); // 2nd parameter means remove one item only
           }
           itinerary.bookmarkedBy = null
         } else {
-          // console.log("====4==", bookmarkedItineraries);
           if (index == -1) {
-            // console.log("====5==");
             bookmarkedItineraries.push(itineraryId);
           }
           itinerary.bookmarkedBy = bookmarkedBy;
         }
-        // console.log("====6==");
         user.bookmarkedItineraries = bookmarkedItineraries;
         user = await user.save();
 
       } else {
-        // console.log("====7==");
         group = await groupModel.findById(groupId);
         if (!group) {
           res.status(400).send({error: "No such group"});
@@ -150,23 +165,19 @@ export class ItineraryService {
         }
         index =  (bookmarkedItineraries && bookmarkedItineraries.length > 0) ? bookmarkedItineraries.indexOf(itineraryId): -1;
         if (!isBookmarked) {
-          // console.log("====8==");
           // TODO: Remove it from individual user and change itinerary status
           if (index > -1) { // only splice array when item is found
             bookmarkedItineraries.splice(index, 1); // 2nd parameter means remove one item only
           }
           itinerary.bookmarkedBy = null;
         } else {
-          // console.log("====9==");
           if (index == -1) {
             bookmarkedItineraries.push(itineraryId);
           }
           itinerary.bookmarkedBy = bookmarkedBy;
         }
-        // console.log("bookmarkedItineraries:", bookmarkedItineraries);
         group.bookmarkedItineraries = bookmarkedItineraries;
         group = await group.save();
-        // console.log("savedgroup", group);
       }
       itinerary = await itinerary.save()
       const resObj = {
@@ -174,7 +185,6 @@ export class ItineraryService {
         user,
         group
       }
-      // console.log("====10==", resObj);
       res.status(200).send(resObj);
       return
 

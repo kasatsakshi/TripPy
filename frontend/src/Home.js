@@ -6,6 +6,8 @@ import background from './images/group.jpg'
 import img3 from './images/img3.jpeg'
 import img6 from './images/img8.webp'
 import userImage from './images/user.jpeg'
+import mem3 from './images/SK.JPG'
+import mem1 from './images/wYu.jpeg'
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
@@ -52,12 +54,12 @@ function Home() {
           spacing={5}
           className='home__team__members'
         >
-          <Card sx={{ maxWidth: 200 }}>
+          <Card sx={{ width: 200 }}>
             <CardActionArea>
               <CardMedia
                 component="img"
                 height="200"
-                image={userImage}
+                image={mem1}
                 alt="green iguana"
               />
               <CardContent>
@@ -111,7 +113,7 @@ function Home() {
               <CardMedia
                 component="img"
                 height="200"
-                image={userImage}
+                image={mem3}
                 alt="green iguana"
               />
               <CardContent>

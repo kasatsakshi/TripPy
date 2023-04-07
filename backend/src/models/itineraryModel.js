@@ -22,13 +22,14 @@ const itinerarySchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
     }],
-    bookmarkedBy : {type: mongoose.Schema.Types.ObjectId,
-    ref: "user"},
+    isFavourite : {type: Boolean,
+                    default: false},
     interests: [{type: String}],
     createdBy: {type: mongoose.Schema.Types.ObjectId,
         ref: "user"},
     createdTimestamp: {type: Date},
-    updatedTimestamp: {type: Date}
+    updatedTimestamp: {type: Date, 
+                        default: Date.now}
 });
 
 const itineraryModel = mongoose.model("itinerary",itinerarySchema);

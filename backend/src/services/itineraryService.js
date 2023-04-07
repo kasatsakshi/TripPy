@@ -19,7 +19,7 @@ export class ItineraryService {
         res.status(400).send("Mandatory fields missing");
       }
       const itineraryName = `Trip to ${location}`;
-      const itineraryObject = await this.getItineraryById(req)
+      const itineraryObject = await this.getItineraryObject(req)
       itineraryObject.itineraryName = itineraryName;
       var prompt = `Generate a ${duration}-day itinerary for a trip to ${location}. The itinerary should have a budget of ${budget} and include activities related to ${interests}.. The response should be in JSON format which includes the following fields-  Response should be in JSON format as a list of dictionaries. Each dictionary will have 2 fields - "Day"(in number) and "Places". The value places should be a list of dictionaries containing fields- "Name", "Latitude", "Longitude", "Travel time", "Popularity"(High/Medium/Low), "Description", "Category", "Cost"(in USD). Reply with only the answer in JSON form and include no other commentary.Limit the output to less than 1000 tokens.`
       // let savedItinerary = await itineraryObject.save();
@@ -47,7 +47,7 @@ export class ItineraryService {
     }
   };
 
-  getItineraryById = async(req) => {
+  getItineraryObject = async(req) => {
 
     try {
       const { startDate, endDate, duration, location, interests, budget, userId, itineraryId } = req.body;
@@ -88,6 +88,16 @@ export class ItineraryService {
     }
   }
 
+  getItineraryById = async(itineraryId) => {
+    try{
+      const query = { _id: itineraryId}
+
+      const itinerary = await itineraryModel.findOne(query);
+      return itinerary
+    } catch(e){
+      return null
+    }
+  }
   getItineraryByUserId = async(req, res) => {
 
     try {

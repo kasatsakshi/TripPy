@@ -8,11 +8,12 @@ export class NotificationService {
         try {
             const {userId, memberId, itineraryName, action} = req;
             const user = await userModel.findOne(userId);
+            let message = ''
             if(action === 'ADD'){
-                const message =   `${user.fname} ${user.lname} added you to trip: ${itineraryName}`
+                message =   `${user.fname} ${user.lname} added you to trip: ${itineraryName}`
 
             } else {
-                const message =   `${user.fname} ${user.lname} removed you from trip: ${itineraryName}`
+                message =   `${user.fname} ${user.lname} removed you from trip: ${itineraryName}`
             }
             const notificationPayload = {
                 userId: memberId,
@@ -20,12 +21,10 @@ export class NotificationService {
             }
             const notification = new notificationModel(notificationPayload);
             const savedNotification = await notification.save();
-            res.status(200).json(savedNotification);
-            
+            return savedNotification            
 
         } catch(err) {
             console.log(err);
-            res.status(500).send(err)
         }
     }
 

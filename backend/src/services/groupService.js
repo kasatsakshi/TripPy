@@ -61,7 +61,7 @@ export class GroupService {
                 else{
                     members.push(memberId)
                     const newItinerary = await itinerary.save()
-                    await notificationService.memberNotification(userId,memberId, itineraryName, action="ADD")
+                    await notificationService.memberNotification(userId,memberId, itinerary.itineraryName, "ADD")
                     res.send(200).json(newItinerary)
                 }
             }

@@ -5,15 +5,16 @@ import session from "express-session";
 
 
 const app = express();
+const corsOptions = { origin: '*', exposedHeaders: 'X-Auth-Token' };
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
-const port = 3001; 
+const port = 3001;
 app.use(express.json());
 app.use(
-express.urlencoded({
+  express.urlencoded({
     extended: false,
-})
+  })
 );
 
 app.listen(port, () => console.log("[backend] listening on port " + port));

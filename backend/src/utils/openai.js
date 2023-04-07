@@ -1,7 +1,8 @@
 import { Configuration, OpenAIApi } from 'openai'
 import * as dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config();
+
 const configuration = new Configuration({
   organization: process.env.organizationKey,
   apiKey: process.env.openApiKey
@@ -20,13 +21,13 @@ const options = {
 async function openaiquery(prompt) {
 
 
-        const response = await openai.createCompletion({
-          model: model,
-          prompt: prompt,
-          max_tokens: 1200,
-          temperature: 0.5,
-          n: 1
-        });
+  const response = await openai.createCompletion({
+    model: model,
+    prompt: prompt,
+    max_tokens: 1200,
+    temperature: 0.5,
+    n: 1
+  });
   return response.data.choices[0].text.trim()
 
 };

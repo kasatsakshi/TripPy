@@ -7,7 +7,10 @@ import img3 from './images/img3.jpeg'
 import img6 from './images/img8.webp'
 import userImage from './images/user.jpeg'
 import mem3 from './images/SK.JPG'
+import mem4 from './images/ratika.jpeg'
+import mem5 from './images/Chetan.jpeg'
 import mem1 from './images/wYu.jpeg'
+import mem2 from './images/Ayush.jpg'
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
@@ -60,7 +63,7 @@ function Home() {
                 component="img"
                 height="200"
                 image={mem1}
-                alt="green iguana"
+                alt="Weider Yu"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -77,8 +80,8 @@ function Home() {
               <CardMedia
                 component="img"
                 height="200"
-                image={userImage}
-                alt="green iguana"
+                image={mem4}
+                alt="Ratika Bhuwalka"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -95,8 +98,8 @@ function Home() {
               <CardMedia
                 component="img"
                 height="200"
-                image={userImage}
-                alt="green iguana"
+                image={mem2}
+                alt="Ayush Gupta"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -114,7 +117,7 @@ function Home() {
                 component="img"
                 height="200"
                 image={mem3}
-                alt="green iguana"
+                alt="Sakshi Kasat"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -132,7 +135,7 @@ function Home() {
                 component="img"
                 height="200"
                 width="200"
-                image={userImage}
+                image={mem5}
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">

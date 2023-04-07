@@ -38,7 +38,7 @@ const names = [
 ];
 
 function Plan() {
-  const [personName, setPersonName] = useState(4);
+  const [personName, setPersonName] = useState(0);
   const [location, setLocation] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -64,7 +64,7 @@ function Plan() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ duration: personName, location: location, interests: interests, budget: budget })
+      body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location, interests: interests, budget: budget })
     });
     const responseData = await response.text();
     console.log(responseData);
@@ -90,12 +90,12 @@ function Plan() {
               {/* <DatePicker label="Basic date picker" /> */}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker label="Start Date (optional)" onChange={(e) => setStartDate(e.target.value)} />
+                  <DatePicker label="Start Date" onChange={(e) => setStartDate(e)} />
                 </DemoContainer>
               </LocalizationProvider>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker label="End Date (optional)" onChange={(e) => setEndDate(e.target.value)} />
+                  <DatePicker label="End Date" onChange={(e) => setEndDate(e)} />
                 </DemoContainer>
               </LocalizationProvider>
             </Stack>

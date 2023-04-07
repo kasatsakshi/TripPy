@@ -7,10 +7,16 @@ const itinerarySchema = new Schema({
     startDate: {type: Date },
     endDate: {type: Date},
 	budget: { type: Number },
-    itineraryItems: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "itineraryItem",
-      }],
+    itineraryList: [{Day: { type: String},
+        Places: [{
+            Name: {type: String},
+            Latitude:{type: Number},
+            Longitude:{type: Number},
+            Popularity:{type: String},
+            Description: {type: String},
+            Category: {type: String},
+            Cost: {type: Number}
+        }]}],
     members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
@@ -18,11 +24,12 @@ const itinerarySchema = new Schema({
     bookmarkedBy : {type: mongoose.Schema.Types.ObjectId,
     ref: "user"},
     // Interests are given by users
-    interests: [{
-        interest: String,
-        enteredBy: {type: mongoose.Schema.Types.ObjectId,
-            ref: "user"}
-    }],
+    // interests: [{
+    //     interest: String,
+    //     enteredBy: {type: mongoose.Schema.Types.ObjectId,
+    //         ref: "user"}
+    // }],
+    interests: [{type: String}],
     createdBy: {type: mongoose.Schema.Types.ObjectId,
         ref: "user"},
     createdTimestamp: {type: Date},

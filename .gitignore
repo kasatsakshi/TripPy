@@ -4,3 +4,4 @@ node_modules
 cert.pem
 **/__pycache__/**
 .env
+frontend/package-lock.json

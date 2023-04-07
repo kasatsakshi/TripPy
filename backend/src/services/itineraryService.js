@@ -10,8 +10,8 @@ export class ItineraryService {
 
   generate = async (req, res) => {
     try {
-      console.log(req.body);
-      const { startDate, endDate, duration, location, interests, budget } = req.body;
+      // console.log(req.body);
+      const { startDate, endDate, duration, location, interests, budget, userId, itineraryId } = req.body;
       if (!duration) {
         duration = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
       }
@@ -19,32 +19,73 @@ export class ItineraryService {
         res.status(400).send("Mandatory fields missing");
       }
 
-      var prompt = `Generate a ${duration}-day itinerary for a trip to ${location}. The itinerary should have a budget of ${budget} and include activities related to ${interests}.`
+      const itineraryObject = await this.getItineraryById(req)
+      var prompt = `Generate a ${duration}-day itinerary for a trip to ${location}. The itinerary should have a budget of ${budget} and include activities related to ${interests}.. The response should be in JSON format which includes the following fields-  Response should be in JSON format as a list of dictionaries. Each dictionary will have 2 fields - "Day"(in number) and "Places". The value places should be a list of dictionaries containing fields- "Name", "Latitude", "Longitude", "Travel time", "Popularity"(High/Medium/Low), "Description", "Category", "Cost"(in USD). Reply with only the answer in JSON form and include no other commentary.Limit the output to less than 1100 tokens.`
+      // let savedItinerary = await itineraryObject.save();
+          
+      // res.status(200).send(savedItinerary)
       openaiquery(prompt)
         .then((itinerary) => {
           console.log(itinerary)
-          // try {
-          //   const parser = new Parser();
-          //   const csv = parser.parse(itinerary.attractions || itinerary);
-          //   console.log(csv);
-          // } catch (err) {
-          //   console.error(err);
-          // }
-          res.status(200).send(itinerary)
+
+          itineraryObject.itineraryList = JSON.parse(itinerary)
+          let savedItinerary = itineraryObject.save();
+          
+          res.status(200).send(savedItinerary)
         })
         .catch((error) => {
           console.error(error)
           res.status(500).send(error)
 
-        });
-      // itinerary = await openaiquery(prompt)
-      // console.log(itinerary)
-      // res.status(200).send(itinerary) 
+        }
+        );
+     
     } catch (err) {
-      console.error(err)
+      // console.error(err)
       res.status(500).send(err)
     }
   };
+
+  getItineraryById = async(req) => {
+
+    try {
+      const { startDate, endDate, duration, location, interests, budget, userId, itineraryId } = req.body;
+       const data = {
+
+          destination: location,
+          startDate: startDate,
+          endDate: endDate,
+          budget: budget,
+          interests: interests,
+          createdBy: userId,
+          createdTimestamp: new Date(),
+          updatedTimestamp: new Date()
+      }
+      const query = { _id: itineraryId}
+
+      const itinerary = await itineraryModel.findOneAndUpdate(query, data, {upsert: true});
+    
+      // if (itineraryId){
+      //   const itinerary = await itineraryModel.findById(itineraryId);
+
+
+      //   if (itinerary) {
+      //     return itinerary;
+      //   }
+      // }
+       
+  
+      // const newItinerary = new itineraryModel(query);
+      // console.log(newItinerary)
+      return itinerary;
+
+    
+      
+    } catch(e) {
+      console.log(e)
+      res.status(500).send(e)
+    }
+  }
 
   createItinerary = async (req, res) => {
     try {

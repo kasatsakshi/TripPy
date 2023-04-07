@@ -87,6 +87,39 @@ export class ItineraryService {
     }
   }
 
+  getItineraryByUserId = async(req, res) => {
+
+    try {
+      const {userId } = req.body;
+      
+      const query = { createdBy: userId}
+      console.log(query)
+      const itinerary = await itineraryModel.find(query);
+    
+      // if (itineraryId){
+      //   const itinerary = await itineraryModel.findById(itineraryId);
+
+
+      //   if (itinerary) {
+      //     return itinerary;
+      //   }
+      // }
+       
+  
+      // const newItinerary = new itineraryModel(query);
+      // console.log(newItinerary)
+      res.status(200).send(itinerary)
+      return itinerary;
+
+    
+      
+    } catch(e) {
+      console.log(e)
+      res.status(500).send(e)
+    }
+  }
+  
+
   createItinerary = async (req, res) => {
     try {
       console.log(req.body);

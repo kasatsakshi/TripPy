@@ -8,7 +8,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -106,7 +106,7 @@ function ItineraryPage() {
     <div>
       <Navbar />
       <div className='itinerary__content'>
-        <Card sx={{ width: 500, height: 200 }}>
+        <Card sx={{ width: 500, height: 200 }} className="itinerary__card">
           <CardContent>
             <CardHeader
               action={
@@ -133,6 +133,8 @@ function ItineraryPage() {
 
           </CardActions>
         </Card>
+        <Grid container rowSpacing={0}>
+        <Grid xs={6}>
         <div className='itinerary__outerdiv'>
           {res.map((day, index) => (
             <div key={index}>
@@ -160,6 +162,13 @@ function ItineraryPage() {
             </div>
           ))}
         </div>
+        </Grid>
+        <Grid xs={6}>
+        <div className='itinerary__map'>Map</div>
+        </Grid>
+        </Grid>
+        
+        
       </div>
 
 

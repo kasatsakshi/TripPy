@@ -3,8 +3,8 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 const configuration = new Configuration({
-  organization: "org-NmXKTVebdcX2Vnr2EdjDWpKC",
-  apiKey: "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"
+  organization: process.env.organizationKey,
+  apiKey: process.env.openApiKey
 });
 const openai = new OpenAIApi(configuration);
 

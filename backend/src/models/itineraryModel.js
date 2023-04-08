@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema;
 
 const itinerarySchema = new Schema({
+    itineraryName : {type: String},
     destination: { type: String},
     startDate: {type: Date },
     endDate: {type: Date},
@@ -21,19 +22,14 @@ const itinerarySchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
     }],
-    bookmarkedBy : {type: mongoose.Schema.Types.ObjectId,
-    ref: "user"},
-    // Interests are given by users
-    // interests: [{
-    //     interest: String,
-    //     enteredBy: {type: mongoose.Schema.Types.ObjectId,
-    //         ref: "user"}
-    // }],
+    isFavourite : {type: Boolean,
+                    default: false},
     interests: [{type: String}],
     createdBy: {type: mongoose.Schema.Types.ObjectId,
         ref: "user"},
     createdTimestamp: {type: Date},
-    updatedTimestamp: {type: Date}
+    updatedTimestamp: {type: Date, 
+                        default: Date.now}
 });
 
 const itineraryModel = mongoose.model("itinerary",itinerarySchema);

@@ -5,6 +5,10 @@ dotenv.config()
 // import bcrypt from "bcryptjs";
 // import userModel from '../models/userModel.js';
 import groupModel from '../models/groupModel.js';
+import itineraryModel from '../models/itineraryModel.js';
+import { NotificationService } from './notificationService.js';
+
+const notificationService = new NotificationService();
 
 export class GroupService {
     createGroup = async (req, res) => {
@@ -35,6 +39,41 @@ export class GroupService {
             console.log(err);
             res.status(500).send(err)
         }
+    }
+
+
+    addMember = async(req, res) => {
+        try {
+
+            const {itineraryId, userId, memberId} = req.body
+            const query = { _id: itineraryId}
+
+            const itinerary = await itineraryModel.findOne(query);
+            if (itinerary){
+                if (userId!=itinerary.createdBy){
+                    res.status(401).send("Unauthorized Access")
+                }
+                let members = itinerary.members
+
+                if(members.includes(memberId)){
+                    res.status(201).send("Already a member")
+                }
+                else{
+                    members.push(memberId)
+                    const newItinerary = await itinerary.save()
+                    await notificationService.memberNotification(userId,memberId, itinerary.itineraryName, "ADD")
+                    res.send(200).json(newItinerary)
+                }
+            }
+            else{
+                res.send(400).send("Itinerary not found")
+            }
+
+        } catch(err) {
+            console.log(err);
+            res.status(500).send(err)
+        }
+
     }
 }
 

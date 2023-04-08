@@ -23,6 +23,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
+const apikey = process.env.GOOGLE_API_KEY;
+
 function ItineraryPage() {
   const defaultProps = {
     center: {
@@ -36,14 +38,14 @@ function ItineraryPage() {
     res.map((day, index) => {
       day.Places.map((place, iter) => {
         let marker = new maps.Marker({
-          position: { lat:  place.Latitude, lng: place.Longitude },
+          position: { lat: place.Latitude, lng: place.Longitude },
           map,
           title: place.Name
         });
         return marker;
       })
     })
-   };
+  };
 
   const res =
     [
@@ -153,47 +155,47 @@ function ItineraryPage() {
           </CardActions>
         </Card>
         <Grid container rowSpacing={0}>
-        <Grid xs={6}>
-        <div className='itinerary__outerdiv'>
-          {res.map((day, index) => (
-            <div key={index}>
-              <h3 className='itinerary__day'>Day {day.Day}</h3>
-              {day.Places.map((place, iter) => (
-                <Timeline position='alternate' sx={{ marginTop: 2 }}>
-                  <TimelineItem>
-                    <TimelineSeparator>
-                      <TimelineConnector />
-                      <TimelineDot>
+          <Grid xs={6}>
+            <div className='itinerary__outerdiv'>
+              {res.map((day, index) => (
+                <div key={index}>
+                  <h3 className='itinerary__day'>Day {day.Day}</h3>
+                  {day.Places.map((place, iter) => (
+                    <Timeline position='alternate' sx={{ marginTop: 2 }}>
+                      <TimelineItem>
+                        <TimelineSeparator>
+                          <TimelineConnector />
+                          <TimelineDot>
 
-                      </TimelineDot>
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent sx={{ py: '12px', px: 2 }}>
-                      <Typography variant="h6" component="span">
-                        {place.Name}
-                      </Typography>
-                      <Typography color="text.secondary">{place.Description}</Typography>
-                    </TimelineContent>
-                  </TimelineItem>
-                </Timeline>
+                          </TimelineDot>
+                          <TimelineConnector />
+                        </TimelineSeparator>
+                        <TimelineContent sx={{ py: '12px', px: 2 }}>
+                          <Typography variant="h6" component="span">
+                            {place.Name}
+                          </Typography>
+                          <Typography color="text.secondary">{place.Description}</Typography>
+                        </TimelineContent>
+                      </TimelineItem>
+                    </Timeline>
 
+                  ))}
+                </div>
               ))}
             </div>
-          ))}
-        </div>
-        </Grid>
-        <Grid xs={6}>
-          <div className='itinerary__map' style={{ height: '70vh', width: '90%', marginTop: 100 }}>
-            <GoogleMapReact
-              bootstrapURLKeys={{ key: "AIzaSyB8QGVcpN5QnFKdeErKzmlKv6G6eKhgppI" }}
-              defaultCenter={defaultProps.center}
-              defaultZoom={defaultProps.zoom}
-              yesIWantToUseGoogleMapApiInternals
-              onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
-            >
-            </GoogleMapReact>
-          </div>
-        </Grid>
+          </Grid>
+          <Grid xs={6}>
+            <div className='itinerary__map' style={{ height: '70vh', width: '90%', marginTop: 100 }}>
+              <GoogleMapReact
+                bootstrapURLKeys={{ key: apikey }}
+                defaultCenter={defaultProps.center}
+                defaultZoom={defaultProps.zoom}
+                yesIWantToUseGoogleMapApiInternals
+                onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
+              >
+              </GoogleMapReact>
+            </div>
+          </Grid>
         </Grid>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Navbar from './components/Navbar'
-import GoogleMapReact from 'google-map-react';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
@@ -23,28 +22,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
+
 function ItineraryPage() {
-  const defaultProps = {
-    center: {
-      lat: 40.779,
-      lng: -73.963
-    },
-    zoom: 11
-  };
-
-  const renderMarkers = (map, maps) => {
-    res.map((day, index) => {
-      day.Places.map((place, iter) => {
-        let marker = new maps.Marker({
-          position: { lat:  place.Latitude, lng: place.Longitude },
-          map,
-          title: place.Name
-        });
-        return marker;
-      })
-    })
-   };
-
   const res =
     [
       {
@@ -137,6 +116,8 @@ function ItineraryPage() {
               }
               title="Trip to New York City"
             />
+
+
           </CardContent>
           <CardActions>
             <CalendarMonthIcon sx={{ fontSize: 30, marginLeft: 2 }} color="gray"></CalendarMonthIcon>
@@ -183,19 +164,14 @@ function ItineraryPage() {
         </div>
         </Grid>
         <Grid xs={6}>
-          <div className='itinerary__map' style={{ height: '70vh', width: '90%', marginTop: 100 }}>
-            <GoogleMapReact
-              bootstrapURLKeys={{ key: "AIzaSyB8QGVcpN5QnFKdeErKzmlKv6G6eKhgppI" }}
-              defaultCenter={defaultProps.center}
-              defaultZoom={defaultProps.zoom}
-              yesIWantToUseGoogleMapApiInternals
-              onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
-            >
-            </GoogleMapReact>
-          </div>
+        <div className='itinerary__map'>Map</div>
         </Grid>
         </Grid>
+        
+        
       </div>
+
+
     </div>
   )
 }

@@ -103,22 +103,11 @@ export class ItineraryService {
     try {
       const {userId } = req.body;
       
-      const query = { createdBy: userId}
+      const query = [{ createdBy: userId}, {members: {"$in":[userId]}}]
       console.log(query)
-      const itinerary = await itineraryModel.find(query);
+      const itinerary = await itineraryModel.find({$or:query});
     
-      // if (itineraryId){
-      //   const itinerary = await itineraryModel.findById(itineraryId);
-
-
-      //   if (itinerary) {
-      //     return itinerary;
-      //   }
-      // }
-       
-  
-      // const newItinerary = new itineraryModel(query);
-      // console.log(newItinerary)
+      
       res.status(200).send(itinerary)
       return itinerary;
 

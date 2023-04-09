@@ -5,3 +5,6 @@ cert.pem
 **/__pycache__/**
 .env
 frontend/package-lock.json
+backend/src/services/itineraryService.js
+dataPipeline/.DS_Store
+.DS_Store

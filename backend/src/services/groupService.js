@@ -42,10 +42,10 @@ export class GroupService {
     }
 
 
-    addMember = async(req, res) => {
+    editMember = async(req, res) => {
         try {
 
-            const {itineraryId, userId, memberId} = req.body
+            const {itineraryId, userId, memberId, action} = req.body
             const query = { _id: itineraryId}
 
             const itinerary = await itineraryModel.findOne(query);
@@ -54,16 +54,20 @@ export class GroupService {
                     res.status(401).send("Unauthorized Access")
                 }
                 let members = itinerary.members
+                if((action === "ADD" && members.includes(memberId)) || (action === "REMOVE" && !members.includes(memberId)))
+                {
+                    res.status(201).send("Invalid Request")
 
-                if(members.includes(memberId)){
-                    res.status(201).send("Already a member")
                 }
                 else{
-                    members.push(memberId)
+                    (action === "ADD") ? members.push(memberId) : members.splice(members.indexOf(memberId), 1)
+    
                     const newItinerary = await itinerary.save()
-                    await notificationService.memberNotification(userId,memberId, itinerary.itineraryName, "ADD")
-                    res.send(200).json(newItinerary)
+                    await notificationService.memberNotification(userId,memberId, itinerary.itineraryName, action)
+                    res.status(200).json(newItinerary)
                 }
+                
+                
             }
             else{
                 res.send(400).send("Itinerary not found")

@@ -4,10 +4,10 @@ import notificationModel from '../models/notificationModel.js';
 import userModel from '../models/userModel.js';
 
 export class NotificationService {
-    memberNotification = async (req) => {
+    memberNotification = async (userId, memberId, itineraryName, action) => {
         try {
-            const {userId, memberId, itineraryName, action} = req;
-            const user = await userModel.findOne(userId);
+            
+            const user = await userModel.findById(userId);
             let message = ''
             if(action === 'ADD'){
                 message =   `${user.fname} ${user.lname} added you to trip: ${itineraryName}`
@@ -21,7 +21,6 @@ export class NotificationService {
             }
             const notification = new notificationModel(notificationPayload);
             const savedNotification = await notification.save();
-            return savedNotification            
 
         } catch(err) {
             console.log(err);
@@ -29,38 +28,6 @@ export class NotificationService {
     }
 
 
-    addMember = async(req, res) => {
-        try {
-
-            const {itineraryId, userId, memberId} = req.body
-            const query = { _id: itineraryId}
-
-            const itinerary = await itineraryModel.findOne(query);
-            if (itinerary){
-                if (userId!=itinerary.createdBy){
-                    res.status(401).send("Unauthorized Access")
-                }
-                let members = itinerary.members
-
-                if(members.includes(memberId)){
-                    res.status(201).send("Already a member")
-                }
-                else{
-                    members.push(memberId)
-                    const newItinerary = await itinerary.save()
-                    res.send(200).json(newItinerary)
-                }
-            }
-            else{
-                res.send(400).send("Itinerary not found")
-            }
-
-        } catch(err) {
-            console.log(err);
-            res.status(500).send(err)
-        }
-
-    }
 }
 
 export default NotificationService;

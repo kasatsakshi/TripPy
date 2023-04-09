@@ -4,7 +4,7 @@ import GroupService from "../services/groupService.js";
 const groupRouter = express.Router();
 const groupService = new GroupService();
 
-groupRouter.post("/createGroup", groupService.createGroup);
-groupRouter.post("/group/member/add", groupService.addMember)
+groupRouter.post("/group/create", groupService.createGroup);
+groupRouter.post("/group/editmember", groupService.editMember)
 
 export default groupRouter;

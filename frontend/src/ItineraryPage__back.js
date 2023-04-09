@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Navbar from './components/Navbar'
-import GoogleMapReact from 'google-map-react';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
@@ -23,30 +22,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
-const apikey = process.env.GOOGLE_API_KEY;
 
 function ItineraryPage() {
-  const defaultProps = {
-    center: {
-      lat: 40.779,
-      lng: -73.963
-    },
-    zoom: 11
-  };
-
-  const renderMarkers = (map, maps) => {
-    res.map((day, index) => {
-      day.Places.map((place, iter) => {
-        let marker = new maps.Marker({
-          position: { lat: place.Latitude, lng: place.Longitude },
-          map,
-          title: place.Name
-        });
-        return marker;
-      })
-    })
-  };
-
   const res =
     [
       {
@@ -139,6 +116,8 @@ function ItineraryPage() {
               }
               title="Trip to New York City"
             />
+
+
           </CardContent>
           <CardActions>
             <CalendarMonthIcon sx={{ fontSize: 30, marginLeft: 2 }} color="gray"></CalendarMonthIcon>
@@ -155,49 +134,44 @@ function ItineraryPage() {
           </CardActions>
         </Card>
         <Grid container rowSpacing={0}>
-          <Grid xs={6}>
-            <div className='itinerary__outerdiv'>
-              {res.map((day, index) => (
-                <div key={index}>
-                  <h3 className='itinerary__day'>Day {day.Day}</h3>
-                  {day.Places.map((place, iter) => (
-                    <Timeline position='alternate' sx={{ marginTop: 2 }}>
-                      <TimelineItem>
-                        <TimelineSeparator>
-                          <TimelineConnector />
-                          <TimelineDot>
+        <Grid xs={6}>
+        <div className='itinerary__outerdiv'>
+          {res.map((day, index) => (
+            <div key={index}>
+              <h3 className='itinerary__day'>Day {day.Day}</h3>
+              {day.Places.map((place, iter) => (
+                <Timeline position='alternate' sx={{ marginTop: 2 }}>
+                  <TimelineItem>
+                    <TimelineSeparator>
+                      <TimelineConnector />
+                      <TimelineDot>
 
-                          </TimelineDot>
-                          <TimelineConnector />
-                        </TimelineSeparator>
-                        <TimelineContent sx={{ py: '12px', px: 2 }}>
-                          <Typography variant="h6" component="span">
-                            {place.Name}
-                          </Typography>
-                          <Typography color="text.secondary">{place.Description}</Typography>
-                        </TimelineContent>
-                      </TimelineItem>
-                    </Timeline>
+                      </TimelineDot>
+                      <TimelineConnector />
+                    </TimelineSeparator>
+                    <TimelineContent sx={{ py: '12px', px: 2 }}>
+                      <Typography variant="h6" component="span">
+                        {place.Name}
+                      </Typography>
+                      <Typography color="text.secondary">{place.Description}</Typography>
+                    </TimelineContent>
+                  </TimelineItem>
+                </Timeline>
 
-                  ))}
-                </div>
               ))}
             </div>
-          </Grid>
-          <Grid xs={6}>
-            <div className='itinerary__map' style={{ height: '70vh', width: '90%', marginTop: 100 }}>
-              <GoogleMapReact
-                bootstrapURLKeys={{ key: apikey }}
-                defaultCenter={defaultProps.center}
-                defaultZoom={defaultProps.zoom}
-                yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
-              >
-              </GoogleMapReact>
-            </div>
-          </Grid>
+          ))}
+        </div>
         </Grid>
+        <Grid xs={6}>
+        <div className='itinerary__map'>Map</div>
+        </Grid>
+        </Grid>
+        
+        
       </div>
+
+
     </div>
   )
 }

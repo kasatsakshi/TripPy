@@ -1,7 +1,8 @@
 .itinerary__outerdiv{
   margin-top: 80px;
   text-align: center;
-  margin-right: 280px;
+  /* margin-right: 280px; */
+  width: 70%;
 }
 
 .itinerary__day{
@@ -11,8 +12,17 @@
 .itinerary__content{
   margin-top: 80px;
   align-items: center;
+  justify-content: center;
 }
 
 .itinerary__icons{
   color: gray;
+}
+
+.itinerary__card{
+  margin-left: 35%;
+}
+
+.itinerary__map{
+  width: 50%;
 }

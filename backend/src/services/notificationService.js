@@ -27,7 +27,7 @@ export class NotificationService {
         }
     }
 
-    updateNotification = async (itineraryId, userId, action) => {
+    itineraryNotification = async (itineraryId, userId, action) => {
 
         try {
 
@@ -49,6 +49,46 @@ export class NotificationService {
             console.log(err);
         }
     }
+
+    readNotification = async (req, res) => {
+
+        try {
+            let notification = await notificationModel.findById(req.body.notificationId)
+            notification.isRead=true
+            await notification.save()
+            res.status(200).json(notification)
+
+        } catch(err) {
+            console.log(err);
+            res.status(500).send(err)
+
+        }
+    }
+
+    deleteNotification = async (req, res) => {
+
+        try {
+
+            await notificationModel.deleteOne({_id: req.body.notificationId});
+            res.status(200).send("Notification Deleted")
+
+        } catch(err) {
+            console.log(err);
+            res.status(500).send(err)
+
+        }
+    }
+
+    getNotifications = async(req, res) => {
+        try{
+            const notifications = await notificationModel.find({userId: req.body.userId})
+            res.status(200).json(notifications)
+        } catch(err) {
+            console.log(err);
+            res.status(500).send(err)
+        }
+       
+    } 
 
 
 }

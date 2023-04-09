@@ -64,7 +64,7 @@ export class ItineraryService {
   
       if (itineraryId){
         itinerary = itineraryModel.findOneAndUpdate({_id: itineraryId}, {$set:data}, {upsert: true, new: true})
-        notificationService.updateNotification(itineraryId, userId, "UPDATE")
+        notificationService.itineraryNotification(itineraryId, userId, "UPDATE")
         return itinerary
       }
       else{
@@ -118,9 +118,9 @@ export class ItineraryService {
           res.status(401).send("Unauthorized Action")
         }
         else{
-          notificationService.updateNotification(itineraryId, userId, "DELETE")
+          notificationService.itineraryNotification(itineraryId, userId, "DELETE")
           await itineraryModel.deleteOne({_id: itineraryId});
-          res.status(200).send("Delete Successful")
+          res.status(200).send("Itinerary Deleted")
         }
       }
     } catch(e) {

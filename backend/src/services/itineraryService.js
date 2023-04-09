@@ -51,21 +51,33 @@ export class ItineraryService {
 
     try {
       const { startDate, endDate, duration, location, interests, budget, userId, itineraryId } = req.body;
-       const data = {
+       let data = {
 
           destination: location,
           startDate: startDate,
           endDate: endDate,
           budget: budget,
           interests: interests,
-          createdBy: userId,
+          modifiedBy: userId,
           createdTimestamp: new Date(),
           updatedTimestamp: new Date()
       }
-      const query = { _id: itineraryId}
+      let itinerary = null
+  
+      if (itineraryId){
+        itinerary = itineraryModel.findOneAndUpdate({_id: itineraryId}, {$set:data}, {upsert: true, new: true})
+        return itinerary
+      }
+      else{
+        data.createdBy = userId;
 
-      const itinerary = await itineraryModel.findOneAndUpdate(query, data, {upsert: true});
-    
+        itinerary = await new itineraryModel(data)
+        const newItinerary = await itinerary.save()
+
+        return newItinerary
+      }
+      
+      
       // if (itineraryId){
       //   const itinerary = await itineraryModel.findById(itineraryId);
 
@@ -78,7 +90,6 @@ export class ItineraryService {
   
       // const newItinerary = new itineraryModel(query);
       // console.log(newItinerary)
-      return itinerary;
 
     
       

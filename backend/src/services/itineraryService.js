@@ -4,7 +4,9 @@ import userModel from "../models/userModel.js";
 import openaiquery from "../utils/openai.js";
 import {itineraryData} from "../utils/commonutil.js";
 import itineraryItemModel from "../models/itineraryItemModel.js";
+import NotificationService from "./notificationService.js";
 
+const notificationService = new NotificationService();
 
 export class ItineraryService {
 
@@ -66,6 +68,7 @@ export class ItineraryService {
   
       if (itineraryId){
         itinerary = itineraryModel.findOneAndUpdate({_id: itineraryId}, {$set:data}, {upsert: true, new: true})
+        notificationService.updateNotification(itineraryId, userId, "UPDATE")
         return itinerary
       }
       else{

@@ -22,8 +22,12 @@ const itinerarySchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
     }],
-    isFavourite : {type: Boolean,
+    isFavorite : {type: Boolean,
                     default: false},
+    isPublic : {
+        type : Boolean,
+        default: false
+    },
     interests: [{type: String}],
     createdBy: {type: mongoose.Schema.Types.ObjectId,
         ref: "user"},

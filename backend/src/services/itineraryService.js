@@ -128,6 +128,53 @@ export class ItineraryService {
       res.status(500).send(e)
     }
   }
+
+
+  favoriteItinerary = async (req, res) => {
+    try{
+    const {itineraryId, userId, isFavorite} = req.body;
+    const itinerary = await itineraryModel.findById(itineraryId)
+    if(!itinerary){
+      res.status(400).send("Itinerary not found")
+    }
+    else{
+      if (userId!= itinerary.createdBy && !itinerary.members.includes(userId)){
+        res.status(401).send("Unauthorized Action")
+      }
+      else{
+        itinerary.isFavorite = isFavorite
+        const newItinerary = await itinerary.save()
+        res.status(200).json(newItinerary)
+      }
+    }
+  } catch(e) {
+    console.log(e)
+    res.status(500).send(e)
+  }
+  }
+
+  publicItinerary = async (req, res) => {
+    try{
+    const {itineraryId, userId, isPublic } = req.body;
+    const itinerary = await itineraryModel.findById(itineraryId)
+    if(!itinerary){
+      res.status(400).send("Itinerary not found")
+    }
+    else{
+      if (userId!= itinerary.createdBy ){
+        res.status(401).send("Unauthorized Action")
+      }
+      else{
+        itinerary.isPublic = isPublic
+        const newItinerary = await itinerary.save()
+        res.status(200).json(newItinerary)
+      }
+    }
+  } catch(e) {
+    console.log(e)
+    res.status(500).send(e)
+  }
+  }
   // createItinerary = async (req, res) => {
   //   try {
   //     console.log(req.body);

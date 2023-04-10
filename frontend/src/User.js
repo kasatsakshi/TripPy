@@ -8,9 +8,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/system';
 import './User.css'
-
+import { useDispatch, useSelector } from 'react-redux';
 
 function User() {
+  const user = useSelector((state) => state.user.currentUser);
+  console.log(user)
   return (
     <div>
       <Navbar />

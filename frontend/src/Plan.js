@@ -15,6 +15,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useNavigate } from 'react-router-dom';
+import LoadingScreen from 'react-loading-screen'
+import logo from './images/Trippy-logo.png';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -28,13 +30,13 @@ const MenuProps = {
 };
 
 const names = [
-  'hiking',
-  'night-life',
-  'museums',
-  'parks',
-  'bridges',
-  'adventure',
-  'kid-friendly'
+  'Hiking',
+  'Night-life',
+  'Museums',
+  'Parks',
+  'Bridges',
+  'Adventure',
+  'Kid Friendly'
 ];
 
 function Plan() {
@@ -44,6 +46,7 @@ function Plan() {
   const [endDate, setEndDate] = useState('');
   const [interests, setInterests] = useState([]);
   const [budget, setBudget] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
   const navigate = new useNavigate();
 
@@ -59,20 +62,33 @@ function Plan() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:3001/itinerary/generate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location, interests: interests, budget: budget })
-    });
-    const responseData = await response.text();
-    console.log(responseData);
-    navigate()
+    try {
+      setLoading(true)
+      const response = await fetch('http://localhost:3001/itinerary/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location, interests: interests, budget: budget })
+      });
+      const responseData = await response.json();
+      setLoading(false)
+      navigate(`/itinerary/${responseData._id}`)
+    } catch(e) {
+      console.log(e);
+    }
   }
   return (
     <div>
-      <Navbar />
+    <Navbar />
+      <LoadingScreen
+        loading={isLoading}
+        bgColor='#f1f1f1'
+        spinnerColor='#9ee5f8'
+        textColor='#676767'
+        logoSrc={logo}
+        text='Fetching your itinerary... Are you excited to travel?'
+      />
       <div>
         <Stack direction={'row'} sx={{ width: 1500 }}>
           <div className='plan__input'>
@@ -136,7 +152,7 @@ function Plan() {
           </div>
         </Stack>
 
-      </div>
+      </div> 
     </div>
   )
 }

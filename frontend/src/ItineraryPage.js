@@ -1,4 +1,5 @@
-import * as React from 'react'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Navbar from './components/Navbar'
 import GoogleMapReact from 'google-map-react';
 import Timeline from '@mui/lab/Timeline';
@@ -22,20 +23,27 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { first } from 'lodash'
 
-const apikey = process.env.GOOGLE_API_KEY;
+const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 
 function ItineraryPage() {
-  const defaultProps = {
-    center: {
-      lat: 40.779,
-      lng: -73.963
-    },
-    zoom: 11
-  };
+  const { id } = useParams();
+  const [itineraryList, setItineraryList] = useState([]);
+  const [center, setMapCenter] = useState();
+
+  useEffect(async () => {
+    const response = await fetch(`http://localhost:3001/itinerary/${id}`, {
+      method: 'GET',
+    });
+    const responseData = await response.json();
+    setItineraryList(responseData.itineraryList)
+    const place = responseData.itineraryList[0].Places[0]
+    setMapCenter({ lat: place.Latitude, lng: place.Longitude })
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderMarkers = (map, maps) => {
-    res.map((day, index) => {
+    itineraryList.map((day, index) => {
       day.Places.map((place, iter) => {
         let marker = new maps.Marker({
           position: { lat: place.Latitude, lng: place.Longitude },
@@ -47,84 +55,84 @@ function ItineraryPage() {
     })
   };
 
-  const res =
-    [
-      {
-        "Day": 1,
-        "Places": [
-          {
-            "Name": "The Metropolitan Museum of Art",
-            "Latitude": 40.779,
-            "Longitude": -73.963,
-            "Travel time": 20,
-            "Popularity": "High",
-            "Description": "The Metropolitan Museum of Art is one of the world's largest and most visited art museums, with a collection of over two million works.",
-            "Category": "Museum",
-            "Cost": 25
-          },
-          {
-            "Name": "Times Square",
-            "Latitude": 40.759,
-            "Longitude": -73.985,
-            "Travel time": 15,
-            "Popularity": "High",
-            "Description": "Times Square is a major commercial intersection, tourist destination, entertainment center and neighborhood in the Midtown Manhattan section of New York City.",
-            "Category": "Nightlife",
-            "Cost": 0
-          }
-        ]
-      },
-      {
-        "Day": 2,
-        "Places": [
-          {
-            "Name": "Central Park",
-            "Latitude": 40.7829,
-            "Longitude": -73.9654,
-            "Travel time": 25,
-            "Popularity": "High",
-            "Description": "Central Park is an urban park in Manhattan, New York City. It is the most visited urban park in the United States, with an estimated 37.5–38 million visitors annually.",
-            "Category": "Park",
-            "Cost": 0
-          },
-          {
-            "Name": "Empire State Building",
-            "Latitude": 40.748,
-            "Longitude": -73.985,
-            "Travel time": 20,
-            "Popularity": "High",
-            "Description": "The Empire State Building is a 102-story Art Deco skyscraper in Midtown Manhattan, New York City.",
-            "Category": "Attraction",
-            "Cost": 37
-          }
-        ]
-      },
-      {
-        "Day": 3,
-        "Places": [
-          {
-            "Name": "High Line",
-            "Latitude": 40.747,
-            "Longitude": -74.004,
-            "Travel time": 15,
-            "Popularity": "Medium",
-            "Description": "The High Line is a 1.45-mile-long elevated linear park, greenway and rail trail created on a former New York Central Railroad spur on the west side of Manhattan in New York City.",
-            "Category": "Park",
-            "Cost": 0
-          },
-          {
-            "Name": "Brooklyn Bridge",
-            "Latitude": 40.706,
-            "Longitude": -73.997,
-            "Travel time": 20,
-            "Popularity": "High",
-            "Description": "The Brooklyn Bridge is a hybrid cable-stayed/suspension bridge in New York City and is one of the oldest bridges of either type in the United States.",
-            "Category": "Attraction",
-            "Cost": 0
-          }
-        ]
-      }
-    ]
+  // const itineraryList =
+  //   [
+  //     {
+  //       "Day": 1,
+  //       "Places": [
+  //         {
+  //           "Name": "The Metropolitan Museum of Art",
+  //           "Latitude": 40.779,
+  //           "Longitude": -73.963,
+  //           "Travel time": 20,
+  //           "Popularity": "High",
+  //           "Description": "The Metropolitan Museum of Art is one of the world's largest and most visited art museums, with a collection of over two million works.",
+  //           "Category": "Museum",
+  //           "Cost": 25
+  //         },
+  //         {
+  //           "Name": "Times Square",
+  //           "Latitude": 40.759,
+  //           "Longitude": -73.985,
+  //           "Travel time": 15,
+  //           "Popularity": "High",
+  //           "Description": "Times Square is a major commercial intersection, tourist destination, entertainment center and neighborhood in the Midtown Manhattan section of New York City.",
+  //           "Category": "Nightlife",
+  //           "Cost": 0
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       "Day": 2,
+  //       "Places": [
+  //         {
+  //           "Name": "Central Park",
+  //           "Latitude": 40.7829,
+  //           "Longitude": -73.9654,
+  //           "Travel time": 25,
+  //           "Popularity": "High",
+  //           "Description": "Central Park is an urban park in Manhattan, New York City. It is the most visited urban park in the United States, with an estimated 37.5–38 million visitors annually.",
+  //           "Category": "Park",
+  //           "Cost": 0
+  //         },
+  //         {
+  //           "Name": "Empire State Building",
+  //           "Latitude": 40.748,
+  //           "Longitude": -73.985,
+  //           "Travel time": 20,
+  //           "Popularity": "High",
+  //           "Description": "The Empire State Building is a 102-story Art Deco skyscraper in Midtown Manhattan, New York City.",
+  //           "Category": "Attraction",
+  //           "Cost": 37
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       "Day": 3,
+  //       "Places": [
+  //         {
+  //           "Name": "High Line",
+  //           "Latitude": 40.747,
+  //           "Longitude": -74.004,
+  //           "Travel time": 15,
+  //           "Popularity": "Medium",
+  //           "Description": "The High Line is a 1.45-mile-long elevated linear park, greenway and rail trail created on a former New York Central Railroad spur on the west side of Manhattan in New York City.",
+  //           "Category": "Park",
+  //           "Cost": 0
+  //         },
+  //         {
+  //           "Name": "Brooklyn Bridge",
+  //           "Latitude": 40.706,
+  //           "Longitude": -73.997,
+  //           "Travel time": 20,
+  //           "Popularity": "High",
+  //           "Description": "The Brooklyn Bridge is a hybrid cable-stayed/suspension bridge in New York City and is one of the oldest bridges of either type in the United States.",
+  //           "Category": "Attraction",
+  //           "Cost": 0
+  //         }
+  //       ]
+  //     }
+  //   ]
   return (
     <div>
       <Navbar />
@@ -157,7 +165,7 @@ function ItineraryPage() {
         <Grid container rowSpacing={0}>
           <Grid xs={6}>
             <div className='itinerary__outerdiv'>
-              {res.map((day, index) => (
+              {itineraryList.map((day, index) => (
                 <div key={index}>
                   <h3 className='itinerary__day'>Day {day.Day}</h3>
                   {day.Places.map((place, iter) => (
@@ -188,8 +196,8 @@ function ItineraryPage() {
             <div className='itinerary__map' style={{ height: '70vh', width: '90%', marginTop: 100 }}>
               <GoogleMapReact
                 bootstrapURLKeys={{ key: apikey }}
-                defaultCenter={defaultProps.center}
-                defaultZoom={defaultProps.zoom}
+                center={center}
+                defaultZoom={11}
                 yesIWantToUseGoogleMapApiInternals
                 onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
               >

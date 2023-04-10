@@ -29,7 +29,7 @@ function App() {
           <Route path="/tour" element={<Tour />} />
           <Route path="/groupboard" element={<GroupDashboard />} />
           <Route path="/user" element={<User />} />
-          <Route path="/itinerary" element={<ItineraryPage />} />
+          <Route path="/itinerary/:id" element={<ItineraryPage />} />
         </Routes>
       </div>
     </Router>

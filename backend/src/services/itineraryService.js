@@ -12,10 +12,11 @@ export class ItineraryService {
 
   generate = async (req, res) => {
     try {
-      const { startDate, endDate, duration, location, interests, budget, userId, itineraryId } = req.body;
-      if (!duration) {
-        duration = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
-      }
+      const { startDate, endDate, location, interests, budget, userId, itineraryId } = req.body;
+      const endDateMs = (new Date(endDate)).getTime();
+      const startDateMs = (new Date(startDate)).getTime();
+      const duration = (endDateMs - startDateMs) / (1000 * 3600 * 24)
+
       if (!(location && duration)) {
         res.status(400).send("Mandatory fields missing");
       }
@@ -27,16 +28,13 @@ export class ItineraryService {
       openaiquery(prompt)
         .then((itinerary) => {
           console.log(itinerary)
-
           itineraryObject.itineraryList = JSON.parse(itinerary)
           let savedItinerary =  itineraryObject.save();
-          
           res.status(200).send(itineraryObject)
         })
         .catch((error) => {
           console.error(error)
           res.status(500).send(error)
-
         }
         );
      
@@ -75,15 +73,24 @@ export class ItineraryService {
 
         return newItinerary
       }
-      
-
-      
     } catch(e) {
       console.log(e)
       res.status(500).send(e)
     }
   }
 
+  getItineraryById = async(req, res) => {
+    try{
+      const itineraryId = req.params.id;
+      const query = { _id: itineraryId}
+
+      const itinerary = await itineraryModel.findOne(query);
+      res.status(200).send(itinerary)
+    } catch(e){
+      console.log(e);
+      res.status(500).send("Unable to fetch itinerary")
+    }
+  }
 
   getItineraryByUserId = async(req, res) => {
 

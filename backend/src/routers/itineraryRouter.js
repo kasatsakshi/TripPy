@@ -11,6 +11,7 @@ itineraryRouter.delete("/itinerary/delete", itineraryService.deleteItinerary);
 itineraryRouter.put('/itinerary/favorite', itineraryService.favoriteItinerary);
 itineraryRouter.put('/itinerary/public', itineraryService.publicItinerary);
 
+itineraryRouter.get("/itinerary/:id", itineraryService.getItineraryById);
 // itineraryRouter.put("/itinerary/bookmark", itineraryService.bookmarkItinerary);
 
 export default itineraryRouter;

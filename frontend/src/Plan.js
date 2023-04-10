@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import TextField from '@mui/material/TextField';
 import './Plan.css';
+import dayjs from 'dayjs'
 import Stack from '@mui/material/Stack';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -16,7 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useNavigate } from 'react-router-dom';
 import LoadingScreen from 'react-loading-screen'
-import logo from './images/Trippy-logo.png';
+import loading from './images/loading.gif';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -47,6 +48,7 @@ function Plan() {
   const [interests, setInterests] = useState([]);
   const [budget, setBudget] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const today = dayjs()
 
   const navigate = new useNavigate();
 
@@ -74,19 +76,18 @@ function Plan() {
       const responseData = await response.json();
       setLoading(false)
       navigate(`/itinerary/${responseData._id}`)
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   }
   return (
     <div>
-    <Navbar />
+      <Navbar />
       <LoadingScreen
         loading={isLoading}
         bgColor='#f1f1f1'
-        spinnerColor='#9ee5f8'
         textColor='#676767'
-        logoSrc={logo}
+        logoSrc={loading}
         text='Fetching your itinerary... Are you excited to travel?'
       />
       <div>
@@ -96,7 +97,7 @@ function Plan() {
             <TextField
               className="plan__location"
               id="plan-location-input"
-              label="Where to"
+              label="Where to?"
               type="text"
               autoComplete=""
               onChange={(e) => setLocation(e.target.value)}
@@ -106,12 +107,12 @@ function Plan() {
               {/* <DatePicker label="Basic date picker" /> */}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker label="Start Date" onChange={(e) => setStartDate(e)} />
+                  <DatePicker disablePast defaultValue={today} label="Start Date" onChange={(e) => setStartDate(e)} />
                 </DemoContainer>
               </LocalizationProvider>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker label="End Date" onChange={(e) => setEndDate(e)} />
+                  <DatePicker minDate={startDate} disablePast defaultValue={startDate} label="End Date" onChange={(e) => setEndDate(e)} />
                 </DemoContainer>
               </LocalizationProvider>
             </Stack>
@@ -139,7 +140,7 @@ function Plan() {
             <TextField
               className="plan__location"
               id="plan-budget-input"
-              label="Budget"
+              label="Budget in USD"
               type="text"
               autoComplete=""
               onChange={(e) => setBudget(e.target.value)}
@@ -152,7 +153,7 @@ function Plan() {
           </div>
         </Stack>
 
-      </div> 
+      </div>
     </div>
   )
 }

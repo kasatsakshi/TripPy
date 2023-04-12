@@ -26,3 +26,9 @@
 .itinerary__map{
   width: 50%;
 }
+
+.itinerary__addmember{
+  /* float: right; */
+  right: 0;
+  /* position: fixed; */
+}

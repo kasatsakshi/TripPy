@@ -32,3 +32,10 @@
   right: 0;
   /* position: fixed; */
 }
+
+.edit__label{
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 25px;
+  font-weight: 500;
+}

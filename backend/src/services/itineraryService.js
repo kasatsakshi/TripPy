@@ -27,10 +27,11 @@ export class ItineraryService {
       console.log(prompt);
 
       openaiquery(prompt)
-        .then((itinerary) => {
+        .then(async (itinerary) => {
           console.log(itinerary)
           itineraryObject.itineraryList = JSON.parse(itinerary)
           let savedItinerary = itineraryObject.save();
+          itineraryObject.createdBy = await userModel.findOne({ _id: itineraryObject.createdBy }).select("username");
           res.status(200).send(itineraryObject)
         })
         .catch((error) => {
@@ -86,6 +87,7 @@ export class ItineraryService {
       const query = { _id: itineraryId }
 
       const itinerary = await itineraryModel.findOne(query);
+      itinerary.createdBy = await userModel.findOne({ _id: itinerary.createdBy }).select("username");
       res.status(200).send(itinerary)
     } catch (e) {
       console.log(e);

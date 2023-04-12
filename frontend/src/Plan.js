@@ -33,12 +33,15 @@ const MenuProps = {
 
 const names = [
   'Hiking',
-  'Night-life',
-  'Museums',
-  'Parks',
-  'Bridges',
-  'Adventure',
-  'Kid Friendly'
+  'Nightlife',
+  'Museum',
+  'Park',
+  'Bridge',
+  'Neighborhood',
+  'Landmark',
+  'Kid-friendly',
+  'Beach',
+  'Amusement Park'
 ];
 
 function Plan() {

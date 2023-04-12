@@ -30,6 +30,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import styled from 'styled-components';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs'
+import moment from 'moment';
 
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 
@@ -227,7 +228,7 @@ function ItineraryPage() {
           </CardContent>
           <CardActions>
             <CalendarMonthIcon sx={{ fontSize: 30, marginLeft: 2 }} color="gray"></CalendarMonthIcon>
-            <Typography sx={{ width: 120, marginLeft: 1 }} color="gray">4/14 - 4/17</Typography>
+            <Typography sx={{ width: 120, marginLeft: 1 }} color="gray">{moment(itineraryStartDate).format('MM/D')} - {moment(itineraryEndDate).format('MM/D')}</Typography>
             <AvatarGroup max={3} sx={{ marginLeft: 15 }}>
               {memberList.map((member, index) => (
                 <Avatar alt={member.username} src="" />

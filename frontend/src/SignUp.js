@@ -38,7 +38,7 @@ const Error = styled.span`
 `;
 
 export default function SignUp() {
-  const [userName, setName] = useState('');
+  const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -49,11 +49,11 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      userName: data.get('userName'),
+      username: data.get('username'),
       email: data.get('email'),
       password: data.get('password'),
     });
-    signup(dispatch, { userName, email, password });
+    signup(dispatch, { username, email, password });
   };
 
   return (

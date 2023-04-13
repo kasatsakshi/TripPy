@@ -102,6 +102,22 @@ export class UserService {
     }
   }
 
+  findUserById = async (req, res) => {
+    try {
+      const { _id } = req.body;
+      const user = await userModel.findOne({ _id });
+      if (!user) {
+        return res.status(400).send({
+          error: "No user with this email has account with Trippy"
+        });
+      }
+      return res.status(200).send(user);
+    } catch (err) {
+      console.log(err)
+      res.status(500).send(err)
+    }
+  }
+
 
 }
 export default UserService;

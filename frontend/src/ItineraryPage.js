@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Navbar from './components/Navbar'
 import GoogleMapReact from 'google-map-react';
 import Timeline from '@mui/lab/Timeline';
@@ -12,6 +13,10 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
+import { Modal, Box, FormControlLabel, Stack, InputLabel, Select, OutlinedInput, MenuItem, Checkbox, ListItemText, TextField } from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import './ItineraryPage.css'
@@ -23,24 +28,137 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import { first } from 'lodash'
+import styled from 'styled-components';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import dayjs from 'dayjs'
+import moment from 'moment';
+import LoadingScreen from 'react-loading-screen'
+import loading from './images/loading.gif';
 
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Input = styled.input`
+  flex: 1;
+  min-width: 40%;
+  margin: 10px 0;
+  padding: 10px;
+`;
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: 48 * 4.5 + 8,
+      width: 250,
+    },
+  },
+};
+
+const names = [
+  'Hiking',
+  'Nightlife',
+  'Museum',
+  'Park',
+  'Bridge',
+  'Neighborhood',
+  'Landmark',
+  'Kid-friendly',
+  'Beach',
+  'Amusement Park'
+];
 
 function ItineraryPage() {
   const { id } = useParams();
   const [itineraryList, setItineraryList] = useState([]);
+  const [itineraryStartDate, setItineraryStartDate] = useState("");
+  const [itineraryEndDate, setItineraryEndDate] = useState("");
+  const [itineraryName, setItineraryName] = useState("");
+  const [itineraryBudget, setItineraryBudget] = useState('');
+  const [itineraryinterests, setItineraryInterests] = useState([]);
+  const [itineraryLocation, setItineraryLocation] = useState('');
+  const [memberList, setMemberList] = useState([]);
+  const [itineraryOwner, setItineraryOwner] = useState("");
   const [center, setMapCenter] = useState();
+  const [editItinerary, setEditItinerary] = React.useState(false);
+  const handleEditItineraryOpen = () => setEditItinerary(true);
+  const handleEditItineraryClose = () => setEditItinerary(false);
+  const [addMember, setAddMember] = React.useState(false);
+  const handleAddMemberOpen = () => setAddMember(true);
+  const handleAddMemberClose = () => setAddMember(false);
+  const [isLoading, setLoading] = useState(false);
+  const user = useSelector((state) => state.user.currentUser);
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setItineraryInterests(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    );
+  };
+
+  const modifyItineraryHandle = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true)
+      const response = await fetch('http://localhost:3001/itinerary/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ startDate: itineraryStartDate, endDate: itineraryEndDate, location: itineraryLocation, interests: itineraryinterests, budget: itineraryBudget, userId: user._id, itineraryId: id })
+      });
+      const responseData = await response.json();
+      setItineraryList(responseData.itineraryList);
+      setItineraryName(responseData.itineraryName);
+      setItineraryStartDate(responseData.startDate);
+      setItineraryEndDate(responseData.endDate);
+      setItineraryBudget(responseData.budget)
+      setItineraryInterests(responseData.interests)
+      const place = responseData.itineraryList[0].Places[0]
+      setMapCenter({ lat: place.Latitude, lng: place.Longitude })
+      handleEditItineraryClose()
+      window.location.reload();
+      setLoading(false)
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   useEffect(async () => {
     const response = await fetch(`http://localhost:3001/itinerary/${id}`, {
       method: 'GET',
     });
     const responseData = await response.json();
-    setItineraryList(responseData.itineraryList)
+    console.log(responseData)
+    setItineraryList(responseData.itineraryList);
+    setItineraryName(responseData.itineraryName);
+    setItineraryStartDate(responseData.startDate);
+    setItineraryEndDate(responseData.endDate);
+    setItineraryBudget(responseData.budget)
+    setItineraryInterests(responseData.interests)
+    setItineraryLocation(responseData.destination)
+    setItineraryOwner(responseData.createdBy.username)
     const place = responseData.itineraryList[0].Places[0]
     setMapCenter({ lat: place.Latitude, lng: place.Longitude })
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const renderMarkers = (map, maps) => {
     itineraryList.map((day, index) => {
@@ -136,34 +254,109 @@ function ItineraryPage() {
   return (
     <div>
       <Navbar />
+      <LoadingScreen
+        loading={isLoading}
+        bgColor='#f1f1f1'
+        textColor='#676767'
+        logoSrc={loading}
+        text='Updating your itinerary...'
+      />
       <div className='itinerary__content'>
-        <Card sx={{ width: 500, height: 200 }} className="itinerary__card">
+        <Card sx={{ width: 500, height: 200 }} className="itinerary__card" raised={true}>
           <CardContent>
             <CardHeader
               action={
-                <IconButton aria-label="edit">
+                <IconButton onClick={(handleEditItineraryOpen)} aria-label="edit">
                   <EditIcon />
                 </IconButton>
               }
-              title="Trip to New York City"
+              title={itineraryName}
+              subheader={itineraryOwner}
             />
           </CardContent>
           <CardActions>
             <CalendarMonthIcon sx={{ fontSize: 30, marginLeft: 2 }} color="gray"></CalendarMonthIcon>
-            <Typography sx={{ width: 120, marginLeft: 1 }} color="gray">4/14 - 4/17</Typography>
-            <AvatarGroup max={4} sx={{ marginLeft: 15 }}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-              <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-              <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-              <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-            </AvatarGroup>
-            <Button size="small"><PersonAddIcon sx={{ fontSize: 40 }} className="itinerary__icons"></PersonAddIcon></Button>
+            <Typography sx={{ width: 120, marginLeft: 1 }} color="gray">{moment(itineraryStartDate).format('MM/D')} - {moment(itineraryEndDate).format('MM/D')}</Typography>
+            <AvatarGroup max={3} sx={{ marginLeft: 15, width: 100 }}>
+              {memberList.map((member, index) => (
+                <Avatar alt={member.username} src="" />
+              ))}
 
+            </AvatarGroup>
+            <div className='itinerary__addmember'>
+              <Button size="small" onClick={(handleAddMemberOpen)}><PersonAddIcon sx={{ fontSize: 30 }} className="itinerary__icons"></PersonAddIcon></Button>
+            </div>
+            <Modal
+              open={addMember}
+              onClose={handleAddMemberClose}
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+                <Form>
+                  <label className='edit__label'>Add Member</label>
+                  <TextField id="outlined-search" label="Add Member Email " type="search" />
+                </Form>
+              </Box>
+            </Modal>
           </CardActions>
         </Card>
+        <Modal
+          open={editItinerary}
+          onClose={handleEditItineraryClose}
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Form>
+              <label style={{ alignContent: 'center', paddingBottom: 30 }}>Edit Itinerary {itineraryName}</label>
+              <Stack direction="row" spacing={2}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['DatePicker']}>
+                    <DatePicker disablePast value={dayjs(itineraryStartDate)} label="Start Date" onChange={(e) => setItineraryStartDate(e)} />
+                  </DemoContainer>
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['DatePicker']}>
+                    <DatePicker minDate={dayjs(itineraryStartDate)} disablePast defaultValue={dayjs(itineraryEndDate)} label="End Date" onChange={(e) => setItineraryEndDate(e)} />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Stack>
+              <div>
+                <InputLabel id="demo-multiple-checkbox-label" sx={{ mt: 2 }}>Interests</InputLabel>
+                <Select
+                  labelId="demo-multiple-checkbox-label"
+                  id="demo-multiple-checkbox"
+                  multiple
+                  value={itineraryinterests}
+                  onChange={handleChange}
+                  input={<OutlinedInput label="Interests" />}
+                  renderValue={(selected) => selected.join(', ')}
+                  sx={{ width: 475 }}
+                  MenuProps={MenuProps}
+                >
+                  {names.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox checked={itineraryinterests.indexOf(name) > -1} />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
+              <TextField
+                className="plan__location"
+                id="plan-budget-input"
+                label="Budget in USD"
+                type="text"
+                autoComplete=""
+                defaultValue={itineraryBudget}
+                onChange={(e) => setItineraryBudget(e.target.value)}
+                sx={{ mt: 2 }}
+              />
+              <button onClick={modifyItineraryHandle} className='plan__button'>Modify</button>
+            </Form>
+          </Box>
+        </Modal>
         <Grid container rowSpacing={0}>
-          <Grid xs={6}>
+          <Grid xs={5}>
             <div className='itinerary__outerdiv'>
               {itineraryList.map((day, index) => (
                 <div key={index}>
@@ -192,8 +385,8 @@ function ItineraryPage() {
               ))}
             </div>
           </Grid>
-          <Grid xs={6}>
-            <div className='itinerary__map' style={{ height: '70vh', width: '90%', marginTop: 100 }}>
+          <Grid xs={7}>
+            <div className='itinerary__map' style={{ height: '100vh', width: '90%', marginTop: 100 }}>
               <GoogleMapReact
                 bootstrapURLKeys={{ key: apikey }}
                 center={center}

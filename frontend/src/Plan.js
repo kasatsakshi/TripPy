@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import TextField from '@mui/material/TextField';
 import './Plan.css';
+import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs'
 import Stack from '@mui/material/Stack';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -32,23 +33,26 @@ const MenuProps = {
 
 const names = [
   'Hiking',
-  'Night-life',
-  'Museums',
-  'Parks',
-  'Bridges',
-  'Adventure',
-  'Kid Friendly'
+  'Nightlife',
+  'Museum',
+  'Park',
+  'Bridge',
+  'Neighborhood',
+  'Landmark',
+  'Kid-friendly',
+  'Beach',
+  'Amusement Park'
 ];
 
 function Plan() {
-  const [personName, setPersonName] = useState(0);
   const [location, setLocation] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [interests, setInterests] = useState([]);
   const [budget, setBudget] = useState('');
   const [isLoading, setLoading] = useState(false);
-  const today = dayjs()
+  const today = dayjs();
+  const user = useSelector((state) => state.user.currentUser);
 
   const navigate = new useNavigate();
 
@@ -66,16 +70,17 @@ function Plan() {
     e.preventDefault();
     try {
       setLoading(true)
-      const response = await fetch('http://localhost:3001/itinerary/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location, interests: interests, budget: budget })
-      });
-      const responseData = await response.json();
+      // const response = await fetch('http://localhost:3001/itinerary/generate', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location, interests: interests, budget: budget, userId: user._id })
+      // });
+      // const responseData = await response.json();
       setLoading(false)
-      navigate(`/itinerary/${responseData._id}`)
+      // navigate(`/itinerary/${responseData._id}`)
+      navigate(`/itinerary/6435e26526d7598cd4462187`)
     } catch (e) {
       console.log(e);
     }

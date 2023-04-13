@@ -2,7 +2,7 @@ import groupModel from "../models/groupModel.js";
 import itineraryModel from "../models/itineraryModel.js";
 import userModel from "../models/userModel.js";
 import openaiquery from "../utils/openai.js";
-import {itineraryData} from "../utils/commonutil.js";
+import { itineraryData } from "../utils/commonutil.js";
 import itineraryItemModel from "../models/itineraryItemModel.js";
 import NotificationService from "./notificationService.js";
 
@@ -15,21 +15,23 @@ export class ItineraryService {
       const { startDate, endDate, location, interests, budget, userId, itineraryId } = req.body;
       const endDateMs = (new Date(endDate)).getTime();
       const startDateMs = (new Date(startDate)).getTime();
-      const duration = (endDateMs - startDateMs) / (1000 * 3600 * 24)
-
+      const duration = Math.ceil((endDateMs - startDateMs) / (1000 * 3600 * 24))
       if (!(location && duration)) {
         res.status(400).send("Mandatory fields missing");
       }
       const itineraryName = `Trip to ${location}`;
       const itineraryObject = await this.getItineraryObject(req)
       itineraryObject.itineraryName = itineraryName;
+      itineraryObject.createdBy = userId;
       var prompt = `Generate a ${duration}-day itinerary for a trip to ${location}. The itinerary should have a budget of ${budget} and include activities related to ${interests}.. The response should be in JSON format which includes the following fields-  Response should be in JSON format as a list of dictionaries. Each dictionary will have 2 fields - "Day"(in number) and "Places". The value places should be a list of dictionaries containing fields- "Name", "Latitude", "Longitude", "Travel time", "Popularity"(High/Medium/Low), "Description", "Category", "Cost"(in USD). Reply with only the answer in JSON form and include no other commentary.Limit the output to less than 1000 tokens.`
-      
+      console.log(prompt);
+
       openaiquery(prompt)
-        .then((itinerary) => {
+        .then(async (itinerary) => {
           console.log(itinerary)
           itineraryObject.itineraryList = JSON.parse(itinerary)
-          let savedItinerary =  itineraryObject.save();
+          let savedItinerary = itineraryObject.save();
+          itineraryObject.createdBy = await userModel.findOne({ _id: itineraryObject.createdBy }).select("username");
           res.status(200).send(itineraryObject)
         })
         .catch((error) => {
@@ -37,35 +39,35 @@ export class ItineraryService {
           res.status(500).send(error)
         }
         );
-     
+
     } catch (err) {
       res.status(500).send(err)
     }
   };
 
-  getItineraryObject = async(req) => {
+  getItineraryObject = async (req) => {
 
     try {
       const { startDate, endDate, duration, location, interests, budget, userId, itineraryId } = req.body;
-       let data = {
+      let data = {
 
-          destination: location,
-          startDate: startDate,
-          endDate: endDate,
-          budget: budget,
-          interests: interests,
-          modifiedBy: userId,
-          createdTimestamp: new Date(),
-          updatedTimestamp: new Date()
+        destination: location,
+        startDate: startDate,
+        endDate: endDate,
+        budget: budget,
+        interests: interests,
+        modifiedBy: userId,
+        createdTimestamp: new Date(),
+        updatedTimestamp: new Date()
       }
       let itinerary = null
-  
-      if (itineraryId){
-        itinerary = itineraryModel.findOneAndUpdate({_id: itineraryId}, {$set:data}, {upsert: true, new: true})
+
+      if (itineraryId) {
+        itinerary = itineraryModel.findOneAndUpdate({ _id: itineraryId }, { $set: data }, { upsert: true, new: true })
         notificationService.itineraryNotification(itineraryId, userId, "UPDATE")
         return itinerary
       }
-      else{
+      else {
         data.createdBy = userId;
 
         itinerary = await new itineraryModel(data)
@@ -73,64 +75,65 @@ export class ItineraryService {
 
         return newItinerary
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e)
       res.status(500).send(e)
     }
   }
 
-  getItineraryById = async(req, res) => {
-    try{
+  getItineraryById = async (req, res) => {
+    try {
       const itineraryId = req.params.id;
-      const query = { _id: itineraryId}
+      const query = { _id: itineraryId }
 
       const itinerary = await itineraryModel.findOne(query);
+      itinerary.createdBy = await userModel.findOne({ _id: itinerary.createdBy }).select("username");
       res.status(200).send(itinerary)
-    } catch(e){
+    } catch (e) {
       console.log(e);
       res.status(500).send("Unable to fetch itinerary")
     }
   }
 
-  getItineraryByUserId = async(req, res) => {
+  getItineraryByUserId = async (req, res) => {
 
     try {
-      const {userId } = req.body;
-      
-      const query = [{ createdBy: userId}, {members: {"$in":[userId]}}]
+      const { userId } = req.body;
+
+      const query = [{ createdBy: userId }, { members: { "$in": [userId] } }]
       console.log(query)
-      const itinerary = await itineraryModel.find({$or:query});
-    
-      
+      const itinerary = await itineraryModel.find({ $or: query });
+
+
       res.status(200).send(itinerary)
       return itinerary;
 
-    
-      
-    } catch(e) {
+
+
+    } catch (e) {
       console.log(e)
       res.status(500).send(e)
     }
   }
-  
-  deleteItinerary = async(req,res) => {
+
+  deleteItinerary = async (req, res) => {
     try {
-      const {itineraryId, userId} = req.body;
+      const { itineraryId, userId } = req.body;
       const itinerary = await itineraryModel.findById(itineraryId)
-      if(!itinerary){
+      if (!itinerary) {
         res.status(400).send("Itinerary not found")
       }
-      else{
-        if (userId!= itinerary.createdBy){
+      else {
+        if (userId != itinerary.createdBy) {
           res.status(401).send("Unauthorized Action")
         }
-        else{
+        else {
           notificationService.itineraryNotification(itineraryId, userId, "DELETE")
-          await itineraryModel.deleteOne({_id: itineraryId});
+          await itineraryModel.deleteOne({ _id: itineraryId });
           res.status(200).send("Itinerary Deleted")
         }
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e)
       res.status(500).send(e)
     }
@@ -235,9 +238,9 @@ export class ItineraryService {
   //         bookmarkedBy: null,
   //         itineraryItems: itemIds,
   //       }
-          
+
   //       const itinerary = new itineraryModel(itineraryPayload);
-        
+
   //       let savedItinerary = await itinerary.save();
   //       savedItinerary = await savedItinerary.populate("itineraryItems")
 

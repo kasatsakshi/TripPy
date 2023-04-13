@@ -21,6 +21,7 @@ const itinerarySchema = new Schema({
     members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
+        unique: true
     }],
     isFavorite : {type: Boolean,
                     default: false},

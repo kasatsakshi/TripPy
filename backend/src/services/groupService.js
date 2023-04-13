@@ -45,28 +45,37 @@ export class GroupService {
     editMember = async(req, res) => {
         try {
 
-            const {itineraryId, userId, memberId, action} = req.body
+            const {itineraryId, userId, members, action} = req.body
             const query = { _id: itineraryId}
-
+            const memberIds = members.split(",")
             const itinerary = await itineraryModel.findOne(query);
             if (itinerary){
                 if (userId!=itinerary.createdBy){
                     res.status(401).send("Unauthorized Access")
                 }
-                let members = itinerary.members
-                if((action === "ADD" && members.includes(memberId)) || (action === "REMOVE" && !members.includes(memberId)))
-                {
-                    res.status(201).send("Invalid Request")
-
-                }
                 else{
-                    (action === "ADD") ? members.push(memberId) : members.splice(members.indexOf(memberId), 1)
+                    let members = itinerary.members
+                    // if((action === "ADD" && members.includes(memberId)) || (action === "REMOVE" && !members.includes(memberId)))
+                    // {
+                    //     res.status(201).send("Invalid Request")
+    
+                    // }
+                    // else{
+                    if(action === "ADD") {
+                        members.push(...memberIds)
+                    }
+                    else{
+                        for(const memberId of memberIds){
+                            members.splice(members.indexOf(memberId), 1)
+                        }
+                    }
+                    members = [...new Set(members)]
     
                     const newItinerary = await itinerary.save()
-                    await notificationService.memberNotification(userId,memberId, itinerary.itineraryName, action)
+                    await notificationService.memberNotification(userId,memberIds, itinerary.itineraryName, action)
                     res.status(200).json(newItinerary)
+                    // }
                 }
-                
                 
             }
             else{

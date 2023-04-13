@@ -15,7 +15,7 @@ export class ItineraryService {
       const { startDate, endDate, location, interests, budget, userId, itineraryId } = req.body;
       const endDateMs = (new Date(endDate)).getTime();
       const startDateMs = (new Date(startDate)).getTime();
-      const duration = Math.ceil((endDateMs - startDateMs) / (1000 * 3600 * 24))
+      const duration = (Math.ceil((endDateMs - startDateMs) / (1000 * 3600 * 24))) + 1;
       if (!(location && duration)) {
         res.status(400).send("Mandatory fields missing");
       }
@@ -141,49 +141,49 @@ export class ItineraryService {
 
 
   favoriteItinerary = async (req, res) => {
-    try{
-    const {itineraryId, userId, isFavorite} = req.body;
-    const itinerary = await itineraryModel.findById(itineraryId)
-    if(!itinerary){
-      res.status(400).send("Itinerary not found")
-    }
-    else{
-      if (userId!= itinerary.createdBy && !itinerary.members.includes(userId)){
-        res.status(401).send("Unauthorized Action")
+    try {
+      const { itineraryId, userId, isFavorite } = req.body;
+      const itinerary = await itineraryModel.findById(itineraryId)
+      if (!itinerary) {
+        res.status(400).send("Itinerary not found")
       }
-      else{
-        itinerary.isFavorite = isFavorite
-        const newItinerary = await itinerary.save()
-        res.status(200).json(newItinerary)
+      else {
+        if (userId != itinerary.createdBy && !itinerary.members.includes(userId)) {
+          res.status(401).send("Unauthorized Action")
+        }
+        else {
+          itinerary.isFavorite = isFavorite
+          const newItinerary = await itinerary.save()
+          res.status(200).json(newItinerary)
+        }
       }
+    } catch (e) {
+      console.log(e)
+      res.status(500).send(e)
     }
-  } catch(e) {
-    console.log(e)
-    res.status(500).send(e)
-  }
   }
 
   publicItinerary = async (req, res) => {
-    try{
-    const {itineraryId, userId, isPublic } = req.body;
-    const itinerary = await itineraryModel.findById(itineraryId)
-    if(!itinerary){
-      res.status(400).send("Itinerary not found")
-    }
-    else{
-      if (userId!= itinerary.createdBy ){
-        res.status(401).send("Unauthorized Action")
+    try {
+      const { itineraryId, userId, isPublic } = req.body;
+      const itinerary = await itineraryModel.findById(itineraryId)
+      if (!itinerary) {
+        res.status(400).send("Itinerary not found")
       }
-      else{
-        itinerary.isPublic = isPublic
-        const newItinerary = await itinerary.save()
-        res.status(200).json(newItinerary)
+      else {
+        if (userId != itinerary.createdBy) {
+          res.status(401).send("Unauthorized Action")
+        }
+        else {
+          itinerary.isPublic = isPublic
+          const newItinerary = await itinerary.save()
+          res.status(200).json(newItinerary)
+        }
       }
+    } catch (e) {
+      console.log(e)
+      res.status(500).send(e)
     }
-  } catch(e) {
-    console.log(e)
-    res.status(500).send(e)
-  }
   }
   // createItinerary = async (req, res) => {
   //   try {

@@ -70,17 +70,17 @@ function Plan() {
     e.preventDefault();
     try {
       setLoading(true)
-      // const response = await fetch('http://localhost:3001/itinerary/generate', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location, interests: interests, budget: budget, userId: user._id })
-      // });
-      // const responseData = await response.json();
+      const response = await fetch('http://localhost:3001/itinerary/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location, interests: interests, budget: budget, userId: user._id })
+      });
+      const responseData = await response.json();
       setLoading(false)
-      // navigate(`/itinerary/${responseData._id}`)
-      navigate(`/itinerary/6435e26526d7598cd4462187`)
+      navigate(`/itinerary/${responseData._id}`)
+      // navigate(`/itinerary/6435e26526d7598cd4462187`)
     } catch (e) {
       console.log(e);
     }

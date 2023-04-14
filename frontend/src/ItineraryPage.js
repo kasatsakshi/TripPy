@@ -127,7 +127,7 @@ function ItineraryPage() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ startDate: itineraryStartDate, endDate: itineraryEndDate, location: itineraryLocation, interests: itineraryinterests, budget: itineraryBudget, userId: user._id, itineraryId: id })
+        body: JSON.stringify({ startDate: itineraryStartDate, endDate: itineraryEndDate, location: itineraryLocation, interests: itineraryinterests, budget: itineraryBudget, member: memberList, userId: user._id, itineraryId: id })
       });
       const responseData = await response.json();
       setItineraryList(responseData.itineraryList);

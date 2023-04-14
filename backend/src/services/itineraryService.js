@@ -12,77 +12,53 @@ export class ItineraryService {
 
   generate = async (req, res) => {
     try {
-      const { startDate, endDate, location, interests, budget, userId, itineraryId } = req.body;
+      const { startDate, endDate, location, interests, budget, userId, itineraryId, members } = req.body;
       const endDateMs = (new Date(endDate)).getTime();
       const startDateMs = (new Date(startDate)).getTime();
       const duration = (Math.ceil((endDateMs - startDateMs) / (1000 * 3600 * 24))) + 1;
       if (!(location && duration)) {
         res.status(400).send("Mandatory fields missing");
       }
-      const itineraryName = `Trip to ${location}`;
-      const itineraryObject = await this.getItineraryObject(req)
-      itineraryObject.itineraryName = itineraryName;
-      itineraryObject.createdBy = userId;
+
       var prompt = `Generate a ${duration}-day itinerary for a trip to ${location}. The itinerary should have a budget of ${budget} and include activities related to ${interests}.. The response should be in JSON format which includes the following fields-  Response should be in JSON format as a list of dictionaries. Each dictionary will have 2 fields - "Day"(in number) and "Places". The value places should be a list of dictionaries containing fields- "Name", "Latitude", "Longitude", "Travel time", "Popularity"(High/Medium/Low), "Description", "Category", "Cost"(in USD). Reply with only the answer in JSON form and include no other commentary.Limit the output to less than 1000 tokens.`
       console.log(prompt);
 
-      openaiquery(prompt)
-        .then(async (itinerary) => {
-          console.log(itinerary)
-          itineraryObject.itineraryList = JSON.parse(itinerary)
-          itineraryObject.members = itineraryObject.createdBy
-          let savedItinerary = itineraryObject.save();
-          const owner = await userModel.findOne({ _id: itineraryObject.createdBy }).select("username email")
-          itineraryObject.members = [owner]
-          itineraryObject.createdBy = owner
-          res.status(200).send(itineraryObject)
-        })
-        .catch((error) => {
-          console.error(error)
-          res.status(500).send(error)
-        }
-        );
-
-    } catch (err) {
-      res.status(500).send(err)
-    }
-  };
-
-  getItineraryObject = async (req) => {
-
-    try {
-      const { startDate, endDate, duration, location, interests, budget, userId, itineraryId } = req.body;
-      let data = {
-
+      const itinerary = await openaiquery(prompt)
+      console.log(itinerary)
+      const itineraryName = `Trip to ${location}`;
+      const itineraryObject = {
+        itineraryName: itineraryName,
         destination: location,
         startDate: startDate,
         endDate: endDate,
         budget: budget,
         interests: interests,
         modifiedBy: userId,
+        itineraryList: JSON.parse(itinerary),
         createdTimestamp: new Date(),
         updatedTimestamp: new Date()
       }
-      let itinerary = null
-
-      if (itineraryId) {
-        itinerary = itineraryModel.findOneAndUpdate({ _id: itineraryId }, { $set: data }, { upsert: true, new: true })
+      let savedItinerary
+      if(itineraryId) {
+        itineraryObject.members = members
+        savedItinerary = await itineraryModel.findOneAndUpdate({ _id: itineraryId }, { $set: itineraryObject }, { upsert: true, new: true })
         notificationService.itineraryNotification(itineraryId, userId, "UPDATE")
-        return itinerary
+      } else {
+        itineraryObject.createdBy = userId;
+        itineraryObject.members = [userId];
+        const itinerary = new itineraryModel(itineraryObject)
+        savedItinerary = await itinerary.save();
+        const owner = await userModel.findOne({ _id: itineraryObject.createdBy }).select("username email")
+        savedItinerary.members = [owner]
+        savedItinerary.createdBy = owner
       }
-      else {
-        data.createdBy = userId;
+      res.status(200).send(savedItinerary)
 
-        itinerary = await new itineraryModel(data)
-        const newItinerary = await itinerary.save()
-
-        return newItinerary
-      }
-    } catch (e) {
-      console.log(e)
-      res.status(500).send(e)
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Unable to generate itinerary. Please try again in sometime")
     }
-  }
+  };
 
   getItineraryById = async (req, res) => {
     try {

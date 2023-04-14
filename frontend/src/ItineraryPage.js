@@ -11,9 +11,10 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Typography from '@mui/material/Typography';
+import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import { Modal, Box, FormControlLabel, Stack, InputLabel, Select, OutlinedInput, MenuItem, Checkbox, ListItemText, TextField } from '@mui/material';
+import { Modal, Box, FormControlLabel, Stack, InputLabel, Select, OutlinedInput, MenuItem, Checkbox, ListItemText, TextField, ListItem } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -27,6 +28,7 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import styled from 'styled-components';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -34,6 +36,8 @@ import dayjs from 'dayjs'
 import moment from 'moment';
 import LoadingScreen from 'react-loading-screen'
 import loading from './images/loading.gif';
+import Chip from '@mui/material/Chip';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 
@@ -103,7 +107,7 @@ function ItineraryPage() {
   const handleAddMemberClose = () => setAddMember(false);
   const [isLoading, setLoading] = useState(false);
   const user = useSelector((state) => state.user.currentUser);
-
+  const [members, setMembers] = React.useState([])
   const handleChange = (event) => {
     const {
       target: { value },
@@ -142,22 +146,49 @@ function ItineraryPage() {
     }
   }
 
-  useEffect(async () => {
-    const response = await fetch(`http://localhost:3001/itinerary/${id}`, {
-      method: 'GET',
-    });
-    const responseData = await response.json();
-    console.log(responseData)
-    setItineraryList(responseData.itineraryList);
-    setItineraryName(responseData.itineraryName);
-    setItineraryStartDate(responseData.startDate);
-    setItineraryEndDate(responseData.endDate);
-    setItineraryBudget(responseData.budget)
-    setItineraryInterests(responseData.interests)
-    setItineraryLocation(responseData.destination)
-    setItineraryOwner(responseData.createdBy.username)
-    const place = responseData.itineraryList[0].Places[0]
-    setMapCenter({ lat: place.Latitude, lng: place.Longitude })
+  const handleMember = async (e) => {
+    e.preventDefault()
+    try {
+      await fetch(`http://localhost:3001/group/editmember`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ itineraryId: id, userId: user._id, members})
+        });
+        handleAddMemberClose();
+        window.location.reload();
+      } catch (e) {
+        console.log(e);
+      }
+  }
+
+  useEffect(() => {
+    let responseData;
+    const getItinerary = async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/itinerary/${id}`, {
+          method: 'GET',
+        });
+        responseData = await response.json();
+        console.log(responseData);
+        setItineraryList(responseData.itineraryList);
+        setItineraryName(responseData.itineraryName);
+        setItineraryStartDate(responseData.startDate);
+        setItineraryEndDate(responseData.endDate);
+        setItineraryBudget(responseData.budget)
+        setItineraryInterests(responseData.interests)
+        setItineraryLocation(responseData.destination)
+        setItineraryOwner(responseData.createdBy.email)
+        setMemberList(responseData.members)
+        setMembers(responseData.members.map(member => member._id))
+        const place = responseData.itineraryList[0].Places[0]
+        setMapCenter({ lat: place.Latitude, lng: place.Longitude })
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getItinerary();
   }, []);
 
   const renderMarkers = (map, maps) => {
@@ -173,84 +204,39 @@ function ItineraryPage() {
     })
   };
 
-  // const itineraryList =
-  //   [
-  //     {
-  //       "Day": 1,
-  //       "Places": [
-  //         {
-  //           "Name": "The Metropolitan Museum of Art",
-  //           "Latitude": 40.779,
-  //           "Longitude": -73.963,
-  //           "Travel time": 20,
-  //           "Popularity": "High",
-  //           "Description": "The Metropolitan Museum of Art is one of the world's largest and most visited art museums, with a collection of over two million works.",
-  //           "Category": "Museum",
-  //           "Cost": 25
-  //         },
-  //         {
-  //           "Name": "Times Square",
-  //           "Latitude": 40.759,
-  //           "Longitude": -73.985,
-  //           "Travel time": 15,
-  //           "Popularity": "High",
-  //           "Description": "Times Square is a major commercial intersection, tourist destination, entertainment center and neighborhood in the Midtown Manhattan section of New York City.",
-  //           "Category": "Nightlife",
-  //           "Cost": 0
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       "Day": 2,
-  //       "Places": [
-  //         {
-  //           "Name": "Central Park",
-  //           "Latitude": 40.7829,
-  //           "Longitude": -73.9654,
-  //           "Travel time": 25,
-  //           "Popularity": "High",
-  //           "Description": "Central Park is an urban park in Manhattan, New York City. It is the most visited urban park in the United States, with an estimated 37.5–38 million visitors annually.",
-  //           "Category": "Park",
-  //           "Cost": 0
-  //         },
-  //         {
-  //           "Name": "Empire State Building",
-  //           "Latitude": 40.748,
-  //           "Longitude": -73.985,
-  //           "Travel time": 20,
-  //           "Popularity": "High",
-  //           "Description": "The Empire State Building is a 102-story Art Deco skyscraper in Midtown Manhattan, New York City.",
-  //           "Category": "Attraction",
-  //           "Cost": 37
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       "Day": 3,
-  //       "Places": [
-  //         {
-  //           "Name": "High Line",
-  //           "Latitude": 40.747,
-  //           "Longitude": -74.004,
-  //           "Travel time": 15,
-  //           "Popularity": "Medium",
-  //           "Description": "The High Line is a 1.45-mile-long elevated linear park, greenway and rail trail created on a former New York Central Railroad spur on the west side of Manhattan in New York City.",
-  //           "Category": "Park",
-  //           "Cost": 0
-  //         },
-  //         {
-  //           "Name": "Brooklyn Bridge",
-  //           "Latitude": 40.706,
-  //           "Longitude": -73.997,
-  //           "Travel time": 20,
-  //           "Popularity": "High",
-  //           "Description": "The Brooklyn Bridge is a hybrid cable-stayed/suspension bridge in New York City and is one of the oldest bridges of either type in the United States.",
-  //           "Category": "Attraction",
-  //           "Cost": 0
-  //         }
-  //       ]
-  //     }
-  //   ]
+  // const handleDelete = (memberDelete) => () => {
+  //   setMembers((members) => members.filter((member) => member.key !== memberDelete.key));
+  // };
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+  
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let color = '#';
+  
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+  
+    return color;
+  }
+
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.toUpperCase().split(' ')[0][0]}`,
+    };
+  }
+
   return (
     <div>
       <Navbar />
@@ -271,7 +257,6 @@ function ItineraryPage() {
                 </IconButton>
               }
               title={itineraryName}
-              subheader={itineraryOwner}
             />
           </CardContent>
           <CardActions>
@@ -279,7 +264,9 @@ function ItineraryPage() {
             <Typography sx={{ width: 120, marginLeft: 1 }} color="gray">{moment(itineraryStartDate).format('MM/D')} - {moment(itineraryEndDate).format('MM/D')}</Typography>
             <AvatarGroup max={3} sx={{ marginLeft: 15, width: 100 }}>
               {memberList.map((member, index) => (
-                <Avatar alt={member.username} src="" />
+                <Tooltip title={member.username}>
+                    <Avatar alt={member.username}  {...stringAvatar(member.username)} />
+                </Tooltip>
               ))}
 
             </AvatarGroup>
@@ -293,8 +280,55 @@ function ItineraryPage() {
             >
               <Box sx={style}>
                 <Form>
-                  <label className='edit__label'>Add Member</label>
-                  <TextField id="outlined-search" label="Add Member Email " type="search" />
+                  <label className='edit__label'>Manage Members</label>
+                  <Autocomplete
+                    multiple
+                    id="tags-filled"
+                    options={[]}
+                    freeSolo
+                    defaultValue={memberList.map(member => member.email)}
+                    onChange={async (event, newValue, reason, details) => {
+                      const response = await fetch(`http://localhost:3001/user/email`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({ email: details.option})
+                        });
+                        const responseData = await response.json();
+                        let finalMemberList;
+                        if(reason === "createOption") {
+                          finalMemberList = [...members, responseData._id]
+                        } else if (reason === "removeOption") {
+                          finalMemberList = [...members]
+                          members.map(mem => {
+                            if(mem === responseData._id){
+                              finalMemberList.splice(finalMemberList.indexOf(mem), 1)
+                            }
+                          });
+                        }
+                        setMembers(finalMemberList);                            
+                    }}
+                    renderTags={(mems, getTagProps) =>
+                      mems.map((option, index) => (
+                        <Chip
+                          label={option}
+                          {...getTagProps({ index })}
+                          disabled={option === itineraryOwner ? true: false}
+                          // onDelete={handleDelete(option)}
+                        />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="filled"
+                        label=""
+                        placeholder="Enter email address"
+                      />
+                    )}
+                  />
+                  <button onClick={handleMember} className='plan__button'>Update</button>
                 </Form>
               </Box>
             </Modal>
@@ -344,11 +378,14 @@ function ItineraryPage() {
               <TextField
                 className="plan__location"
                 id="plan-budget-input"
-                label="Budget in USD"
+                label="Budget"
                 type="text"
                 autoComplete=""
                 defaultValue={itineraryBudget}
                 onChange={(e) => setItineraryBudget(e.target.value)}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>
+                }}
                 sx={{ mt: 2 }}
               />
               <button onClick={modifyItineraryHandle} className='plan__button'>Modify</button>

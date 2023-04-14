@@ -30,8 +30,11 @@ export class ItineraryService {
         .then(async (itinerary) => {
           console.log(itinerary)
           itineraryObject.itineraryList = JSON.parse(itinerary)
+          itineraryObject.members = itineraryObject.createdBy
           let savedItinerary = itineraryObject.save();
-          itineraryObject.createdBy = await userModel.findOne({ _id: itineraryObject.createdBy }).select("username");
+          const owner = await userModel.findOne({ _id: itineraryObject.createdBy }).select("username email")
+          itineraryObject.members = [owner]
+          itineraryObject.createdBy = owner
           res.status(200).send(itineraryObject)
         })
         .catch((error) => {
@@ -87,7 +90,16 @@ export class ItineraryService {
       const query = { _id: itineraryId }
 
       const itinerary = await itineraryModel.findOne(query);
-      itinerary.createdBy = await userModel.findOne({ _id: itinerary.createdBy }).select("username");
+      const memberInfo = []
+      await Promise.all(
+        itinerary.members.map(async (member) => {
+          const memberData = await userModel.findOne({ _id: member }).select("username email")
+          memberInfo.push(memberData)
+        })
+      );
+      const owner = await userModel.findOne({ _id: itinerary.createdBy }).select("username email")
+      itinerary.members = memberInfo
+      itinerary.createdBy = owner
       res.status(200).send(itinerary)
     } catch (e) {
       console.log(e);

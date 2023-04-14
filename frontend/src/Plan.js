@@ -5,6 +5,7 @@ import './Plan.css';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs'
 import Stack from '@mui/material/Stack';
+import InputAdornment from '@mui/material/InputAdornment';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -145,10 +146,13 @@ function Plan() {
             <TextField
               className="plan__location"
               id="plan-budget-input"
-              label="Budget in USD"
               type="text"
               autoComplete=""
+              label="Budget"
               onChange={(e) => setBudget(e.target.value)}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">$</InputAdornment>
+              }}
               sx={{ mt: 2 }}
             />
             <button onClick={handleClick} className='plan__button'>Get me a plan</button>

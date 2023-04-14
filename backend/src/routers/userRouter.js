@@ -6,6 +6,6 @@ const userService = new UserService();
 
 userRouter.post("/user/login", userService.login);
 userRouter.post("/user/signup", userService.signup);
-userRouter.get("/user/email", userService.findUserByEmail);
+userRouter.post("/user/email", userService.findUserByEmail);
 
 export default userRouter;

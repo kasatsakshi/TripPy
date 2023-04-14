@@ -152,15 +152,15 @@ function ItineraryPage() {
       await fetch(`http://localhost:3001/group/editmember`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ itineraryId: id, userId: user._id, members})
-        });
-        handleAddMemberClose();
-        window.location.reload();
-      } catch (e) {
-        console.log(e);
-      }
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itineraryId: id, userId: user._id, members })
+      });
+      handleAddMemberClose();
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   useEffect(() => {
@@ -211,20 +211,20 @@ function ItineraryPage() {
   function stringToColor(string) {
     let hash = 0;
     let i;
-  
+
     /* eslint-disable no-bitwise */
     for (i = 0; i < string.length; i += 1) {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
-  
+
     let color = '#';
-  
+
     for (i = 0; i < 3; i += 1) {
       const value = (hash >> (i * 8)) & 0xff;
       color += `00${value.toString(16)}`.slice(-2);
     }
     /* eslint-enable no-bitwise */
-  
+
     return color;
   }
 
@@ -265,7 +265,7 @@ function ItineraryPage() {
             <AvatarGroup max={3} sx={{ marginLeft: 15, width: 100 }}>
               {memberList.map((member, index) => (
                 <Tooltip title={member.username}>
-                    <Avatar alt={member.username}  {...stringAvatar(member.username)} />
+                  <Avatar alt={member.username}  {...stringAvatar(member.username)} />
                 </Tooltip>
               ))}
 
@@ -291,31 +291,31 @@ function ItineraryPage() {
                       const response = await fetch(`http://localhost:3001/user/email`, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
-                          },
-                          body: JSON.stringify({ email: details.option})
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email: details.option })
+                      });
+                      const responseData = await response.json();
+                      let finalMemberList;
+                      if (reason === "createOption") {
+                        finalMemberList = [...members, responseData._id]
+                      } else if (reason === "removeOption") {
+                        finalMemberList = [...members]
+                        members.map(mem => {
+                          if (mem === responseData._id) {
+                            finalMemberList.splice(finalMemberList.indexOf(mem), 1)
+                          }
                         });
-                        const responseData = await response.json();
-                        let finalMemberList;
-                        if(reason === "createOption") {
-                          finalMemberList = [...members, responseData._id]
-                        } else if (reason === "removeOption") {
-                          finalMemberList = [...members]
-                          members.map(mem => {
-                            if(mem === responseData._id){
-                              finalMemberList.splice(finalMemberList.indexOf(mem), 1)
-                            }
-                          });
-                        }
-                        setMembers(finalMemberList);                            
+                      }
+                      setMembers(finalMemberList);
                     }}
                     renderTags={(mems, getTagProps) =>
                       mems.map((option, index) => (
                         <Chip
                           label={option}
                           {...getTagProps({ index })}
-                          disabled={option === itineraryOwner ? true: false}
-                          // onDelete={handleDelete(option)}
+                          disabled={option === itineraryOwner ? true : false}
+                        // onDelete={handleDelete(option)}
                         />
                       ))
                     }
@@ -328,6 +328,7 @@ function ItineraryPage() {
                       />
                     )}
                   />
+                  <Typography sx={{ marginTop: 2 }} color="text.secondary">Enter a valid email address and press Enter to add a member.</Typography>
                   <button onClick={handleMember} className='plan__button'>Update</button>
                 </Form>
               </Box>

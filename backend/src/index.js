@@ -12,3 +12,5 @@ app.use(userRouter);
 app.use(itineraryRouter);
 app.use(groupRouter);
 app.use(notificationRouter);
+
+export default app;

@@ -7,7 +7,7 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
+import Map from './Map';
 
 const steps = [
   {
@@ -45,8 +45,11 @@ export default function Tour() {
     setActiveStep(0);
   };
 
+  const locations = [{ lat: -34.397, lng: 150.644 } , { lat: -34.497, lng: 150.644 }, { lat: -34.497, lng: 150.744 },];
+  
   return (
-    <div style={{display:'flex', justifyContent: 'space-between'}}>
+  <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row-reverse', padding: '30px'}}>
+    <Map locations={locations}/>
     <Box sx={{ maxWidth: 400 }}>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
@@ -93,7 +96,6 @@ export default function Tour() {
         </Paper>
       )}
     </Box>
-    <img width="50%" src="https://roadtrippers.com/wp-content/uploads/2022/10/Header_image@2x-1-1536x839.png" />
     </div>
   );
 }

@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(cookieParser());
-const port = 3001; 
+const port = 3002; 
 app.use(express.json());
 app.use(
 express.urlencoded({

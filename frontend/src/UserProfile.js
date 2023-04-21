@@ -1,11 +1,14 @@
 import React from "react";
 import { FaMapMarkerAlt, FaCamera } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
-
+import Navbar from "./components/Navbar";
 import "./UserProfile.css";
 
 const UserProfile = () => {
   return (
+    <React.Fragment>
+    <Navbar />
+    
     <div className="user-profile">
       <div className="user-profile-header">
         <div className="profile-picture">
@@ -93,6 +96,7 @@ vestibulum mi vitae libero tristique bibendum.
 </div>
 </div>
 </div>
+</React.Fragment>
 );
 };
 

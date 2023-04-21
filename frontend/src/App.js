@@ -13,6 +13,7 @@ import Tour from './Tour';
 import GroupDashboard from './GroupDashboard';
 import Plan from './Plan';
 import User from './User';
+import UserProfile from './UserProfile'
 import ItineraryPage from './ItineraryPage';
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
           <Route path="/plan" element={<Plan />} />
           <Route path="/tour" element={<Tour />} />
           <Route path="/groupboard" element={<GroupDashboard />} />
-          <Route path="/user" element={<User />} />
+          <Route path="/user" element={<UserProfile />} />
           <Route path="/itinerary/:id" element={<ItineraryPage />} />
         </Routes>
       </div>

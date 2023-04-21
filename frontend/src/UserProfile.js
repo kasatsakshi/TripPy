@@ -1,21 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaMapMarkerAlt, FaCamera } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
+import { publicRequest } from "./api/http";
 import Navbar from "./components/Navbar";
 import "./UserProfile.css";
 
 const UserProfile = () => {
+
+  const [userDetail, setuserDetail] = React.useState([]);
+
+
+useEffect(async()=>{
+  const res = await publicRequest.post('/user/email', {email: localStorage.getItem('email')});
+  setuserDetail(res.data);
+}, [])
+
+
   return (
     <React.Fragment>
     <Navbar />
-    
     <div className="user-profile">
       <div className="user-profile-header">
         <div className="profile-picture">
           <img src="https://i.imgur.com/tH0b9uB.jpg" alt="Profile" />
         </div>
         <div className="user-info">
-          <h2>Jane Doe</h2>
+          <h2>{userDetail.username}</h2>
           <p>
             <FaMapMarkerAlt /> New York, USA
           </p>

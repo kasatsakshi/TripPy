@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { FaMapMarkerAlt, FaCamera } from "react-icons/fa";
+import { FaEnvelope, FaCamera } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { publicRequest } from "./api/http";
 import Navbar from "./components/Navbar";
@@ -27,7 +27,7 @@ useEffect(async()=>{
         <div className="user-info">
           <h2>{userDetail.username}</h2>
           <p>
-            <FaMapMarkerAlt /> New York, USA
+            <FaEnvelope /> {userDetail.email}
           </p>
           <button>Follow</button>
         </div>

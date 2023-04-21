@@ -38,6 +38,7 @@ import LoadingScreen from 'react-loading-screen'
 import loading from './images/loading.gif';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 
@@ -127,7 +128,7 @@ function ItineraryPage() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ startDate: itineraryStartDate, endDate: itineraryEndDate, location: itineraryLocation, interests: itineraryinterests, budget: itineraryBudget, userId: user._id, itineraryId: id })
+        body: JSON.stringify({ startDate: itineraryStartDate, endDate: itineraryEndDate, location: itineraryLocation, interests: itineraryinterests, budget: itineraryBudget, member: memberList, userId: user._id, itineraryId: id })
       });
       const responseData = await response.json();
       setItineraryList(responseData.itineraryList);

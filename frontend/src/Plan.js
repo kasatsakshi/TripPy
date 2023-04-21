@@ -46,13 +46,13 @@ const names = [
 ];
 
 function Plan() {
+  const today = dayjs();
   const [location, setLocation] = useState('');
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState('');
   const [interests, setInterests] = useState([]);
   const [budget, setBudget] = useState('');
   const [isLoading, setLoading] = useState(false);
-  const today = dayjs();
   const user = useSelector((state) => state.user.currentUser);
 
   const navigate = new useNavigate();
@@ -118,7 +118,7 @@ function Plan() {
               </LocalizationProvider>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker minDate={startDate} disablePast defaultValue={startDate} label="End Date" onChange={(e) => setEndDate(e)} />
+                  <DatePicker minDate={startDate} disablePast label="End Date" onChange={(e) => setEndDate(e)} />
                 </DemoContainer>
               </LocalizationProvider>
             </Stack>

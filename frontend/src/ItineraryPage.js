@@ -90,6 +90,7 @@ const names = [
 function ItineraryPage() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const color = ["red", "green", "orange", "purple", "white", "yellow", "black", "blue", "brown"]
   const [itineraryList, setItineraryList] = useState([]);
   const [itineraryStartDate, setItineraryStartDate] = useState("");
   const [itineraryEndDate, setItineraryEndDate] = useState("");
@@ -212,26 +213,26 @@ function ItineraryPage() {
 
   const renderMarkers = (map, maps) => {
     itineraryList.map((day, index) => {
+      let url = "http://maps.google.com/mapfiles/ms/icons/";
+      url += color[index] + "-dot.png";
       day.Places.map((place, iter) => {
         let marker = new maps.Marker({
           position: { lat: place.Latitude, lng: place.Longitude },
           map,
-          title: place.Name
+          title: place.Name,
+          icon: {
+            url: url
+          }
         });
         return marker;
       })
     })
   };
 
-  // const handleDelete = (memberDelete) => () => {
-  //   setMembers((members) => members.filter((member) => member.key !== memberDelete.key));
-  // };
-
   function stringToColor(string) {
     let hash = 0;
     let i;
 
-    /* eslint-disable no-bitwise */
     for (i = 0; i < string.length; i += 1) {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
@@ -242,7 +243,6 @@ function ItineraryPage() {
       const value = (hash >> (i * 8)) & 0xff;
       color += `00${value.toString(16)}`.slice(-2);
     }
-    /* eslint-enable no-bitwise */
 
     return color;
   }
@@ -419,15 +419,18 @@ function ItineraryPage() {
         <Grid container rowSpacing={0}>
           <Grid xs={5}>
             <div className='itinerary__outerdiv'>
-              {itineraryList.map((day, index) => (
+              {
+              itineraryList.map((day, index) => (
                 <div key={index}>
-                  <h3 className='itinerary__day'>Day {day.Day}</h3>
+                  <h3 style={{color:color[index]}} className='itinerary__day'>Day {day.Day}</h3>
                   {day.Places.map((place, iter) => (
                     <Timeline position='alternate' sx={{ marginTop: 2 }}>
                       <TimelineItem>
                         <TimelineSeparator>
                           <TimelineConnector />
-                          <TimelineDot>
+                          <TimelineDot
+                            sx={{ bgcolor: color[index] }}
+                          >
 
                           </TimelineDot>
                           <TimelineConnector />

@@ -8,7 +8,8 @@ const userSchema = new Schema({
     password: { type : String },
     email: { type: String },
     bookmarkedItineraries: [{type: mongoose.Schema.Types.ObjectId,
-                    ref: "itinerary"}]
+                    ref: "itinerary"}],
+    image: { type: String}
 });
 
 const userModel = mongoose.model("user",userSchema);

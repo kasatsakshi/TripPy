@@ -17,7 +17,15 @@ export class ItineraryService {
         res.status(400).send("Mandatory fields missing");
       }
 
-      var prompt = `Generate a ${duration}-day itinerary for a trip to ${location}. The itinerary should have a budget of ${budget} and include activities related to ${interests}.. The response should be in JSON format which includes the following fields-  Response should be in JSON format as a list of dictionaries. Each dictionary will have 2 fields - "Day"(in number) and "Places". The value places should be a list of dictionaries containing fields- "Name", "Latitude", "Longitude", "Travel time", "Popularity"(High/Medium/Low), "Description", "Category", "Cost"(in USD). Reply with only the answer in JSON form and include no other commentary.Limit the output to less than 1000 tokens.`
+      var prompt = `Generate a ${duration}-day itinerary for a trip to ${location}. 
+      The itinerary should have a budget of ${budget} and include activities related to ${interests}. 
+      The response should be in JSON format which includes the following fields-  Response should be in JSON format as a list of dictionaries.
+      Each dictionary will have 2 fields - "Day"(in number) and "Places". 
+      The value places should be a list of dictionaries containing fields- "Name", "Latitude", "Longitude", "Description", "Cost"(in USD).
+      The itinerary should be distance efficient with minimum travel time in a day. Arrange the places in order it should be visited.
+      Reply with only the answer in JSON form and include no other commentary.
+      Limit the output to less than 1000 tokens.`
+
       console.log(prompt);
 
       const itinerary = await openaiquery(prompt)

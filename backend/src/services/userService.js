@@ -15,7 +15,11 @@ export class UserService {
         res.status(400).send("All input is required");
       }
       const user = await userModel.findOne({ email: email })
+      console.log(user);
+      if (!user){
+        res.status(400).send("User Not Found");
 
+      }
       if (user && (await bcrypt.compare(password, user.password))) {
         try {
           const token = await jwt.sign(
@@ -38,7 +42,7 @@ export class UserService {
         }
 
       }
-      else if (!user) {
+      else {
         res.status(400).send("Invalid Credentials");
       }
     } catch (err) {

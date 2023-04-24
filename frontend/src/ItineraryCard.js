@@ -151,7 +151,7 @@ export default function ItineraryCard(props) {
             >
     
             {
-                itinerary.createdBy === user._id ? <MenuItem > 
+                itinerary.createdBy._id == user._id ? <MenuItem > 
                 <DeleteOutlinedIcon  sx={{ fontSize: 30 }} className="itinerary__icons" />   Delete Trip 
                 </MenuItem>
                 : <MenuItem title="Leave Itinerary"> 

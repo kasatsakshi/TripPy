@@ -54,13 +54,23 @@ export default function ItineraryCard(props) {
   const user = useSelector((state) => state.user.currentUser);
   const [isFavorite, setIsFavorite] =  useState(props.itinerary.isFavorite)
   const [isPublic, setIsPublic] =  useState(props.itinerary.isPublic)
-
+  const [image,setImage] = useState("https://media.timeout.com/images/105770969/1372/772/image.jpg")
 
 
   useEffect(() => {
-
+   getImage()
 }, [isFavorite, isPublic]);
 
+
+   async function getImage(){
+    const url = `https://pixabay.com/api/?key=35714305-8294bdfc234a78b237b91a723&q=${itinerary.destination}&image_type=photo&per_page=3&safesearch=True&category=places`
+    const res=  await publicRequest.get(
+        url
+    )
+    setImage(res.data.hits[0].webformatURL)      
+
+
+}
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -174,8 +184,8 @@ export default function ItineraryCard(props) {
       <CardMedia
         component="img"
         height="150"
-        image="https://media.timeout.com/images/105770969/1372/772/image.jpg"
-        alt="Paella dish"
+        image={image}
+        alt={itinerary.destination}
       />
 </Link>
       <CardActions disableSpacing>
@@ -216,10 +226,6 @@ export default function ItineraryCard(props) {
         <Tooltip title = "Add to Favorites">
         <FavoriteBorderIcon aria-label = "Unfavorite" onClick = {handleFavClick} style= {{height:"30px", width:"30px"}}/>
         </Tooltip>}
-        
- 
-     
-
       </CardActions>
     </Card>
   );

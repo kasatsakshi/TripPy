@@ -11,7 +11,7 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+import { red, blueGrey } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -67,7 +67,7 @@ export default function ItineraryCard(props) {
     const res=  await publicRequest.get(
         url
     )
-    setImage(res.data.hits[0].webformatURL)      
+    setImage(res.data.hits[2].webformatURL)      
 
 
 }
@@ -133,7 +133,7 @@ export default function ItineraryCard(props) {
       <CardHeader
         avatar={
         <Tooltip title={itinerary.createdBy.username}>
-          <Avatar  alt={itinerary.createdBy.username} sx={{ bgcolor: red[500], height: '50px', width: '50px'  }} aria-label="itinerary">
+          <Avatar  alt={itinerary.createdBy.username} sx={{ bgcolor: blueGrey[200], height: '50px', width: '50px'  }} aria-label="itinerary">
             {itinerary.createdBy.username.toUpperCase().split(' ')[0][0]}
           </Avatar>
         </Tooltip>

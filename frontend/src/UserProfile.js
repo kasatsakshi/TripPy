@@ -7,6 +7,10 @@ import Navbar from "./components/Navbar";
 import "./UserProfile.css";
 import defaultUser from "./images/defaultUser.jpeg";
 import UserItineraries from "./UserItineraries";
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+
+
 
 const UserProfile = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -54,8 +58,13 @@ const UserProfile = () => {
             </button>
           </div>
         </div>
+
         <div className="user-profile-body">
-            <UserItineraries/>
+        <Typography  variant="h6" component="div" > Upcoming Trips </Typography>
+        <Divider style={{padding:"5px"}} />       
+        <br/>
+        <br/>    
+         <UserItineraries/>
         </div>
         {/* <div className="user-profile-body">
           <div className="post-grid">

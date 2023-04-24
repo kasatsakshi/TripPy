@@ -79,7 +79,7 @@ export default function ItineraryCard(props) {
   
   const members = (    
         <> 
-        <AvatarGroup max={3} sx={{ marginRight: 17, marginLeft:3, width: 100 }}>
+        <AvatarGroup max={5} sx={{ marginLeft : 1,marginRight: 17,  width: 100 }}>
         {itinerary.members.map((member, index) => (
           <Tooltip title={member.username}>
             <Avatar alt={member.username}  {...stringAvatar(member.username)} />
@@ -91,7 +91,7 @@ export default function ItineraryCard(props) {
       )
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 400 }}>
         
       <CardHeader
         avatar={
@@ -136,7 +136,7 @@ export default function ItineraryCard(props) {
          </>
         }
         title={
-             <Typography gutterBottom variant="h5" component="div">
+             <Typography gutterBottom variant="h6" component="div">
                 {itinerary.itineraryName}        
             </Typography>}
         subheader= {`${moment(itinerary.startDate).format('MMMM Do')} - ${moment(itinerary.endDate).format('MMMM Do')}`} 
@@ -146,7 +146,7 @@ export default function ItineraryCard(props) {
 
       <CardMedia
         component="img"
-        height="194"
+        height="150"
         image="https://media.timeout.com/images/105770969/1372/772/image.jpg"
         alt="Paella dish"
       />

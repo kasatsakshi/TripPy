@@ -26,11 +26,7 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
-
-
-
-
+import {Link} from 'react-router-dom'
 
 
 export default function ItineraryCard(props) {
@@ -146,13 +142,15 @@ export default function ItineraryCard(props) {
         subheader= {`${moment(itinerary.startDate).format('MMMM Do')} - ${moment(itinerary.endDate).format('MMMM Do')}`} 
 
       />
+    <Link to={`/itinerary/${itinerary._id}`} style={{ textDecoration: 'none' }}> 
+
       <CardMedia
         component="img"
         height="194"
         image="https://media.timeout.com/images/105770969/1372/772/image.jpg"
         alt="Paella dish"
       />
-
+</Link>
       <CardActions disableSpacing>
         {members}
         {itinerary.isPublic? <Tooltip title="Visible visible pulblicly">

@@ -91,10 +91,9 @@ export class ItineraryService {
   getItineraryByUserId = async (req, res) => {
 
     try {
-      const { userId } = req.body;
+      const { userId } = req.query;
       const query = [{ createdBy: userId }, { members: { "$in": [userId] } }]
-      const itinerary = await itineraryModel.find({ $or: query });
-
+      const itinerary = await itineraryModel.find({ $or: query }).populate('createdBy').populate('members');
       res.status(200).send(itinerary)
       return itinerary;
     } catch (e) {

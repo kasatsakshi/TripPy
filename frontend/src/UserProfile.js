@@ -6,6 +6,7 @@ import { publicRequest } from "./api/http";
 import Navbar from "./components/Navbar";
 import "./UserProfile.css";
 import defaultUser from "./images/defaultUser.jpeg";
+import UserItineraries from "./UserItineraries";
 
 const UserProfile = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -54,6 +55,9 @@ const UserProfile = () => {
           </div>
         </div>
         <div className="user-profile-body">
+            <UserItineraries/>
+        </div>
+        {/* <div className="user-profile-body">
           <div className="post-grid">
             <div className="post-item">
               <div className="post-image">
@@ -117,7 +121,7 @@ const UserProfile = () => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </React.Fragment>
   );

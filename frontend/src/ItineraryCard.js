@@ -36,12 +36,21 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 export default function ItineraryCard(props) {
   const [itinerary, setItinerary] = React.useState(props.itinerary)
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [visibilityMenu, setVisibilityMenu] = React.useState(null);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  
+  const handleVisibilityMenuClick = (event) => {
+    setVisibilityMenu(event.currentTarget);
+  };
+  const handleVisibilityMenuClose = () => {
+    setVisibilityMenu(null);
   };
   const user = useSelector((state) => state.user.currentUser);
 
@@ -87,6 +96,7 @@ export default function ItineraryCard(props) {
 
   return (
     <Card sx={{ maxWidth: 345 }}>
+        
       <CardHeader
         avatar={
         <Tooltip title={itinerary.createdBy.username}>
@@ -145,12 +155,34 @@ export default function ItineraryCard(props) {
 
       <CardActions disableSpacing>
         {members}
-        {itinerary.isPublic? 
-        <Tooltip title="Visible visible pulblicly">
-            <PublicOutlinedIcon aria-label = "Visible publicly"></PublicOutlinedIcon>
-        </Tooltip> :
-        <Tooltip title="Visible to members only">
-            <PeopleOutlineOutlinedIcon aria-label = "Visible to Members" style= {{height:"30px", width:"30px"}}/> 
+        {itinerary.isPublic? <Tooltip title="Visible visible pulblicly">
+            <PublicOutlinedIcon aria-label = "Visible publicly"
+             onClick={handleVisibilityMenuClick} />
+            <Menu
+                id="itinerary-menu"
+                MenuListProps={{
+                'aria-labelledby': 'itinerary-button',
+                }}
+                anchorEl={visibilityMenu}
+                open={open}
+                onClose={handleVisibilityMenuClose}
+            >
+            <MenuItem > <PeopleOutlineOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Private </MenuItem>
+            </Menu>
+        </Tooltip> : <Tooltip title="Visible to members only">
+            <PeopleOutlineOutlinedIcon aria-label = "Visible to Members" style= {{height:"30px", width:"30px"}}
+            onClick={handleVisibilityMenuClick}/> 
+            {/* <Menu
+                id="itinerary-menu"
+                MenuListProps={{
+                'aria-labelledby': 'itinerary-button',
+                }}
+                anchorEl={visibilityMenu}
+                open={open}
+                onClose={handleVisibilityMenuClose}
+            >
+            <MenuItem > <PublicOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Public </MenuItem>
+            </Menu> */}
         </Tooltip>}
          {itinerary.isFavorite? 
         <Tooltip title="Remove from Favorites">

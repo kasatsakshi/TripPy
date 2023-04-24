@@ -28,11 +28,12 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
     "react-loading-screen": "^0.0.17",
+    "react-places-autocomplete": "^7.3.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
-    "redux-persist": "^6.0.0",
     "recompose": "^0.30.0",
+    "redux-persist": "^6.0.0",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"

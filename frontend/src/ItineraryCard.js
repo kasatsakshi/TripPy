@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -27,6 +28,8 @@ import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import {Link} from 'react-router-dom'
+import { publicRequest } from "./api/http";
+
 
 
 export default function ItineraryCard(props) {
@@ -49,6 +52,14 @@ export default function ItineraryCard(props) {
     setVisibilityMenu(null);
   };
   const user = useSelector((state) => state.user.currentUser);
+  const [isFavorite, setIsFavorite] =  useState(props.itinerary.isFavorite)
+  const [isPublic, setIsPublic] =  useState(props.itinerary.isPublic)
+
+
+
+  useEffect(() => {
+
+}, [isFavorite, isPublic]);
 
   function stringToColor(string) {
     let hash = 0;
@@ -90,8 +101,24 @@ export default function ItineraryCard(props) {
       </>
       )
 
+    async function handleFavClick()
+    {
+
+        setIsFavorite(true)
+        await publicRequest.put('/itinerary/favorite', { itineraryId:itinerary._id, userId: user._id, isFavorite:true});
+    }
+
+    async function handleRemoveFavClick()
+    {
+        setIsFavorite(false)
+
+        await publicRequest.put('/itinerary/favorite',{ itineraryId:itinerary._id, userId: user._id, isFavorite:false});
+    }
+
+
+
   return (
-    <Card sx={{ maxWidth: 400 }}>
+    <Card sx={{ maxWidth: 400, maxHeight:300 }}>
         
       <CardHeader
         avatar={
@@ -153,7 +180,7 @@ export default function ItineraryCard(props) {
 </Link>
       <CardActions disableSpacing>
         {members}
-        {itinerary.isPublic? <Tooltip title="Visible visible pulblicly">
+        {isPublic? <Tooltip title="Visible visible pulblicly">
             <PublicOutlinedIcon aria-label = "Visible publicly"
              onClick={handleVisibilityMenuClick} />
             <Menu
@@ -182,12 +209,12 @@ export default function ItineraryCard(props) {
             <MenuItem > <PublicOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Public </MenuItem>
             </Menu> */}
         </Tooltip>}
-         {itinerary.isFavorite? 
-        <Tooltip title="Remove from Favorites">
-            <FavoriteIcon aria-label = "Favorite" />
+         {isFavorite? 
+        <Tooltip title="Remove from Favorites" onClick={handleRemoveFavClick}>
+            <FavoriteIcon aria-label = "Favorite"  />
         </Tooltip>:
         <Tooltip title = "Add to Favorites">
-        <FavoriteBorderIcon aria-label = "Unfavorite" style= {{height:"30px", width:"30px"}}/>
+        <FavoriteBorderIcon aria-label = "Unfavorite" onClick = {handleFavClick} style= {{height:"30px", width:"30px"}}/>
         </Tooltip>}
         
  

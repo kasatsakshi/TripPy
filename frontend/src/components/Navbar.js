@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import logo from '../images/Trippy-1.png';
@@ -7,9 +7,12 @@ import Stack from '@mui/material/Stack';
 import './Navbar.css';
 import Grid from '@mui/material/Grid';
 import { logout } from '../redux/user';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const Navbar = () => {
   const user = useSelector((state) => state.user.currentUser);
+  const [notifications, setNotifications] = useState(["I wrote this", "Yay"]);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   return (
     <div>
@@ -32,7 +35,15 @@ const Navbar = () => {
             <>
 
               {user ? (<>
+
                 <Link to="/user"><AccountCircle className="navbar__accountCircle" sx={{ fontSize: 40 }} /></Link>
+                <div className="icon" onClick={() => setOpen(!open)}>
+                  <NotificationsIcon className="navbar__accountCircle" sx={{ fontSize: 35 }} ></NotificationsIcon>
+                  {
+                    notifications.length > 0 &&
+                    <div className="counter">{notifications.length}</div>
+                  }
+                </div>
                 <input type="button" className="navbar__button" value="Logout" onClick={() => logout(dispatch)} />
               </>)
                 : (
@@ -48,27 +59,6 @@ const Navbar = () => {
       </Stack>
       <hr />
     </div>
-    // <nav className='navbar'>
-
-    //   <Link to="/">
-    //     <img className="navbar__logo" src={logo} alt="Trippy" />
-    //   </Link>
-
-    //   <div className='navbar__emptyspace'></div>
-
-    //   <div className='navbar__options'>
-    //     <Link to='/'>
-    //       <button className="navbar__button">Plan A Tour</button>
-    //     </Link>
-    //     <Link to='/'>
-    //       <button className="navbar__button">Dashboard</button>
-    //     </Link>
-    //     <Link to="/">
-    //       <button className="signin__button">Sign in</button>
-    //     </Link>
-    //   </div>
-
-    // </nav>
   );
 };
 

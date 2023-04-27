@@ -38,6 +38,7 @@ import loading from './images/loading.gif';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 
@@ -291,9 +292,9 @@ function ItineraryPage() {
             </AvatarGroup>
             <div className='itinerary__addmember'>
               {
-                itineraryOwner === user.email 
-                ? <Button size="small" title="Add/Remove Members" onClick={(handleAddMemberOpen)}><PersonAddIcon sx={{ fontSize: 30 }} className="itinerary__icons"></PersonAddIcon></Button>
-                : <Button size="small" title="Leave Itinerary" onClick={leaveItinerary}><ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons"></ExitToAppIcon></Button>
+                itineraryOwner === user.email
+                  ? <Button size="small" title="Add/Remove Members" onClick={(handleAddMemberOpen)}><PersonAddIcon sx={{ fontSize: 30 }} className="itinerary__icons"></PersonAddIcon></Button>
+                  : <Button size="small" title="Leave Itinerary" onClick={leaveItinerary}><ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons"></ExitToAppIcon></Button>
               }
             </div>
             <Modal
@@ -420,33 +421,32 @@ function ItineraryPage() {
           <Grid xs={5}>
             <div className='itinerary__outerdiv'>
               {
-              itineraryList.map((day, index) => (
-                <div key={index}>
-                  <h3 style={{color:color[index]}} className='itinerary__day'>Day {day.Day}</h3>
-                  {day.Places.map((place, iter) => (
-                    <Timeline position='alternate' sx={{ marginTop: 2 }}>
-                      <TimelineItem>
-                        <TimelineSeparator>
-                          <TimelineConnector />
-                          <TimelineDot
-                            sx={{ bgcolor: color[index] }}
-                          >
+                itineraryList.map((day, index) => (
+                  <div key={index}>
+                    <h3 style={{ color: color[index] }} className='itinerary__day'>Day {day.Day}</h3>
+                    {day.Places.map((place, iter) => (
+                      <Timeline position='alternate' sx={{ marginTop: 2 }}>
+                        <TimelineItem>
+                          <TimelineSeparator>
+                            <TimelineConnector />
+                            <TimelineDot
+                              sx={{ bgcolor: color[index] }}
+                            >
+                            </TimelineDot>
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent sx={{ py: '12px', px: 2 }}>
+                            <Typography variant="h6" component="span">
+                              {place.Name}
+                            </Typography>
+                            <Typography color="text.secondary">{place.Description}</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                      </Timeline>
 
-                          </TimelineDot>
-                          <TimelineConnector />
-                        </TimelineSeparator>
-                        <TimelineContent sx={{ py: '12px', px: 2 }}>
-                          <Typography variant="h6" component="span">
-                            {place.Name}
-                          </Typography>
-                          <Typography color="text.secondary">{place.Description}</Typography>
-                        </TimelineContent>
-                      </TimelineItem>
-                    </Timeline>
-
-                  ))}
-                </div>
-              ))}
+                    ))}
+                  </div>
+                ))}
             </div>
           </Grid>
           <Grid xs={7}>

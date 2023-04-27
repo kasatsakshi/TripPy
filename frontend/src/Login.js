@@ -40,7 +40,6 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     login(dispatch, { email, password });
   };
 
@@ -105,7 +104,7 @@ function Login() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="sign-up" variant="body2">
+                  <Link href="signup" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

@@ -44,6 +44,7 @@ const names = [
   'Beach',
   'Amusement Park'
 ];
+const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 
 function Plan() {
   const today = dayjs();

@@ -4,6 +4,7 @@ import notificationModel from '../models/notificationModel.js';
 import userModel from '../models/userModel.js';
 
 export class NotificationService {
+
     memberNotification = async (userId, members, itineraryName, action) => {
         try {
             
@@ -92,8 +93,6 @@ export class NotificationService {
         }
        
     } 
-
-
 }
 
 export default NotificationService;

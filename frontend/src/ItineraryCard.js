@@ -63,11 +63,11 @@ export default function ItineraryCard(props) {
 
 
    async function getImage(){
-    const url = `https://pixabay.com/api/?key=35714305-8294bdfc234a78b237b91a723&q=${itinerary.destination}&image_type=photo&per_page=3&safesearch=True&category=places`
+    const url = `https://pixabay.com/api/?key=35714305-8294bdfc234a78b237b91a723&q=${itinerary.destination}&image_type=photo&per_page=3&safesearch=True&category=places&editors_choice=True`
     const res=  await publicRequest.get(
         url
     )
-    setImage(res.data.hits[2].webformatURL)      
+    setImage(res.data.hits[1].webformatURL)      
 
 
 }

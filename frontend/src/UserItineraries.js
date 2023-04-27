@@ -33,10 +33,9 @@ export default function UserItineraries() {
   }, [])
 
   return (<>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
       {itineraries.map((itinerary) => (
 
-            
       <Grid item xs="auto">
         <ItineraryCard itinerary={itinerary} />
       </Grid>

@@ -8,6 +8,7 @@ const itinerarySchema = new Schema({
     startDate: {type: Date },
     endDate: {type: Date},
 	budget: { type: Number },
+    imageUrl: {type: String},
     itineraryList: [{Day: { type: String},
         Places: [{
             Name: {type: String},

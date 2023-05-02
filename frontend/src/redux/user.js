@@ -23,6 +23,7 @@ export const login = async (dispatch, user) => {
     const res = await publicRequest.post('/user/login', user);
     const token = res.headers['x-auth-token'];
     localStorage.setItem('token', token);
+    localStorage.setItem('email', res.data?.email);
     dispatch(loginSuccess(res.data));
   } catch (err) {
     dispatch(loginFailure());

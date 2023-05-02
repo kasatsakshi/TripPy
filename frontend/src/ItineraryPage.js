@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Navbar from './components/Navbar'
 import GoogleMapReact from 'google-map-react';
 import Timeline from '@mui/lab/Timeline';
@@ -8,13 +8,12 @@ import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
-import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import { Modal, Box, FormControlLabel, Stack, InputLabel, Select, OutlinedInput, MenuItem, Checkbox, ListItemText, TextField, ListItem } from '@mui/material';
+import { Modal, Box, Stack, InputLabel, Select, OutlinedInput, MenuItem, Checkbox, ListItemText, TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -38,6 +37,7 @@ import LoadingScreen from 'react-loading-screen'
 import loading from './images/loading.gif';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -89,7 +89,9 @@ const names = [
 ];
 
 function ItineraryPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
+  const color = ["red", "green", "orange", "purple", "white", "yellow", "black", "blue", "brown"]
   const [itineraryList, setItineraryList] = useState([]);
   const [itineraryStartDate, setItineraryStartDate] = useState("");
   const [itineraryEndDate, setItineraryEndDate] = useState("");
@@ -147,6 +149,24 @@ function ItineraryPage() {
     }
   }
 
+  const leaveItinerary = async (e) => {
+    e.preventDefault()
+    try {
+      setLoading(true)
+      await fetch(`http://localhost:3001/itinerary/leaveItinerary`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itineraryId: id, userId: user._id })
+      });
+      setLoading(false)
+      navigate("/")
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const handleMember = async (e) => {
     e.preventDefault()
     try {
@@ -194,26 +214,26 @@ function ItineraryPage() {
 
   const renderMarkers = (map, maps) => {
     itineraryList.map((day, index) => {
+      let url = "http://maps.google.com/mapfiles/ms/icons/";
+      url += color[index] + "-dot.png";
       day.Places.map((place, iter) => {
         let marker = new maps.Marker({
           position: { lat: place.Latitude, lng: place.Longitude },
           map,
-          title: place.Name
+          title: place.Name,
+          icon: {
+            url: url
+          }
         });
         return marker;
       })
     })
   };
 
-  // const handleDelete = (memberDelete) => () => {
-  //   setMembers((members) => members.filter((member) => member.key !== memberDelete.key));
-  // };
-
   function stringToColor(string) {
     let hash = 0;
     let i;
 
-    /* eslint-disable no-bitwise */
     for (i = 0; i < string.length; i += 1) {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
@@ -224,7 +244,6 @@ function ItineraryPage() {
       const value = (hash >> (i * 8)) & 0xff;
       color += `00${value.toString(16)}`.slice(-2);
     }
-    /* eslint-enable no-bitwise */
 
     return color;
   }
@@ -272,7 +291,11 @@ function ItineraryPage() {
 
             </AvatarGroup>
             <div className='itinerary__addmember'>
-              <Button size="small" onClick={(handleAddMemberOpen)}><PersonAddIcon sx={{ fontSize: 30 }} className="itinerary__icons"></PersonAddIcon></Button>
+              {
+                itineraryOwner === user.email
+                  ? <Button size="small" title="Add/Remove Members" onClick={(handleAddMemberOpen)}><PersonAddIcon sx={{ fontSize: 30 }} className="itinerary__icons"></PersonAddIcon></Button>
+                  : <Button size="small" title="Leave Itinerary" onClick={leaveItinerary}><ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons"></ExitToAppIcon></Button>
+              }
             </div>
             <Modal
               open={addMember}
@@ -397,31 +420,33 @@ function ItineraryPage() {
         <Grid container rowSpacing={0}>
           <Grid xs={5}>
             <div className='itinerary__outerdiv'>
-              {itineraryList.map((day, index) => (
-                <div key={index}>
-                  <h3 className='itinerary__day'>Day {day.Day}</h3>
-                  {day.Places.map((place, iter) => (
-                    <Timeline position='alternate' sx={{ marginTop: 2 }}>
-                      <TimelineItem>
-                        <TimelineSeparator>
-                          <TimelineConnector />
-                          <TimelineDot>
+              {
+                itineraryList.map((day, index) => (
+                  <div key={index}>
+                    <h3 style={{ color: color[index] }} className='itinerary__day'>Day {day.Day}</h3>
+                    {day.Places.map((place, iter) => (
+                      <Timeline position='alternate' sx={{ marginTop: 2 }}>
+                        <TimelineItem>
+                          <TimelineSeparator>
+                            <TimelineConnector />
+                            <TimelineDot
+                              sx={{ bgcolor: color[index] }}
+                            >
+                            </TimelineDot>
+                            <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent sx={{ py: '12px', px: 2 }}>
+                            <Typography variant="h6" component="span">
+                              {place.Name}
+                            </Typography>
+                            <Typography color="text.secondary">{place.Description}</Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                      </Timeline>
 
-                          </TimelineDot>
-                          <TimelineConnector />
-                        </TimelineSeparator>
-                        <TimelineContent sx={{ py: '12px', px: 2 }}>
-                          <Typography variant="h6" component="span">
-                            {place.Name}
-                          </Typography>
-                          <Typography color="text.secondary">{place.Description}</Typography>
-                        </TimelineContent>
-                      </TimelineItem>
-                    </Timeline>
-
-                  ))}
-                </div>
-              ))}
+                    ))}
+                  </div>
+                ))}
             </div>
           </Grid>
           <Grid xs={7}>

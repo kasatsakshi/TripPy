@@ -80,7 +80,8 @@
   color: grey;
   size: 70px;
   float: right;
-  margin-right: 5%;
+  margin-right: 8%;
+  align-items: center;
 }
 
 .navbar__button {
@@ -103,4 +104,26 @@
 .navbar__line{
   border-top: 1px solid lightgrey ;
   margin-top: 10px;
+}
+
+.counter {
+  width: 5px;
+  height: 5px;
+  background-color: red;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -2px;
+  right: -5px;
+  margin-right: 31%;
+}
+
+.icon {
+  margin-left: 15px;
+  cursor: pointer;
+  position: relative;
 }

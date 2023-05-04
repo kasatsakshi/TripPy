@@ -6,6 +6,7 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
+import { CardActionArea } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
@@ -62,12 +63,12 @@ export default function ItineraryCard(props) {
   }, [isFavorite, isPublic]);
 
 
-   async function getImage(){
+  async function getImage() {
     const url = `https://pixabay.com/api/?key=35714305-8294bdfc234a78b237b91a723&q=${itinerary.destination}&image_type=photo&per_page=3&safesearch=True&category=places&editors_choice=True`
-    const res=  await publicRequest.get(
-        url
+    const res = await publicRequest.get(
+      url
     )
-    setImage(res.data.hits[1].webformatURL)      
+    setImage(res.data.hits[1].webformatURL)
 
 
   }
@@ -98,6 +99,23 @@ export default function ItineraryCard(props) {
     };
   }
 
+  const deleteItinerary = async () => {
+    try {
+      console.log(itinerary._id);
+      await fetch(`http://localhost:3001/itinerary/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itineraryId: itinerary._id, userId: user._id })
+      });
+      window.location.reload();
+      // const res = await publicRequest.delete("/itinerary/delete", { itineraryId: itinerary._id, userId: user._id })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const members = (
     <>
       <AvatarGroup max={5} sx={{ marginLeft: 1, marginRight: 17, width: 100 }}>
@@ -123,123 +141,125 @@ export default function ItineraryCard(props) {
 
   }
   return (
-    <Card sx={{ maxWidth: 400, maxHeight: 300 }}>
+    <Card sx={{ maxWidth: 400, maxHeight: 300 }} raised="true">
+      <CardActionArea>
 
-      <CardHeader
-        avatar={
-          <Tooltip title={itinerary.createdBy.username}>
-            <Avatar alt={itinerary.createdBy.username} sx={{ bgcolor: blueGrey[200], height: '50px', width: '50px' }} aria-label="itinerary">
-              {itinerary.createdBy.username.toUpperCase().split(' ')[0][0]}
-            </Avatar>
-          </Tooltip>
+        <CardHeader
+          avatar={
+            <Tooltip title={itinerary.createdBy.username}>
+              <Avatar alt={itinerary.createdBy.username} sx={{ bgcolor: blueGrey[200], height: '50px', width: '50px' }} aria-label="itinerary">
+                {itinerary.createdBy.username.toUpperCase().split(' ')[0][0]}
+              </Avatar>
+            </Tooltip>
 
-        }
-        action={<>
-          <IconButton
-            aria-label="3-dots"
-            id="itinerary-button"//"long-button"
-            aria-controls={open ? 'itinerary-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            id="itinerary-menu"
-            MenuListProps={{
-              'aria-labelledby': 'itinerary-button',
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-          >
+          }
+          action={<>
+            <IconButton
+              aria-label="3-dots"
+              id="itinerary-button"//"long-button"
+              aria-controls={open ? 'itinerary-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="itinerary-menu"
+              MenuListProps={{
+                'aria-labelledby': 'itinerary-button',
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+            >
 
-            {
-              itinerary.createdBy._id == user._id ? <MenuItem >
-                <DeleteOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" />   Delete Trip
-              </MenuItem>
-                : <MenuItem title="Leave Itinerary">
-                  <ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons" />   Leave Trip
+              {
+                itinerary.createdBy._id == user._id ? <MenuItem >
+                  <DeleteOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" onClick={() => deleteItinerary()} />   Delete Trip
                 </MenuItem>
-            }
-            <MenuItem >   <DownloadIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Download </MenuItem>
-          </Menu>
-        </>
-        }
-        title={
-          <Typography gutterBottom variant="h6" component="div">
-            {itinerary.itineraryName}
-          </Typography>}
-        subheader={`${moment(itinerary.startDate).format('MMMM Do')} - ${moment(itinerary.endDate).format('MMMM Do')}`}
+                  : <MenuItem title="Leave Itinerary">
+                    <ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons" />   Leave Trip
+                  </MenuItem>
+              }
+              <MenuItem >   <DownloadIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Download </MenuItem>
+            </Menu>
+          </>
+          }
+          title={
+            <Typography gutterBottom variant="h6" component="div">
+              {itinerary.itineraryName}
+            </Typography>}
+          subheader={`${moment(itinerary.startDate).format('MMMM Do')} - ${moment(itinerary.endDate).format('MMMM Do')}`}
 
-      />
-      <Link to={`/itinerary/${itinerary._id}`} style={{ textDecoration: 'none' }}>
-
-        <CardMedia
-          component="img"
-          height="150"
-          image={image}
-          alt={itinerary.destination}
         />
-      </Link>
-      <CardActions disableSpacing>
-        {members}
-        {isPublic ? <>
-          <IconButton
-            aria-label="visibility"
-            id="visibility-button"
-            aria-controls={visibitlityOpen ? 'visibility-menu' : undefined}
-            aria-expanded={visibitlityOpen ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={handleVisibilityMenuClick}
-          >
-          <PublicOutlinedIcon aria-label="Visible publicly" style={{ height: "32px", width: "32px" }}/>
-          </IconButton>
-          <Menu
-            id="itinerary-menu"
-            MenuListProps={{
-              'aria-labelledby': 'itinerary-button',
-            }}
-            anchorEl={visibilityMenu}
-            open={visibitlityOpen}
-            onClose={handleVisibilityMenuClose}
-          >
-            <MenuItem onClick={() => handleVisibilityClick(false)}> <PeopleOutlineOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Private </MenuItem>
-          </Menu>
-        </> : 
-        <>
-        <IconButton
-            aria-label="visibility"
-            id="visibility-button"
-            aria-controls={visibitlityOpen ? 'visibility-menu' : undefined}
-            aria-expanded={visibitlityOpen ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={handleVisibilityMenuClick}
-          >
-          <PeopleOutlineOutlinedIcon style={{ height: "35px", width: "35px" }}/>
-        </IconButton>
-        <Menu
+        <Link to={`/itinerary/${itinerary._id}`} style={{ textDecoration: 'none' }}>
+
+          <CardMedia
+            component="img"
+            height="150"
+            image={image}
+            alt={itinerary.destination}
+          />
+        </Link>
+        <CardActions disableSpacing>
+          {members}
+          {isPublic ? <>
+            <IconButton
+              aria-label="visibility"
+              id="visibility-button"
+              aria-controls={visibitlityOpen ? 'visibility-menu' : undefined}
+              aria-expanded={visibitlityOpen ? 'true' : undefined}
+              aria-haspopup="true"
+              onClick={handleVisibilityMenuClick}
+            >
+              <PublicOutlinedIcon aria-label="Visible publicly" style={{ height: "32px", width: "32px" }} />
+            </IconButton>
+            <Menu
+              id="itinerary-menu"
+              MenuListProps={{
+                'aria-labelledby': 'itinerary-button',
+              }}
+              anchorEl={visibilityMenu}
+              open={visibitlityOpen}
+              onClose={handleVisibilityMenuClose}
+            >
+              <MenuItem onClick={() => handleVisibilityClick(false)}> <PeopleOutlineOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Private </MenuItem>
+            </Menu>
+          </> :
+            <>
+              <IconButton
+                aria-label="visibility"
+                id="visibility-button"
+                aria-controls={visibitlityOpen ? 'visibility-menu' : undefined}
+                aria-expanded={visibitlityOpen ? 'true' : undefined}
+                aria-haspopup="true"
+                onClick={handleVisibilityMenuClick}
+              >
+                <PeopleOutlineOutlinedIcon style={{ height: "35px", width: "35px" }} />
+              </IconButton>
+              <Menu
                 id="visibility-menu"
                 MenuListProps={{
-                'aria-labelledby': 'visibility-button',
+                  'aria-labelledby': 'visibility-button',
                 }}
                 anchorEl={visibilityMenu}
                 open={visibitlityOpen}
                 onClose={handleVisibilityMenuClose}
-          >
-          <MenuItem onClick={() => handleVisibilityClick(true)} > <PublicOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons"  /> Make it Public </MenuItem>
-          </Menu>
-        </>}
-        {/* </Tooltip>} */}
-        {isFavorite ?
-          <Tooltip title="Remove from Favorites" onClick={() => handleFavClick(false)}>
-            <FavoriteIcon aria-label="Favorite" />
-          </Tooltip> :
-          <Tooltip title="Add to Favorites">
-            <FavoriteBorderIcon aria-label="Unfavorite" onClick={() => handleFavClick(true)} style={{ height: "30px", width: "30px" }} />
-          </Tooltip>}
-      </CardActions>
+              >
+                <MenuItem onClick={() => handleVisibilityClick(true)} > <PublicOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Public </MenuItem>
+              </Menu>
+            </>}
+          {/* </Tooltip>} */}
+          {isFavorite ?
+            <Tooltip title="Remove from Favorites" onClick={() => handleFavClick(false)}>
+              <FavoriteIcon aria-label="Favorite" />
+            </Tooltip> :
+            <Tooltip title="Add to Favorites">
+              <FavoriteBorderIcon aria-label="Unfavorite" onClick={() => handleFavClick(true)} style={{ height: "30px", width: "30px" }} />
+            </Tooltip>}
+        </CardActions>
+      </CardActionArea>
     </Card>
   );
 }

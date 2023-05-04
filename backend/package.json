@@ -13,9 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cassandra-driver": "^4.6.4",
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
-    "cassandra-driver": "^4.6.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -26,6 +26,7 @@
     "mocha": "^10.2.0",
     "mongoose": "^6.10.0",
     "nodemon": "^2.0.22",
-    "openai": "^3.2.1"
+    "openai": "^3.2.1",
+    "socket.io": "^4.6.1"
   }
 }

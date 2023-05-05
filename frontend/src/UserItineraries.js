@@ -21,8 +21,8 @@ export default function UserItineraries() {
   useEffect(() => {
     const getUser = async () => {
       try {
-          console.log(user._id)
-        const res = await publicRequest.get('/itinerary/user', { params: { userId: user._id}});
+        console.log(user._id)
+        const res = await publicRequest.get('/itinerary/user', { params: { userId: user._id } });
         setItineraries(res.data);
         console.log(res.data)
       } catch (e) {
@@ -33,12 +33,16 @@ export default function UserItineraries() {
   }, [])
 
   return (<>
-      <Grid container spacing={1}>
-      {itineraries.map((itinerary) => (
+    <div className="itinerary__grid">
+      <Grid container spacing={5}>
+        {itineraries.map((itinerary) => (
 
-      <Grid item xs="auto">
-        <ItineraryCard itinerary={itinerary} />
+          <Grid item xs="auto">
+            <ItineraryCard itinerary={itinerary} />
+          </Grid>
+        ))}
       </Grid>
-      ))}
-      </Grid>
-  </>)};
+    </div>
+
+  </>)
+};

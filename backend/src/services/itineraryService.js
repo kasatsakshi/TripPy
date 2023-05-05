@@ -104,6 +104,7 @@ export class ItineraryService {
 
   deleteItinerary = async (req, res) => {
     try {
+      console.log(req.body);
       const { itineraryId, userId } = req.body;
       const itinerary = await itineraryModel.findById(itineraryId)
       if (!itinerary) {

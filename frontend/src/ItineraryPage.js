@@ -157,7 +157,7 @@ function ItineraryPage() {
       report.html(document.querySelector('#report')).then(() => {
         report.save(`${itineraryName}.pdf`);
       })
-    } catch(error) {
+    } catch (error) {
       console.log(error)
     }
   }
@@ -298,7 +298,7 @@ function ItineraryPage() {
             <AvatarGroup max={3} sx={{ marginLeft: 15, width: 100 }}>
               {memberList.map((member, index) => (
                 <Tooltip title={member.username}>
-                  <Avatar alt={member.username}  {...stringAvatar(member.username)} />
+                  <Avatar alt={member.username}  {...stringAvatar(member.username)} sx={{ bgcolor: '#D3D3D3' }} />
                 </Tooltip>
               ))}
 

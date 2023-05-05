@@ -34,7 +34,7 @@ export default function UserItineraries() {
 
   return (<>
     <div className="itinerary__grid">
-      <Grid container spacing={3}>
+      <Grid container spacing={5}>
         {itineraries.map((itinerary) => (
 
           <Grid item xs="auto">

@@ -12,7 +12,7 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red, blueGrey } from '@mui/material/colors';
+import { red, blueGrey, blue } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -93,7 +93,7 @@ export default function ItineraryCard(props) {
   function stringAvatar(name) {
     return {
       sx: {
-        bgcolor: stringToColor(name),
+        bgcolor: stringToColor(name)[500],
       },
       children: `${name.toUpperCase().split(' ')[0][0]}`,
     };
@@ -118,7 +118,7 @@ export default function ItineraryCard(props) {
 
   const members = (
     <>
-      <AvatarGroup max={5} sx={{ marginLeft: 1, marginRight: 17, width: 100 }}>
+      <AvatarGroup max={3} sx={{ marginLeft: 2, marginRight: 5, width: 100 }}>
         {itinerary.members.map((member, index) => (
           <Tooltip title={member.username}>
             <Avatar alt={member.username}  {...stringAvatar(member.username)} />
@@ -141,13 +141,14 @@ export default function ItineraryCard(props) {
 
   }
   return (
-    <Card sx={{ maxWidth: 400, maxHeight: 300 }} raised="true">
+    <Card sx={{ width: 330, Height: 300 }} raised="true" variant="outlined">
       <CardActionArea>
 
         <CardHeader
+          sx={{ height: 30 }}
           avatar={
             <Tooltip title={itinerary.createdBy.username}>
-              <Avatar alt={itinerary.createdBy.username} sx={{ bgcolor: blueGrey[200], height: '50px', width: '50px' }} aria-label="itinerary">
+              <Avatar alt={itinerary.createdBy.username} sx={{ bgcolor: '#44444C', height: '45px', width: '45px' }} aria-label="itinerary">
                 {itinerary.createdBy.username.toUpperCase().split(' ')[0][0]}
               </Avatar>
             </Tooltip>
@@ -187,24 +188,24 @@ export default function ItineraryCard(props) {
           </>
           }
           title={
-            <Typography gutterBottom variant="h6" component="div">
+            <Typography gutterBottom variant="h6" component="div" sx={{ marginBottom: 0, marginTop: 0 }}>
               {itinerary.itineraryName}
             </Typography>}
           subheader={`${moment(itinerary.startDate).format('MMMM Do')} - ${moment(itinerary.endDate).format('MMMM Do')}`}
-
         />
         <Link to={`/itinerary/${itinerary._id}`} style={{ textDecoration: 'none' }}>
 
           <CardMedia
             component="img"
-            height="150"
+            height="190"
             image={image}
             alt={itinerary.destination}
           />
         </Link>
         <CardActions disableSpacing>
-          {members}
-          {isPublic ? <>
+          <div style={{ left: '5px' }}>{members}</div>
+
+          {/* {isPublic ? <>
             <IconButton
               aria-label="visibility"
               id="visibility-button"
@@ -249,15 +250,18 @@ export default function ItineraryCard(props) {
               >
                 <MenuItem onClick={() => handleVisibilityClick(true)} > <PublicOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Public </MenuItem>
               </Menu>
-            </>}
+            </>} */}
           {/* </Tooltip>} */}
-          {isFavorite ?
-            <Tooltip title="Remove from Favorites" onClick={() => handleFavClick(false)}>
-              <FavoriteIcon aria-label="Favorite" />
-            </Tooltip> :
-            <Tooltip title="Add to Favorites">
-              <FavoriteBorderIcon aria-label="Unfavorite" onClick={() => handleFavClick(true)} style={{ height: "30px", width: "30px" }} />
-            </Tooltip>}
+          <div style={{ position: 'absolute', right: '16px' }}>
+            {isFavorite ?
+              <Tooltip title="Remove from Favorites" onClick={() => handleFavClick(false)}>
+                <FavoriteIcon aria-label="Favorite" />
+              </Tooltip> :
+              <Tooltip title="Add to Favorites">
+                <FavoriteBorderIcon aria-label="Unfavorite" onClick={() => handleFavClick(true)} style={{ height: "30px", width: "30px" }} />
+              </Tooltip>}
+          </div>
+
         </CardActions>
       </CardActionArea>
     </Card>

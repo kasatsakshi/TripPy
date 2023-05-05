@@ -47,16 +47,15 @@ const UserProfile = () => {
             <p>
               <FaEnvelope /> {userDetail.email}
             </p>
-            <button>Follow</button>
           </div>
-          <div className="user-actions">
+          {/* <div className="user-actions">
             <button>
               <FaCamera /> Add Photo
             </button>
             <button>
               <FiEdit /> Edit Profile
             </button>
-          </div>
+          </div> */}
         </div>
 
         <div className="user-profile-body">

@@ -41,12 +41,13 @@
   
   .user-info h2 {
     font-size: 36px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
   }
   
   .user-info p {
     font-size: 18px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+    margin-top: 2px;
   }
   
   .user-actions {

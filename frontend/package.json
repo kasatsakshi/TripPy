@@ -20,6 +20,7 @@
     "dotenv": "^16.0.3",
     "google-map-react": "^2.2.0",
     "install": "^0.13.0",
+    "jspdf": "^2.5.1",
     "moment": "^2.29.4",
     "npm": "^9.6.0",
     "papaparse": "^5.4.0",

@@ -39,6 +39,7 @@ import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import DeleteIcon from '@mui/icons-material/Delete';
+import JsPDF from 'jspdf';
 
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 
@@ -146,6 +147,18 @@ function ItineraryPage() {
       setLoading(false)
     } catch (e) {
       console.log(e);
+    }
+  }
+
+  const downloadItinerary = async (e) => {
+    e.preventDefault()
+    try {
+      const report = new JsPDF('portrait', 'pt', 'a4');
+      report.html(document.querySelector('#report')).then(() => {
+        report.save(`${itineraryName}.pdf`);
+      })
+    } catch(error) {
+      console.log(error)
     }
   }
 
@@ -417,9 +430,10 @@ function ItineraryPage() {
             </Form>
           </Box>
         </Modal>
+        <Button onClick={downloadItinerary} >Download Itinerary</Button>
         <Grid container rowSpacing={0}>
-          <Grid xs={5}>
-            <div className='itinerary__outerdiv'>
+          <Grid xs={5} id="itineraryReport">
+            <div id="report" className='itinerary__outerdiv'>
               {
                 itineraryList.map((day, index) => (
                   <div key={index}>

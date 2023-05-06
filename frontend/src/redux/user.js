@@ -35,5 +35,4 @@ export const logout = (dispatch) => {
 
   dispatch(logoutUser());
   localStorage.removeItem('token');
-  return <Navigate to="/" />;
 };

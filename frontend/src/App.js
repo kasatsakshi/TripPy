@@ -16,7 +16,8 @@ import User from './User';
 import UserProfile from './UserProfile'
 import ItineraryPage from './ItineraryPage';
 import ItineraryCard from './ItineraryCard';
-import Profile from './UserItineraries';
+import AutoComplete from './autocomplete/AutoComplete';
+import PublicItineraries from './PublicItineraries';
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -34,6 +35,8 @@ function App() {
           <Route path="/user" element={<UserProfile />} />
           <Route path="/itinerary/:id" element={<ItineraryPage />} />
           <Route path="/itinerary" element={<ItineraryCard />} />
+          <Route path ="/autocomplete" element ={<AutoComplete/>} />
+          <Route path = "/publicItineraries" element ={<PublicItineraries/>} />
         </Routes>
       </div>
     </Router>

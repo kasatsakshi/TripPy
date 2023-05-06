@@ -33,9 +33,11 @@ import { publicRequest } from "./api/http";
 
 
 export default function ItineraryCard(props) {
+  console.log(props.itinerary)
   const [itinerary, setItinerary] = React.useState(props.itinerary)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [visibilityMenu, setVisibilityMenu] = React.useState(null);
+  const viewer = props.viewer ? props.viewer : false
   const visibitlityOpen = Boolean(visibilityMenu);
 
   const open = Boolean(anchorEl);
@@ -171,7 +173,7 @@ export default function ItineraryCard(props) {
             </Tooltip>
 
           }
-          action={<>
+          action={ !viewer && <>
             <IconButton
               aria-label="3-dots"
               id="itinerary-button"//"long-button"
@@ -208,12 +210,12 @@ export default function ItineraryCard(props) {
           </>
           }
           title={
-            <Typography gutterBottom variant="h6" component="div" sx={{ marginBottom: 0, marginTop: 0 }}>
-              {itinerary.itineraryName}
+            <Typography gutterBottom variant="h6" component="div" >
+             {viewer? itinerary.createdBy.username +"'s "+itinerary.itineraryName :itinerary.itineraryName}
             </Typography>}
           subheader={`${moment(itinerary.startDate).format('MMMM Do')} - ${moment(itinerary.endDate).format('MMMM Do')}`}
         />
-        <Link to={`/itinerary/${itinerary._id}`} style={{ textDecoration: 'none' }}>
+        <Link to={`/itinerary/${itinerary._id}`} style={{ textDecoration: 'none' }} state={{ viewer: viewer }}>
 
           <CardMedia
             component="img"
@@ -224,7 +226,8 @@ export default function ItineraryCard(props) {
         </Link>
         <CardActions disableSpacing>
           <div style={{ left: '5px' }}>{members}</div>
-          <div style={{ position: 'absolute', right: '16px' }}>
+          
+         { !viewer && <div style={{ position: 'absolute', right: '16px' }}>
 
           {isPublic ? <>
             <IconButton
@@ -280,7 +283,7 @@ export default function ItineraryCard(props) {
                 <FavoriteBorderIcon aria-label="Unfavorite" onClick={() => handleFavClick(true)} style={{ height: "30px", width: "30px" }} />
               </Tooltip>}
           </div>
-
+      }
         </CardActions>
       </CardActionArea>
     </Card>

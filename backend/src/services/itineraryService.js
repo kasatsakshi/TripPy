@@ -1,3 +1,4 @@
+import { query } from "express";
 import itineraryModel from "../models/itineraryModel.js";
 import userModel from "../models/userModel.js";
 import openaiquery from "../utils/openai.js";
@@ -203,6 +204,23 @@ export class ItineraryService {
       console.log(e)
       res.status(500).send(e)
     }
+  }
+  getPublicItinerary = async(req,res) =>
+  {
+    console.log("inside public itinerary")
+    try{
+      const {itineraryId} =req.query
+      const itinerary = await itineraryModel.findById(itineraryId)
+      console.log(itinerary.destination)
+      const query = {destination: itinerary.destination, isPublic: true, _id: { $ne: itineraryId }}
+      const itineraries = await itineraryModel.find(query).populate('createdBy').populate('members');
+      console.log(itineraries)
+      res.status(200).json(itineraries)
+    } catch(e) {
+      console.log(e)
+      res.status(500).send(e)
+    }
+   
   }
 
 }

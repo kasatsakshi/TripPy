@@ -8,12 +8,16 @@ import './Navbar.css';
 import Grid from '@mui/material/Grid';
 import { logout } from '../redux/user';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useNavigate } from 'react-router-dom';
+
 
 const Navbar = () => {
   const user = useSelector((state) => state.user.currentUser);
   const [notifications, setNotifications] = useState(["I wrote this", "Yay"]);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <div>
       <Stack>
@@ -44,7 +48,10 @@ const Navbar = () => {
                     <div className="counter">{notifications.length}</div>
                   }
                 </div>
-                <input type="button" className="navbar__button" value="Logout" onClick={() => logout(dispatch)} />
+                <input type="button" className="navbar__button" value="Logout" onClick={() =>{ logout(dispatch)
+                                                                                               navigate('/');
+                                                                                              } 
+              }/>
               </>)
                 : (
                   <>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import GoogleMapReact from 'google-map-react';
 import Timeline from '@mui/lab/Timeline';
@@ -40,6 +41,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import JsPDF from 'jspdf';
+import PublicItineraries from './PublicItineraries';
+import Divider from '@mui/material/Divider';
+
 
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 
@@ -90,6 +94,8 @@ const names = [
 ];
 
 function ItineraryPage() {
+  const location = useLocation()
+  const viewer  = location.state ? location.state.viewer: false;
   const navigate = useNavigate();
   const { id } = useParams();
   const color = ["red", "green", "orange", "purple", "white", "yellow", "black", "blue", "brown"]
@@ -102,6 +108,7 @@ function ItineraryPage() {
   const [itineraryLocation, setItineraryLocation] = useState('');
   const [memberList, setMemberList] = useState([]);
   const [itineraryOwner, setItineraryOwner] = useState("");
+  const [createdBy, setCreatedBy] = useState("");
   const [center, setMapCenter] = useState();
   const [editItinerary, setEditItinerary] = React.useState(false);
   const handleEditItineraryOpen = () => setEditItinerary(true);
@@ -157,7 +164,7 @@ function ItineraryPage() {
       report.html(document.querySelector('#report')).then(() => {
         report.save(`${itineraryName}.pdf`);
       })
-    } catch(error) {
+    } catch (error) {
       console.log(error)
     }
   }
@@ -214,6 +221,7 @@ function ItineraryPage() {
         setItineraryInterests(responseData.interests)
         setItineraryLocation(responseData.destination)
         setItineraryOwner(responseData.createdBy.email)
+        setCreatedBy(responseData.createdBy.username)
         setMemberList(responseData.members)
         setMembers(responseData.members.map(member => member._id))
         const place = responseData.itineraryList[0].Places[0]
@@ -284,12 +292,12 @@ function ItineraryPage() {
         <Card sx={{ width: 500, height: 200 }} className="itinerary__card" raised={true}>
           <CardContent>
             <CardHeader
-              action={
+              action={ !viewer &&
                 <IconButton onClick={(handleEditItineraryOpen)} aria-label="edit">
                   <EditIcon />
                 </IconButton>
               }
-              title={itineraryName}
+              title={ viewer? createdBy+"'s "+itineraryName :itineraryName}
             />
           </CardContent>
           <CardActions>
@@ -298,18 +306,19 @@ function ItineraryPage() {
             <AvatarGroup max={3} sx={{ marginLeft: 15, width: 100 }}>
               {memberList.map((member, index) => (
                 <Tooltip title={member.username}>
-                  <Avatar alt={member.username}  {...stringAvatar(member.username)} />
+                  <Avatar alt={member.username}  {...stringAvatar(member.username)} sx={{ bgcolor: '#D3D3D3' }} />
                 </Tooltip>
               ))}
 
             </AvatarGroup>
+            { !viewer &&
             <div className='itinerary__addmember'>
               {
                 itineraryOwner === user.email
                   ? <Button size="small" title="Add/Remove Members" onClick={(handleAddMemberOpen)}><PersonAddIcon sx={{ fontSize: 30 }} className="itinerary__icons"></PersonAddIcon></Button>
                   : <Button size="small" title="Leave Itinerary" onClick={leaveItinerary}><ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons"></ExitToAppIcon></Button>
               }
-            </div>
+            </div>}
             <Modal
               open={addMember}
               onClose={handleAddMemberClose}
@@ -474,6 +483,14 @@ function ItineraryPage() {
               >
               </GoogleMapReact>
             </div>
+           
+           { !viewer && <div className='public__itineraries' style={{ height: '100vh', width: '90%', marginTop: 100 }}>
+            <Typography variant="h6" component="div" > Similar Public Itineraries </Typography>
+            <Divider style={{ padding: "5px" }} />
+            <br></br>
+
+             <PublicItineraries itineraryId={id}/>
+            </div>}
           </Grid>
         </Grid>
       </div>

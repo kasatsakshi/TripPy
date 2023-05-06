@@ -33,9 +33,11 @@ import { publicRequest } from "./api/http";
 
 
 export default function ItineraryCard(props) {
+  console.log(props.itinerary)
   const [itinerary, setItinerary] = React.useState(props.itinerary)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [visibilityMenu, setVisibilityMenu] = React.useState(null);
+  const viewer = props.viewer ? props.viewer : false
   const visibitlityOpen = Boolean(visibilityMenu);
 
   const open = Boolean(anchorEl);
@@ -64,11 +66,12 @@ export default function ItineraryCard(props) {
 
 
   async function getImage() {
-    const url = `https://pixabay.com/api/?key=35714305-8294bdfc234a78b237b91a723&q=${itinerary.destination}&image_type=photo&per_page=3&safesearch=True&category=places&editors_choice=True`
+    const url = `https://pixabay.com/api/?key=35714305-8294bdfc234a78b237b91a723&q=${itinerary.destination}&image_type=photo&per_page=10&safesearch=True&category=places&editors_choice=True`
     const res = await publicRequest.get(
       url
     )
-    setImage(res.data.hits[1].webformatURL)
+    const ind = Math.floor(Math.random() * 10);
+    setImage(res.data.hits[ind].webformatURL)
 
 
   }
@@ -116,6 +119,23 @@ export default function ItineraryCard(props) {
     }
   }
 
+  const leaveItinerary = async (e) => {
+    console.log("in leave itinerary")
+    try {
+      await fetch(`http://localhost:3001/itinerary/leaveItinerary`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itineraryId: itinerary._id, userId: user._id })
+      });
+      window.location.reload();
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const members = (
     <>
       <AvatarGroup max={3} sx={{ marginLeft: 2, marginRight: 5, width: 100 }}>
@@ -154,7 +174,7 @@ export default function ItineraryCard(props) {
             </Tooltip>
 
           }
-          action={<>
+          action={ !viewer && <>
             <IconButton
               aria-label="3-dots"
               id="itinerary-button"//"long-button"
@@ -177,10 +197,13 @@ export default function ItineraryCard(props) {
 
               {
                 itinerary.createdBy._id == user._id ? <MenuItem >
-                  <DeleteOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" onClick={() => deleteItinerary()} />   Delete Trip
+                 <IconButton onClick={deleteItinerary}>  <DeleteOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" onClick={() => deleteItinerary()} /> </IconButton>  Delete Trip
                 </MenuItem>
                   : <MenuItem title="Leave Itinerary">
-                    <ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons" />   Leave Trip
+                     <IconButton onClick={leaveItinerary}>
+              <ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons" />   
+            </IconButton>
+            Leave Trip
                   </MenuItem>
               }
               <MenuItem >   <DownloadIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Download </MenuItem>
@@ -188,13 +211,13 @@ export default function ItineraryCard(props) {
           </>
           }
           title={
-            <Typography gutterBottom variant="h6" component="div" sx={{ marginBottom: 0, marginTop: 0 }}>
-              {itinerary.itineraryName}
+            <Typography gutterBottom variant="h7" component="div" >
+             {viewer? itinerary.createdBy.username +"'s "+itinerary.itineraryName :itinerary.itineraryName}
             </Typography>}
           subheader={`${moment(itinerary.startDate).format('MMMM Do')} - ${moment(itinerary.endDate).format('MMMM Do')}`}
         />
-        <Link to={`/itinerary/${itinerary._id}`} style={{ textDecoration: 'none' }}>
-
+        <Link to={`/itinerary/${itinerary._id}`} style={{ textDecoration: 'none' }} state={{ viewer: viewer }}>
+          
           <CardMedia
             component="img"
             height="190"
@@ -204,8 +227,10 @@ export default function ItineraryCard(props) {
         </Link>
         <CardActions disableSpacing>
           <div style={{ left: '5px' }}>{members}</div>
+          
+         { !viewer && <div style={{ position: 'absolute', right: '16px' }}>
 
-          {/* {isPublic ? <>
+          {isPublic ? <>
             <IconButton
               aria-label="visibility"
               id="visibility-button"
@@ -214,7 +239,7 @@ export default function ItineraryCard(props) {
               aria-haspopup="true"
               onClick={handleVisibilityMenuClick}
             >
-              <PublicOutlinedIcon aria-label="Visible publicly" style={{ height: "32px", width: "32px" }} />
+              <PublicOutlinedIcon aria-label="Visible publicly" style={{ height: "30px", width: "30px" }} />
             </IconButton>
             <Menu
               id="itinerary-menu"
@@ -237,7 +262,7 @@ export default function ItineraryCard(props) {
                 aria-haspopup="true"
                 onClick={handleVisibilityMenuClick}
               >
-                <PeopleOutlineOutlinedIcon style={{ height: "35px", width: "35px" }} />
+                <PeopleOutlineOutlinedIcon style={{ height: "30px", width: "30px" }} />
               </IconButton>
               <Menu
                 id="visibility-menu"
@@ -250,9 +275,7 @@ export default function ItineraryCard(props) {
               >
                 <MenuItem onClick={() => handleVisibilityClick(true)} > <PublicOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Public </MenuItem>
               </Menu>
-            </>} */}
-          {/* </Tooltip>} */}
-          <div style={{ position: 'absolute', right: '16px' }}>
+            </>}
             {isFavorite ?
               <Tooltip title="Remove from Favorites" onClick={() => handleFavClick(false)}>
                 <FavoriteIcon aria-label="Favorite" />
@@ -261,7 +284,7 @@ export default function ItineraryCard(props) {
                 <FavoriteBorderIcon aria-label="Unfavorite" onClick={() => handleFavClick(true)} style={{ height: "30px", width: "30px" }} />
               </Tooltip>}
           </div>
-
+      }
         </CardActions>
       </CardActionArea>
     </Card>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import TextField from '@mui/material/TextField';
 import './Plan.css';
@@ -20,6 +20,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { useNavigate } from 'react-router-dom';
 import LoadingScreen from 'react-loading-screen'
 import loading from './images/loading.gif';
+import styled from 'styled-components';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,6 +32,10 @@ const MenuProps = {
     },
   },
 };
+
+const Error = styled.span`
+  color: red;
+`;
 
 const names = [
   'Hiking',
@@ -46,6 +51,48 @@ const names = [
 ];
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 
+
+let autoComplete;
+
+const loadScript = (url, callback) => {
+  let script = document.createElement("script");
+  script.type = "text/javascript";
+
+  if (script.readyState) {
+    script.onreadystatechange = function() {
+      if (script.readyState === "loaded" || script.readyState === "complete") {
+        script.onreadystatechange = null;
+        callback();
+      }
+    };
+  } else {
+    script.onload = () => callback();
+  }
+
+  script.src = url;
+  document.getElementsByTagName("head")[0].appendChild(script);
+};
+
+function handleScriptLoad(updateQuery, autoCompleteRef) {
+  autoComplete = new window.google.maps.places.Autocomplete(
+    autoCompleteRef.current,
+    { types: ["(cities)"]}
+  );
+  autoComplete.setFields(["address_components", "formatted_address"]);
+  autoComplete.addListener("place_changed", () =>
+    handlePlaceSelect(updateQuery)
+  );
+}
+
+async function handlePlaceSelect(updateQuery) {
+  const addressObject = autoComplete.getPlace();
+  const query = addressObject.formatted_address;
+  updateQuery(query);
+  console.log(addressObject);
+}
+
+
+
 function Plan() {
   const today = dayjs();
   const [location, setLocation] = useState('');
@@ -54,7 +101,32 @@ function Plan() {
   const [interests, setInterests] = useState([]);
   const [budget, setBudget] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const [errorLocation, setLocationError] = useState(false);
+  const [errorDate, setDateError] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const user = useSelector((state) => state.user.currentUser);
+  const [query, setQuery] = useState("");
+  const autoCompleteRef = useRef(null);
+
+  useEffect(() => {
+    loadScript(
+      `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`,
+      () => handleScriptLoad( setLocation, autoCompleteRef)
+    );
+  }, []);
+
+  
+  // useEffect(() => {
+  //   if (location.length < 2) {
+  //     setError("Enter correct location")
+  //   }
+  // }, [location]);
+
+  // useEffect(() => {
+  //   if (location.length > 2 && errorMsg) {
+  //     setError("");
+  //   }
+  // }, [location, errorMsg]);
 
   const navigate = new useNavigate();
 
@@ -68,25 +140,39 @@ function Plan() {
     );
   };
 
+
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true)
-      const response = await fetch('http://localhost:3001/itinerary/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location, interests: interests, budget: budget, userId: user._id })
-      });
-      const responseData = await response.json();
-      setLoading(false)
-      navigate(`/itinerary/${responseData._id}`)
-      // navigate(`/itinerary/6435e26526d7598cd4462187`)
+      console.log(location.length)
+      if (location.length < 2) {
+        setLocationError(true);
+      }
+      if (!endDate) {
+        setDateError(true);
+      }
+      else {
+        setLocationError(false);
+        setLoading(true)
+        const response = await fetch('http://localhost:3001/itinerary/generate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location.split(",")[0], interests: interests, budget: budget, userId: user._id })
+        });
+        const responseData = await response.json();
+        setLoading(false)
+        navigate(`/itinerary/${responseData._id}`)
+      }
     } catch (e) {
       console.log(e);
     }
   }
+
+  
+
+
   return (
     <div>
       <Navbar />
@@ -103,10 +189,16 @@ function Plan() {
             <h2 className='plan__title'>Plan a new trip</h2>
             <TextField
               className="plan__location"
+              name="location"
               id="plan-location-input"
               label="Where to?"
               type="text"
-              autoComplete=""
+              required
+              // autoComplete=""
+              inputRef={autoCompleteRef}
+              error={errorLocation}
+              value={location}
+              // helperText={errorMsg}
               onChange={(e) => setLocation(e.target.value)}
               sx={{ mb: 2 }}
             />
@@ -114,12 +206,12 @@ function Plan() {
               {/* <DatePicker label="Basic date picker" /> */}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker disablePast defaultValue={today} label="Start Date" onChange={(e) => setStartDate(e)} />
+                  <DatePicker required disablePast defaultValue={today} label="Start Date" onChange={(e) => setStartDate(e)} />
                 </DemoContainer>
               </LocalizationProvider>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker minDate={startDate} disablePast label="End Date" onChange={(e) => setEndDate(e)} />
+                  <DatePicker required minDate={startDate} disablePast label="End Date" onChange={(e) => setEndDate(e)} error={errorDate} />
                 </DemoContainer>
               </LocalizationProvider>
             </Stack>
@@ -156,7 +248,8 @@ function Plan() {
               }}
               sx={{ mt: 2 }}
             />
-            <button onClick={handleClick} className='plan__button'>Get me a plan</button>
+            {errorLocation || errorDate ? <Error>Make sure you enter location, start date and end date </Error> : <p />}
+            <button onClick={handleClick} className='plan__button' disabled={false}>Get me a plan</button>
           </div>
           <div>
             <img style={{ width: 500, height: 500, paddingTop: 250 }} src={plan} />

@@ -2,7 +2,7 @@ import {
   loginFailure, loginStart, loginSuccess, logoutUser,
   signupStart, signupSuccess, signupFailure
 } from './userRedux';
-
+import { Navigate } from 'react-router-dom';
 import { publicRequest, userRequest } from '../api/http';
 
 export const signup = async (dispatch, user, onShowAlert) => {
@@ -43,6 +43,7 @@ export const login = async (dispatch, user, onShowAlert) => {
 };
 
 export const logout = (dispatch) => {
+
   dispatch(logoutUser());
   localStorage.removeItem('token');
   // Redirect to home page.

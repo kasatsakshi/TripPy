@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import { useState } from 'react';
+import { useState, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from './redux/user';
 import Button from '@mui/material/Button';
@@ -15,6 +15,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ErrorPopup from './components/ErrorPopup';
 
 function Copyright(props) {
   return (
@@ -31,21 +32,29 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-function Login() {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const errorPopupRef = useRef();
+
+  const onShowAlert = (type, text) => {
+    errorPopupRef.current.onShowAlert(type, text)
+  };
 
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    login(dispatch, { email, password });
+    login(dispatch, { email, password }, onShowAlert);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
+      <ErrorPopup ref={errorPopupRef}/>
         <CssBaseline />
 
         <Grid item xs={12} >

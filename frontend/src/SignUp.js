@@ -17,6 +17,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Navbar from './components/Navbar';
 import styled from 'styled-components';
+import ErrorPopup from './components/ErrorPopup';
 
 function Copyright(props) {
   return (
@@ -42,19 +43,26 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const errorPopupRef = React.useRef();
+
+  const onShowAlert = (type, text) => {
+    errorPopupRef.current.onShowAlert(type, text)
+  };
+
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    signup(dispatch, { username, email, password });
+    signup(dispatch, { username, email, password }, onShowAlert);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
       <Container component="main" maxWidth="xs">
+      <ErrorPopup ref={errorPopupRef}/>
         <CssBaseline />
         <Box
           sx={{
@@ -120,7 +128,7 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            {error ? <Error>Something went wrong! Try again</Error> : <p />}
+            {/* {error ? <Error>Something went wrong! Try again</Error> : <p />} */}
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="login" variant="body2">

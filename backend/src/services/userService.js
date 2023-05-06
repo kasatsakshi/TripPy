@@ -38,15 +38,21 @@ export class UserService {
           res.status(200).json(user);
         } catch (e) {
           console.log(e);
-          res.status(400).send("Invalid Credentials");
+          res.status(400).send({
+            errorMessage: "Invalid Credentials",
+          });
         }
 
       }
       else {
-        res.status(400).send("Invalid Credentials");
+        res.status(400).send({
+          errorMessage: "Invalid Credentials",
+        });
       }
     } catch (err) {
-      res.status(500).send(err)
+      res.status(500).send({
+        errorMessage: err,
+      })
     }
   };
 
@@ -56,7 +62,9 @@ export class UserService {
     const user = await userModel.findOne({ $or: [{ username: username }, { email: email }] });
 
     if (user) {
-      res.status(400).send("User Exists");
+      res.status(400).send({
+        errorMessage: "User Exists",
+      });
       return;
     }
 
@@ -86,7 +94,9 @@ export class UserService {
     })
       .catch(error => {
         console.log(error)
-        res.status(400).send(error)
+        res.status(400).send({
+          errorMessage: error,
+        })
       })
   };
 

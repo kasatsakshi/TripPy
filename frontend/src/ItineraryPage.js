@@ -150,7 +150,7 @@ function ItineraryPage() {
     }
   }
 
-  const downloadItinerary = async (e) => {
+  const downloadItinerary = async (e) => { 
     e.preventDefault()
     try {
       const report = new JsPDF('portrait', 'pt', 'a4');

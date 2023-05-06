@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import TextField from '@mui/material/TextField';
 import './Plan.css';
@@ -51,6 +51,48 @@ const names = [
 ];
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 
+
+let autoComplete;
+
+const loadScript = (url, callback) => {
+  let script = document.createElement("script");
+  script.type = "text/javascript";
+
+  if (script.readyState) {
+    script.onreadystatechange = function() {
+      if (script.readyState === "loaded" || script.readyState === "complete") {
+        script.onreadystatechange = null;
+        callback();
+      }
+    };
+  } else {
+    script.onload = () => callback();
+  }
+
+  script.src = url;
+  document.getElementsByTagName("head")[0].appendChild(script);
+};
+
+function handleScriptLoad(updateQuery, autoCompleteRef) {
+  autoComplete = new window.google.maps.places.Autocomplete(
+    autoCompleteRef.current,
+    { types: ["(cities)"]}
+  );
+  autoComplete.setFields(["address_components", "formatted_address"]);
+  autoComplete.addListener("place_changed", () =>
+    handlePlaceSelect(updateQuery)
+  );
+}
+
+async function handlePlaceSelect(updateQuery) {
+  const addressObject = autoComplete.getPlace();
+  const query = addressObject.formatted_address;
+  updateQuery(query);
+  console.log(addressObject);
+}
+
+
+
 function Plan() {
   const today = dayjs();
   const [location, setLocation] = useState('');
@@ -63,7 +105,17 @@ function Plan() {
   const [errorDate, setDateError] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const user = useSelector((state) => state.user.currentUser);
+  const [query, setQuery] = useState("");
+  const autoCompleteRef = useRef(null);
 
+  useEffect(() => {
+    loadScript(
+      `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`,
+      () => handleScriptLoad( setLocation, autoCompleteRef)
+    );
+  }, []);
+
+  
   // useEffect(() => {
   //   if (location.length < 2) {
   //     setError("Enter correct location")
@@ -107,7 +159,7 @@ function Plan() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location, interests: interests, budget: budget, userId: user._id })
+          body: JSON.stringify({ startDate: startDate, endDate: endDate, location: location.split(",")[0], interests: interests, budget: budget, userId: user._id })
         });
         const responseData = await response.json();
         setLoading(false)
@@ -117,6 +169,10 @@ function Plan() {
       console.log(e);
     }
   }
+
+  
+
+
   return (
     <div>
       <Navbar />
@@ -138,8 +194,10 @@ function Plan() {
               label="Where to?"
               type="text"
               required
-              autoComplete=""
+              // autoComplete=""
+              inputRef={autoCompleteRef}
               error={errorLocation}
+              value={location}
               // helperText={errorMsg}
               onChange={(e) => setLocation(e.target.value)}
               sx={{ mb: 2 }}

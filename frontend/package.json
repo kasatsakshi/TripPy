@@ -27,6 +27,7 @@
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-google-places-autocomplete": "^4.0.1",
     "react-icons": "^4.6.0",
     "react-loading-screen": "^0.0.17",
     "react-places-autocomplete": "^7.3.0",

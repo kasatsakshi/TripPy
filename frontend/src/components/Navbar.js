@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import logo from '../images/Trippy-1.png';
-import { ShoppingCart, AccountCircle } from '@mui/icons-material';
+import { AccountCircle } from '@mui/icons-material';
 import Stack from '@mui/material/Stack';
 import './Navbar.css';
-import Grid from '@mui/material/Grid';
 import { logout } from '../redux/user';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from 'react-router-dom';
-
+import io from 'socket.io-client';
 
 const Navbar = () => {
   const user = useSelector((state) => state.user.currentUser);
-  const [notifications, setNotifications] = useState(["I wrote this", "Yay"]);
+  const [notifications, setNotifications] = useState([]);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const socket = io("http://localhost:5001")
+  useEffect(() => {
+    socket.emit("requestNotifications", user._id);
+    socket.on("getNotifications", (data) => {
+      const unreadNotifications = data.filter(notification => notification.isRead === false)
+      console.log(unreadNotifications);
+      setNotifications(unreadNotifications)
+    });
+  }, []);
 
   return (
     <div>
@@ -48,10 +56,11 @@ const Navbar = () => {
                     <div className="counter">{notifications.length}</div>
                   }
                 </div>
-                <input type="button" className="navbar__button" value="Logout" onClick={() =>{ logout(dispatch)
-                                                                                               navigate('/');
-                                                                                              } 
-              }/>
+                <input type="button" className="navbar__button" value="Logout" onClick={() => {
+                  logout(dispatch)
+                  navigate('/');
+                }
+                } />
               </>)
                 : (
                   <>
@@ -66,7 +75,7 @@ const Navbar = () => {
       </Stack>
       <hr />
     </div>
-    
+
   );
 };
 

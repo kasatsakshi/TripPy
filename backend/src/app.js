@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import session from "express-session";
-
+import { Server } from "socket.io";
+import notificationModel from './models/notificationModel.js';
 
 const app = express();
 const corsOptions = { origin: '*', exposedHeaders: 'X-Auth-Token' };
@@ -19,6 +19,22 @@ app.use(
 
 app.listen(port, () => console.log("[backend] listening on port " + port));
 
+const io = new Server({
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
+
+io.on('connect', function (socket) {
+  socket.on("requestNotifications", async (data) => {
+    const notifications = await notificationModel.find({ userId: data })
+    io.emit("getNotifications", notifications);
+  });
+});
+
+
+io.listen(5001);
 
 export default app
 

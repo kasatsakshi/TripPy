@@ -7,15 +7,13 @@ export class NotificationService {
 
   memberNotification = async (userId, members, itineraryName, action) => {
     try {
-
       const user = await userModel.findById(userId);
       let message = ''
 
       if (action === 'ADD') {
-        message = `${user.fname} ${user.lname} added you to trip: ${itineraryName}`
-
+        message = `${user.username} added you to trip: ${itineraryName}`
       } else {
-        message = `${user.fname} ${user.lname} removed you from trip: ${itineraryName}`
+        message = `${user.username} removed you from trip: ${itineraryName}`
       }
 
       let notificationList = []
@@ -24,6 +22,7 @@ export class NotificationService {
           userId: member, message: message
         })
       }
+
       await notificationModel.insertMany(notificationList);
 
     } catch (err) {

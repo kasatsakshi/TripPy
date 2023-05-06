@@ -59,10 +59,6 @@ const UserProfile = () => {
         </div>
 
         <div className="user-profile-body">
-          <Typography variant="h6" component="div" > Upcoming Trips </Typography>
-          <Divider style={{ padding: "5px" }} />
-          <br />
-          <br />
           <UserItineraries />
         </div>
       </div>

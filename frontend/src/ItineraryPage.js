@@ -95,7 +95,7 @@ const names = [
 
 function ItineraryPage() {
   const location = useLocation()
-  const { viewer } = location.state
+  const viewer  = location.state ? location.state.viewer: false;
   const navigate = useNavigate();
   const { id } = useParams();
   const color = ["red", "green", "orange", "purple", "white", "yellow", "black", "blue", "brown"]

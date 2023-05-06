@@ -210,13 +210,13 @@ export default function ItineraryCard(props) {
           </>
           }
           title={
-            <Typography gutterBottom variant="h6" component="div" >
+            <Typography gutterBottom variant="h7" component="div" >
              {viewer? itinerary.createdBy.username +"'s "+itinerary.itineraryName :itinerary.itineraryName}
             </Typography>}
           subheader={`${moment(itinerary.startDate).format('MMMM Do')} - ${moment(itinerary.endDate).format('MMMM Do')}`}
         />
         <Link to={`/itinerary/${itinerary._id}`} style={{ textDecoration: 'none' }} state={{ viewer: viewer }}>
-
+          
           <CardMedia
             component="img"
             height="190"

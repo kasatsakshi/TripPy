@@ -2,8 +2,9 @@ import {
   loginFailure, loginStart, loginSuccess, logoutUser,
   signupStart, signupSuccess, signupFailure
 } from './userRedux';
-
+import { Navigate } from 'react-router-dom';
 import { publicRequest, userRequest } from '../api/http';
+
 
 export const signup = async (dispatch, user) => {
   dispatch(signupStart());
@@ -31,6 +32,8 @@ export const login = async (dispatch, user) => {
 };
 
 export const logout = (dispatch) => {
+
   dispatch(logoutUser());
   localStorage.removeItem('token');
+  return <Navigate to="/" />;
 };

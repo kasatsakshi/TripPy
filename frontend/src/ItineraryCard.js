@@ -116,6 +116,23 @@ export default function ItineraryCard(props) {
     }
   }
 
+  const leaveItinerary = async (e) => {
+    console.log("in leave itinerary")
+    try {
+      await fetch(`http://localhost:3001/itinerary/leaveItinerary`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itineraryId: itinerary._id, userId: user._id })
+      });
+      window.location.reload();
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const members = (
     <>
       <AvatarGroup max={3} sx={{ marginLeft: 2, marginRight: 5, width: 100 }}>
@@ -177,10 +194,13 @@ export default function ItineraryCard(props) {
 
               {
                 itinerary.createdBy._id == user._id ? <MenuItem >
-                  <DeleteOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" onClick={() => deleteItinerary()} />   Delete Trip
+                 <IconButton onClick={deleteItinerary}>  <DeleteOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" onClick={() => deleteItinerary()} /> </IconButton>  Delete Trip
                 </MenuItem>
                   : <MenuItem title="Leave Itinerary">
-                    <ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons" />   Leave Trip
+                     <IconButton onClick={leaveItinerary}>
+              <ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons" />   
+            </IconButton>
+            Leave Trip
                   </MenuItem>
               }
               <MenuItem >   <DownloadIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Download </MenuItem>
@@ -204,8 +224,9 @@ export default function ItineraryCard(props) {
         </Link>
         <CardActions disableSpacing>
           <div style={{ left: '5px' }}>{members}</div>
+          <div style={{ position: 'absolute', right: '16px' }}>
 
-          {/* {isPublic ? <>
+          {isPublic ? <>
             <IconButton
               aria-label="visibility"
               id="visibility-button"
@@ -214,7 +235,7 @@ export default function ItineraryCard(props) {
               aria-haspopup="true"
               onClick={handleVisibilityMenuClick}
             >
-              <PublicOutlinedIcon aria-label="Visible publicly" style={{ height: "32px", width: "32px" }} />
+              <PublicOutlinedIcon aria-label="Visible publicly" style={{ height: "30px", width: "30px" }} />
             </IconButton>
             <Menu
               id="itinerary-menu"
@@ -237,7 +258,7 @@ export default function ItineraryCard(props) {
                 aria-haspopup="true"
                 onClick={handleVisibilityMenuClick}
               >
-                <PeopleOutlineOutlinedIcon style={{ height: "35px", width: "35px" }} />
+                <PeopleOutlineOutlinedIcon style={{ height: "30px", width: "30px" }} />
               </IconButton>
               <Menu
                 id="visibility-menu"
@@ -250,9 +271,7 @@ export default function ItineraryCard(props) {
               >
                 <MenuItem onClick={() => handleVisibilityClick(true)} > <PublicOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Public </MenuItem>
               </Menu>
-            </>} */}
-          {/* </Tooltip>} */}
-          <div style={{ position: 'absolute', right: '16px' }}>
+            </>}
             {isFavorite ?
               <Tooltip title="Remove from Favorites" onClick={() => handleFavClick(false)}>
                 <FavoriteIcon aria-label="Favorite" />

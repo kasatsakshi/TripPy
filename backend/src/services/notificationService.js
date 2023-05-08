@@ -5,7 +5,7 @@ import userModel from '../models/userModel.js';
 
 export class NotificationService {
 
-  memberNotification = async (userId, members, itineraryName, action) => {
+  memberNotification = async (userId, member, itineraryName, action) => {
     try {
       const user = await userModel.findById(userId);
       let message = ''
@@ -17,11 +17,9 @@ export class NotificationService {
       }
 
       let notificationList = []
-      for (const member of members) {
-        notificationList.push({
-          userId: member, message: message
-        })
-      }
+      notificationList.push({
+        userId: member, message: message
+      })
 
       await notificationModel.insertMany(notificationList);
 

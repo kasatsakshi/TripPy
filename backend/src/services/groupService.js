@@ -7,6 +7,7 @@ dotenv.config()
 import groupModel from '../models/groupModel.js';
 import itineraryModel from '../models/itineraryModel.js';
 import { NotificationService } from './notificationService.js';
+import mongoose from "mongoose";
 
 const notificationService = new NotificationService();
 
@@ -22,7 +23,6 @@ export class GroupService {
       members.forEach(member => {
         memIds.push(member?.id);
       });
-      // console.log(memIds);
       const groupPayload = {
         groupName,
         members: memIds,
@@ -44,7 +44,7 @@ export class GroupService {
 
   editMember = async (req, res) => {
     try {
-
+      console.log("in edit")
       const { itineraryId, userId, members, action } = req.body
       const query = { _id: itineraryId }
       // const memberIds = members.split(",")
@@ -54,27 +54,21 @@ export class GroupService {
           res.status(401).send("Unauthorized Access")
         }
         else {
-          // let members = itinerary.members
-          // // if((action === "ADD" && members.includes(memberId)) || (action === "REMOVE" && !members.includes(memberId)))
-          // // {
-          // //     res.status(201).send("Invalid Request")
+          let existingMembers = itinerary.members;
+          members.forEach(async (m) => {
+            if (!existingMembers.includes(mongoose.Types.ObjectId(m))) {
+              await notificationService.memberNotification(userId, m, itinerary.itineraryName, 'ADD');
+            }
+          })
 
-          // // }
-          // // else{
-          // if(action === "ADD") {
-          //     members.push(...memberIds)
-          // }
-          // else{
-          //     for(const memberId of memberIds){
-          //         members.splice(members.indexOf(memberId), 1)
-          //     }
-          // }
-          // members = [...new Set(members)]
-          itinerary.members = members
-          const newItinerary = await itinerary.save()
-          await notificationService.memberNotification(userId, members, itinerary.itineraryName, action)
+          existingMembers.forEach(async (em) => {
+            if (!members.includes(em.toString())) {
+              await notificationService.memberNotification(userId, em, itinerary.itineraryName, 'REMOVE');
+            }
+          })
+          itinerary.members = members;
+          const newItinerary = await itinerary.save();
           res.status(200).json(newItinerary)
-          // }
         }
 
       }

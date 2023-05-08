@@ -14,8 +14,10 @@ import Menu from '@mui/material/Menu';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Badge from '@mui/material/Badge';
+import ListItemIcon from '@mui/material/ListItemIcon';
 
 const Navbar = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -49,22 +51,26 @@ const Navbar = () => {
   }, []);
 
   const handleNotification = async (notificationId) => {
-    await fetch('http://localhost:3001/notification', {
+    const response = await fetch('http://localhost:3001/notification', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ notificationId })
     });
+    if(response.status === 200) {
+      const responseData = await response.json();
+      const updatedUnreadNotifications = unreadNotifications.filter(notification => notification._id !== responseData._id)
+      setUnreadNotifications(updatedUnreadNotifications)
+      window.location.reload();
+    }
   }
 
   return (
     <div>
       <Stack>
         <nav className="navbar">
-          {/* Logo */}
           <Link className='navbar__logo' to="/">
-            {/* <img className="navbar__logo" src={logo} alt="Trippy" /> */}
             Trippy
           </Link>
 
@@ -106,14 +112,18 @@ const Navbar = () => {
                     {notifications.map((notification) => (
                       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                         <ListItem alignItems="flex-start">
+                        <ListItemButton onClick={() => handleNotification(notification._id)}>
                           <ListItemText
                             primary={
                               <React.Fragment>
                                 {notification.message}
-                                {notification.isRead ? <div></div> : <Badge onClick={() => handleNotification(notification._id)} sx={{ paddingLeft: "10px" }} color="secondary" badgeContent=" " variant="dot" />}
                               </React.Fragment>
                             }
                           />
+                          <ListItemIcon>
+                          {notification.isRead ? <div></div> : <Badge color="primary" badgeContent=" " variant="dot" />}
+                        </ListItemIcon>
+                        </ListItemButton>
                         </ListItem>
                         <Divider />
                       </List>

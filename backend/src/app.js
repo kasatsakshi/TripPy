@@ -28,7 +28,7 @@ const io = new Server({
 
 io.on('connect', function (socket) {
   socket.on("requestNotifications", async (data) => {
-    const notifications = await notificationModel.find({ userId: data })
+    const notifications = await notificationModel.find({ userId: data }).sort({ timestamp: -1 })
     io.emit("getNotifications", notifications);
   });
 });

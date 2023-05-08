@@ -39,7 +39,7 @@ import loading from './images/loading.gif';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DownloadIcon from '@mui/icons-material/Download';
 import JsPDF from 'jspdf';
 import PublicItineraries from './PublicItineraries';
 import Divider from '@mui/material/Divider';
@@ -95,7 +95,7 @@ const names = [
 
 function ItineraryPage() {
   const location = useLocation()
-  const viewer  = location.state ? location.state.viewer: false;
+  const viewer = location.state ? location.state.viewer : false;
   const navigate = useNavigate();
   const { id } = useParams();
   const color = ["red", "green", "orange", "purple", "white", "yellow", "black", "blue", "brown"]
@@ -157,7 +157,7 @@ function ItineraryPage() {
     }
   }
 
-  const downloadItinerary = async (e) => { 
+  const downloadItinerary = async (e) => {
     e.preventDefault()
     try {
       const report = new JsPDF('portrait', 'pt', 'a4');
@@ -292,12 +292,20 @@ function ItineraryPage() {
         <Card sx={{ width: 500, height: 200 }} className="itinerary__card" raised={true}>
           <CardContent>
             <CardHeader
-              action={ !viewer &&
-                <IconButton onClick={(handleEditItineraryOpen)} aria-label="edit">
-                  <EditIcon />
-                </IconButton>
+              action={!viewer && <>
+                <Tooltip title='Edit Itinerary'>
+                  <IconButton onClick={(handleEditItineraryOpen)} aria-label="edit">
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Download Itinerary'>
+                  <IconButton aria-label="download" sx={{ '&:hover': { content: `'download'` } }}>
+                    <DownloadIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
               }
-              title={ viewer? createdBy+"'s "+itineraryName :itineraryName}
+              title={viewer ? createdBy + "'s " + itineraryName : itineraryName}
             />
           </CardContent>
           <CardActions>
@@ -311,14 +319,22 @@ function ItineraryPage() {
               ))}
 
             </AvatarGroup>
-            { !viewer &&
-            <div className='itinerary__addmember'>
-              {
-                itineraryOwner === user.email
-                  ? <Button size="small" title="Add/Remove Members" onClick={(handleAddMemberOpen)}><PersonAddIcon sx={{ fontSize: 30 }} className="itinerary__icons"></PersonAddIcon></Button>
-                  : <Button size="small" title="Leave Itinerary" onClick={leaveItinerary}><ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons"></ExitToAppIcon></Button>
-              }
-            </div>}
+            {!viewer &&
+              <div className='itinerary__addmember'>
+                {
+                  itineraryOwner === user.email
+                    ? <Tooltip title='Add/Remove Members'>
+                      <Button size="small" title="Add/Remove Members" onClick={(handleAddMemberOpen)}>
+                        <PersonAddIcon sx={{ fontSize: 30 }} className="itinerary__icons"></PersonAddIcon>
+                      </Button>
+                    </Tooltip>
+                    : <Tooltip title='Leave Itinerary'>
+                      <Button size="small" title="Leave Itinerary" onClick={leaveItinerary}>
+                        <ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons"></ExitToAppIcon>
+                      </Button>
+                    </Tooltip>
+                }
+              </div>}
             <Modal
               open={addMember}
               onClose={handleAddMemberClose}
@@ -483,13 +499,13 @@ function ItineraryPage() {
               >
               </GoogleMapReact>
             </div>
-           
-           { !viewer && <div className='public__itineraries' style={{ height: '100vh', width: '90%', marginTop: 100 }}>
-            <Typography variant="h6" component="div" > Similar Public Itineraries </Typography>
-            <Divider style={{ padding: "5px" }} />
-            <br></br>
 
-             <PublicItineraries itineraryId={id}/>
+            {!viewer && <div className='public__itineraries' style={{ height: '100vh', width: '90%', marginTop: 100 }}>
+              <Typography variant="h6" component="div" > Similar Public Itineraries </Typography>
+              <Divider style={{ padding: "5px" }} />
+              <br></br>
+
+              <PublicItineraries itineraryId={id} />
             </div>}
           </Grid>
         </Grid>

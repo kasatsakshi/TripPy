@@ -299,7 +299,7 @@ function ItineraryPage() {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title='Download Itinerary'>
-                  <IconButton aria-label="download" sx={{ '&:hover': { content: `'download'` } }}>
+                  <IconButton onClick={downloadItinerary} aria-label="download" sx={{ '&:hover': { content: `'download'` } }}>
                     <DownloadIcon />
                   </IconButton>
                 </Tooltip>
@@ -455,7 +455,6 @@ function ItineraryPage() {
             </Form>
           </Box>
         </Modal>
-        <Button onClick={downloadItinerary} >Download Itinerary</Button>
         <Grid container rowSpacing={0}>
           <Grid xs={5} id="itineraryReport">
             <div id="report" className='itinerary__outerdiv'>

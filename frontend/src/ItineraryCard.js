@@ -206,7 +206,7 @@ export default function ItineraryCard(props) {
             Leave Trip
                   </MenuItem>
               }
-              <MenuItem >   <DownloadIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Download </MenuItem>
+              {/* <MenuItem >   <DownloadIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Download </MenuItem> */}
             </Menu>
           </>
           }

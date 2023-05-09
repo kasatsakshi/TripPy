@@ -25,18 +25,40 @@ const io = new Server({
   },
 });
 
+let onlineSocketUsers = [];
+
+const addSocketUser = (username, socketId) => {
+  !onlineSocketUsers.some((user) => user.username === username) &&
+    onlineSocketUsers.push({ username, socketId });
+};
+
+const removeSocketUser = (socketId) => {
+  onlineSocketUsers = onlineSocketUsers.filter((user) => user.socketId !== socketId);
+};
+
+const getSocketUser = (username) => {
+  return onlineSocketUsers.find((user) => user.username === username);
+};
 
 io.on('connect', function (socket) {
-  socket.on("requestNotifications", async (data) => {
-    const notifications = await notificationModel.find({ userId: data }).sort({ timestamp: -1 })
-    io.emit("getNotifications", notifications);
+  socket.on("newSocketUser", (username) => {
+    addSocketUser(username, socket.id);
+    io.emit("socketUserInfo", socket.id);
+  });
+
+
+  socket.on("requestNotifications", async ({ senderName }) => {
+    const receiver = getSocketUser(senderName);
+    const notifications = await notificationModel.find({ userId: senderName }).sort({ timestamp: -1 })
+    io.to(receiver.socketId).emit("getNotifications", notifications);
+  });
+
+
+  socket.on("disconnect", () => {
+    removeSocketUser(socket.id);
   });
 });
 
-
 io.listen(5001);
 
-export default app
-
-
-
+export default app;

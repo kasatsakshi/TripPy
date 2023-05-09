@@ -38,10 +38,17 @@ const Navbar = () => {
     setAnchorNotification(null);
   };
 
+  const [socketUser, setSocketUser] = useState("");
   const socket = io("http://localhost:5001")
   useEffect(() => {
     if (user && user._id) {
-      socket.emit("requestNotifications", user._id);
+      socket?.emit("newSocketUser", user._id);
+      socket.on('socketUserInfo', (data) => {
+        setSocketUser(data)
+      })
+      socket.emit("requestNotifications", {
+        senderName: user._id,
+      });
       socket.on("getNotifications", (data) => {
         const unreadNotifications = data.filter(notification => notification.isRead === false)
         setNotifications(data)
@@ -121,7 +128,7 @@ const Navbar = () => {
                             }
                           />
                           <ListItemIcon>
-                          {notification.isRead ? <div></div> : <Badge color="primary" badgeContent=" " variant="dot" />}
+                          {notification.isRead ? <div></div> : <Badge color="primary" sx={{paddingLeft: 5}} badgeContent=" " variant="dot" />}
                         </ListItemIcon>
                         </ListItemButton>
                         </ListItem>

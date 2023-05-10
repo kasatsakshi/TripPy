@@ -174,7 +174,7 @@ export default function ItineraryCard(props) {
             </Tooltip>
 
           }
-          action={ !viewer && <>
+          action={!viewer && <>
             <IconButton
               aria-label="3-dots"
               id="itinerary-button"//"long-button"
@@ -197,13 +197,13 @@ export default function ItineraryCard(props) {
 
               {
                 itinerary.createdBy._id == user._id ? <MenuItem >
-                 <IconButton onClick={deleteItinerary}>  <DeleteOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" onClick={() => deleteItinerary()} /> </IconButton>  Delete Trip
+                  <IconButton onClick={deleteItinerary}>  <DeleteOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" onClick={() => deleteItinerary()} /> </IconButton>  Delete Trip
                 </MenuItem>
                   : <MenuItem title="Leave Itinerary">
-                     <IconButton onClick={leaveItinerary}>
-              <ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons" />   
-            </IconButton>
-            Leave Trip
+                    <IconButton onClick={leaveItinerary}>
+                      <ExitToAppIcon sx={{ fontSize: 30 }} className="itinerary__icons" />
+                    </IconButton>
+                    Leave Trip
                   </MenuItem>
               }
               <MenuItem >   <DownloadIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Download </MenuItem>
@@ -212,12 +212,12 @@ export default function ItineraryCard(props) {
           }
           title={
             <Typography gutterBottom variant="h7" component="div" >
-             {viewer? itinerary.createdBy.username +"'s "+itinerary.itineraryName :itinerary.itineraryName}
+              {viewer ? itinerary.createdBy.username + "'s " + itinerary.itineraryName : itinerary.itineraryName}
             </Typography>}
           subheader={`${moment(itinerary.startDate).format('MMMM Do')} - ${moment(itinerary.endDate).format('MMMM Do')}`}
         />
         <Link to={`/itinerary/${itinerary._id}`} style={{ textDecoration: 'none' }} state={{ viewer: viewer }}>
-          
+
           <CardMedia
             component="img"
             height="190"
@@ -227,33 +227,10 @@ export default function ItineraryCard(props) {
         </Link>
         <CardActions disableSpacing>
           <div style={{ left: '5px' }}>{members}</div>
-          
-         { !viewer && <div style={{ position: 'absolute', right: '16px' }}>
 
-          {isPublic ? <>
-            <IconButton
-              aria-label="visibility"
-              id="visibility-button"
-              aria-controls={visibitlityOpen ? 'visibility-menu' : undefined}
-              aria-expanded={visibitlityOpen ? 'true' : undefined}
-              aria-haspopup="true"
-              onClick={handleVisibilityMenuClick}
-            >
-              <PublicOutlinedIcon aria-label="Visible publicly" style={{ height: "30px", width: "30px" }} />
-            </IconButton>
-            <Menu
-              id="itinerary-menu"
-              MenuListProps={{
-                'aria-labelledby': 'itinerary-button',
-              }}
-              anchorEl={visibilityMenu}
-              open={visibitlityOpen}
-              onClose={handleVisibilityMenuClose}
-            >
-              <MenuItem onClick={() => handleVisibilityClick(false)}> <PeopleOutlineOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Private </MenuItem>
-            </Menu>
-          </> :
-            <>
+          {!viewer && <div style={{ position: 'absolute', right: '16px', width: '100px' }}>
+
+            {isPublic ? <>
               <IconButton
                 aria-label="visibility"
                 id="visibility-button"
@@ -262,29 +239,57 @@ export default function ItineraryCard(props) {
                 aria-haspopup="true"
                 onClick={handleVisibilityMenuClick}
               >
-                <PeopleOutlineOutlinedIcon style={{ height: "30px", width: "30px" }} />
+                <PublicOutlinedIcon aria-label="Visible publicly" style={{ height: "30px", width: "30px", margin: '2px' }} />
               </IconButton>
               <Menu
-                id="visibility-menu"
+                id="itinerary-menu"
                 MenuListProps={{
-                  'aria-labelledby': 'visibility-button',
+                  'aria-labelledby': 'itinerary-button',
                 }}
                 anchorEl={visibilityMenu}
                 open={visibitlityOpen}
                 onClose={handleVisibilityMenuClose}
               >
-                <MenuItem onClick={() => handleVisibilityClick(true)} > <PublicOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Public </MenuItem>
+                <MenuItem onClick={() => handleVisibilityClick(false)}> <PeopleOutlineOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Private </MenuItem>
               </Menu>
-            </>}
+            </> :
+              <>
+                <IconButton
+                  aria-label="visibility"
+                  id="visibility-button"
+                  aria-controls={visibitlityOpen ? 'visibility-menu' : undefined}
+                  aria-expanded={visibitlityOpen ? 'true' : undefined}
+                  aria-haspopup="true"
+                  onClick={handleVisibilityMenuClick}
+                >
+                  <PeopleOutlineOutlinedIcon style={{ height: "30px", width: "30px", margin: '2px' }} />
+                </IconButton>
+                <Menu
+                  id="visibility-menu"
+                  MenuListProps={{
+                    'aria-labelledby': 'visibility-button',
+                  }}
+                  anchorEl={visibilityMenu}
+                  open={visibitlityOpen}
+                  onClose={handleVisibilityMenuClose}
+                >
+                  <MenuItem onClick={() => handleVisibilityClick(true)} > <PublicOutlinedIcon sx={{ fontSize: 30 }} className="itinerary__icons" /> Make it Public </MenuItem>
+                </Menu>
+              </>}
             {isFavorite ?
               <Tooltip title="Remove from Favorites" onClick={() => handleFavClick(false)}>
-                <FavoriteIcon aria-label="Favorite" />
-              </Tooltip> :
+                <IconButton>
+                  <FavoriteIcon aria-label="Favorite" sstyle={{ height: "30px", width: "30px" }} />
+                </IconButton>
+              </Tooltip>
+              :
               <Tooltip title="Add to Favorites">
-                <FavoriteBorderIcon aria-label="Unfavorite" onClick={() => handleFavClick(true)} style={{ height: "30px", width: "30px" }} />
+                <IconButton>
+                  <FavoriteBorderIcon aria-label="Unfavorite" onClick={() => handleFavClick(true)} style={{ height: "30px", width: "30px" }} />
+                </IconButton>
               </Tooltip>}
           </div>
-      }
+          }
         </CardActions>
       </CardActionArea>
     </Card>

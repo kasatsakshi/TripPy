@@ -18,6 +18,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Navbar from './components/Navbar';
 import styled from 'styled-components';
 import ErrorPopup from './components/ErrorPopup';
+import { isValidEmail } from './utils/utility';
 
 function Copyright(props) {
   return (
@@ -55,6 +56,10 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    if (!isValidEmail(email)) {
+      onShowAlert('Error', 'Invalid Email Format');
+      return;
+    }
     signup(dispatch, { username, email, password }, onShowAlert);
   };
 

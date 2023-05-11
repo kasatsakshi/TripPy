@@ -474,11 +474,16 @@ function ItineraryPage() {
                             </TimelineDot>
                             <TimelineConnector />
                           </TimelineSeparator>
-                          <TimelineContent sx={{ py: '12px', px: 2 }}>
+                          <TimelineContent sx={{ py: '12px', px: 5 }}>
                             <Typography variant="h6" component="span">
                               {place.Name}
                             </Typography>
                             <Typography color="text.secondary">{place.Description}</Typography>
+                            <>{!place.Cost ?
+                              <Typography color="text.primary">Free Entry</Typography>
+                              :
+                              <Typography color="text.primary">Cost (approx.) ${place.Cost}</Typography>}
+                            </>
                           </TimelineContent>
                         </TimelineItem>
                       </Timeline>

@@ -47,7 +47,8 @@ const names = [
   'Landmark',
   'Kid-friendly',
   'Beach',
-  'Amusement Park'
+  'Amusement Park',
+  'Restaurant'
 ];
 const apikey = process.env.REACT_APP_GOOGLE_API_KEY;
 

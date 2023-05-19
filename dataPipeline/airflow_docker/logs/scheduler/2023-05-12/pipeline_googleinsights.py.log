@@ -1,0 +1,129 @@
+[2023-05-12T16:21:50.091+0000] {processor.py:153} INFO - Started process (PID=169) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:21:50.100+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:21:50.104+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:21:50.104+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:21:50.566+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:21:50.559+0000] {dagbag.py:341} ERROR - Failed to import: /opt/airflow/dags/pipeline_googleinsights.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/models/dagbag.py", line 337, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/pipeline_googleinsights.py", line 11, in <module>
+    flickr = flickrapi.FlickrAPI(api_key, api_secret, format='parsed-json')
+  File "/home/airflow/.local/lib/python3.7/site-packages/flickrapi/core.py", line 211, in __init__
+    path=token_cache_location)
+  File "/home/airflow/.local/lib/python3.7/site-packages/flickrapi/tokencache.py", line 136, in __init__
+    os.makedirs(self.path)
+  File "/usr/local/lib/python3.7/os.py", line 223, in makedirs
+    mkdir(name, mode)
+FileExistsError: [Errno 17] File exists: '/home/airflow/.flickr'
+[2023-05-12T16:21:50.568+0000] {processor.py:755} WARNING - No viable dags retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:21:50.603+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.519 seconds
+[2023-05-12T16:22:20.719+0000] {processor.py:153} INFO - Started process (PID=192) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:22:20.723+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:22:20.725+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:20.725+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:22:21.170+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:22:21.259+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:21.259+0000] {manager.py:504} INFO - Created Permission View: can delete on DAG:google_insights_pipeline
+[2023-05-12T16:22:21.267+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:21.267+0000] {manager.py:504} INFO - Created Permission View: can edit on DAG:google_insights_pipeline
+[2023-05-12T16:22:21.274+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:21.274+0000] {manager.py:504} INFO - Created Permission View: can read on DAG:google_insights_pipeline
+[2023-05-12T16:22:21.275+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:21.275+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:22:21.286+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:21.286+0000] {dag.py:2726} INFO - Creating ORM DAG for google_insights_pipeline
+[2023-05-12T16:22:21.296+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:21.296+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:22:21.296592+00:00, run_after=2023-05-12T16:22:21.296592+00:00
+[2023-05-12T16:22:21.314+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.601 seconds
+[2023-05-12T16:22:51.414+0000] {processor.py:153} INFO - Started process (PID=218) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:22:51.430+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:22:51.463+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:51.462+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:22:52.044+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:22:52.154+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:52.153+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:22:52.195+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:52.195+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:22:52.195461+00:00, run_after=2023-05-12T16:22:52.195461+00:00
+[2023-05-12T16:22:52.222+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.814 seconds
+[2023-05-12T16:23:22.354+0000] {processor.py:153} INFO - Started process (PID=243) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:23:22.382+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:23:22.413+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:22.413+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:23:22.986+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:23:23.026+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:23.026+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:23:23.067+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:23.067+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:23:23.067240+00:00, run_after=2023-05-12T16:23:23.067240+00:00
+[2023-05-12T16:23:23.099+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.753 seconds
+[2023-05-12T16:23:53.246+0000] {processor.py:153} INFO - Started process (PID=268) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:23:53.251+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:23:53.254+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:53.254+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:23:53.702+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:23:53.731+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:53.731+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:23:53.755+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:53.755+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:23:53.754958+00:00, run_after=2023-05-12T16:23:53.754958+00:00
+[2023-05-12T16:23:53.773+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.531 seconds
+[2023-05-12T16:24:24.067+0000] {processor.py:153} INFO - Started process (PID=293) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:24:24.069+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:24:24.071+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:24.071+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:24:24.307+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:24:24.336+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:24.335+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:24:24.468+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:24.468+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:24:24.467948+00:00, run_after=2023-05-12T16:24:24.467948+00:00
+[2023-05-12T16:24:24.483+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.420 seconds
+[2023-05-12T16:24:54.769+0000] {processor.py:153} INFO - Started process (PID=318) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:24:54.773+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:24:54.775+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:54.775+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:24:55.043+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:24:55.197+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:55.197+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:24:55.218+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:55.218+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:24:55.217858+00:00, run_after=2023-05-12T16:24:55.217858+00:00
+[2023-05-12T16:24:55.233+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.468 seconds
+[2023-05-12T16:25:26.078+0000] {processor.py:153} INFO - Started process (PID=343) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:25:26.082+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:25:26.086+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:26.086+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:25:26.721+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:25:26.774+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:26.773+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:25:26.826+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:26.826+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:25:26.826251+00:00, run_after=2023-05-12T16:25:26.826251+00:00
+[2023-05-12T16:25:26.880+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.806 seconds
+[2023-05-12T16:25:57.401+0000] {processor.py:153} INFO - Started process (PID=369) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:25:57.404+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:25:57.406+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:57.406+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:25:57.777+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:25:57.805+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:57.805+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:25:57.828+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:57.828+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:25:57.827863+00:00, run_after=2023-05-12T16:25:57.827863+00:00
+[2023-05-12T16:25:57.846+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.448 seconds
+[2023-05-12T16:26:28.273+0000] {processor.py:153} INFO - Started process (PID=394) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:26:28.276+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:26:28.278+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:26:28.278+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:26:28.627+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:26:28.651+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:26:28.651+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:26:28.673+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:26:28.673+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:26:28.673383+00:00, run_after=2023-05-12T16:26:28.673383+00:00
+[2023-05-12T16:26:28.690+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.422 seconds
+[2023-05-12T16:26:59.247+0000] {processor.py:153} INFO - Started process (PID=419) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:26:59.249+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:26:59.251+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:26:59.251+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:26:59.595+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:26:59.618+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:26:59.618+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:26:59.641+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:26:59.640+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:26:59.640730+00:00, run_after=2023-05-12T16:26:59.640730+00:00
+[2023-05-12T16:26:59.655+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.411 seconds
+[2023-05-12T16:27:30.084+0000] {processor.py:153} INFO - Started process (PID=444) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:27:30.086+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:27:30.088+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:27:30.088+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:27:30.612+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:27:30.698+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:27:30.697+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:27:30.727+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:27:30.727+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:27:30.726894+00:00, run_after=2023-05-12T16:27:30.726894+00:00
+[2023-05-12T16:27:30.754+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.673 seconds
+[2023-05-12T16:28:01.306+0000] {processor.py:153} INFO - Started process (PID=475) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:28:01.309+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:28:01.310+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:01.310+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:28:01.997+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:28:02.275+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:02.049+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:28:02.339+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:02.339+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:28:02.338993+00:00, run_after=2023-05-12T16:28:02.338993+00:00
+[2023-05-12T16:28:02.369+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 1.068 seconds
+[2023-05-12T16:28:33.299+0000] {processor.py:153} INFO - Started process (PID=513) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:28:33.305+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:28:33.323+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:33.321+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:28:33.997+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:28:34.158+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:34.158+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:28:34.180+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:34.180+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:28:34.179859+00:00, run_after=2023-05-12T16:28:34.179859+00:00
+[2023-05-12T16:28:34.196+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.924 seconds
+[2023-05-12T16:29:04.621+0000] {processor.py:153} INFO - Started process (PID=540) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:29:04.623+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:29:04.625+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:04.624+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:29:04.986+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:29:05.010+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:05.010+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:29:05.032+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:05.032+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:29:05.032454+00:00, run_after=2023-05-12T16:29:05.032454+00:00
+[2023-05-12T16:29:05.050+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.433 seconds
+[2023-05-12T16:29:35.394+0000] {processor.py:153} INFO - Started process (PID=563) to work on /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:29:35.397+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_googleinsights.py for tasks to queue
+[2023-05-12T16:29:35.398+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:35.398+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:29:35.898+0000] {processor.py:753} INFO - DAG(s) dict_keys(['google_insights_pipeline']) retrieved from /opt/airflow/dags/pipeline_googleinsights.py
+[2023-05-12T16:29:35.961+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:35.961+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:29:36.010+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:36.010+0000] {dag.py:3456} INFO - Setting next_dagrun for google_insights_pipeline to 2023-04-28T16:29:36.009794+00:00, run_after=2023-05-12T16:29:36.009794+00:00
+[2023-05-12T16:29:36.055+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_googleinsights.py took 0.667 seconds

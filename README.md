@@ -11,6 +11,25 @@ Personalized Travel Planning Agent. It is a ful stack application that generates
 ## Setup
 1. Clone the repository on your local machine.
 
+### MongoDB
+1. Create a repo on mongoDB server
+2. Generate a .pem file and rename it as cert.pem
+3. Save this in backend->src->dbconfig folder
+
+### API Keys
+1. OpenAI: generate an api key and store it in .env file in backend as OPEN_AI_KEY
+2. GoogleMaps: generate api key and store it in .env file in frontend as GOOGLE_MAPS_API_KEY
+
+### Data Pipeline
+Apache Airflow DAGs are stored in airflow folder in datapipeline and a docker image is created.
+Steps to run docker:
+1. Initialize db: docker compose up airflow-init
+2. Starting the service: docker compose up
+3. Getting info: docker compose run airflow-worker airflow info
+Docker runs in port 8080 of your server. 
+Visit (*server*):8080 to see dags
+
+
 ### Backend
 1. From the terminal, change the directory to the backend folder.
 2. Run npm install.

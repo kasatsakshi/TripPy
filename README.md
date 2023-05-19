@@ -55,4 +55,5 @@ Visit (*server*):8080 to see dags
 <img width="1511" alt="Screenshot 2023-05-08 at 10 49 04 PM" src="https://github.com/kasatsakshi/TripPy/assets/25169257/2d95c7d1-ad2c-4536-81e9-f37305b506ac">
 
 ### User Page
-<img width="976" alt="Screenshot 2023-05-08 at 10 51 29 PM" src="https://github.com/kasatsakshi/TripPy/assets/25169257/4d9120d7-8dd6-4bc4-b0f0-de252be736d4">
+
+<img width="1490" alt="Screenshot 2023-05-19 at 10 47 01 AM" src="https://github.com/kasatsakshi/TripPy/assets/25169257/a1317d16-e073-44fc-8823-844d515b491e">

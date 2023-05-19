@@ -34,7 +34,7 @@ export class NotificationService {
 
       const itinerary = await itineraryModel.findById(itineraryId);
       const user = await userModel.findById(userId);
-      // let message = `${user.fname} ${user.lname} ${action.toLowerCase()}d ${itinerary.itineraryName}`
+      let message = `${user.username} ${action.toLowerCase()}d ${itinerary.itineraryName}`
 
       let members = itinerary.members
       members.push(itinerary.createdBy)

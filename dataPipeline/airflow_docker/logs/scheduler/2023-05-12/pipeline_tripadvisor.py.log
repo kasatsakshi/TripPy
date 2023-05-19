@@ -1,0 +1,116 @@
+[2023-05-12T16:21:50.101+0000] {processor.py:153} INFO - Started process (PID=167) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:21:50.111+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:21:50.115+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:21:50.115+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:21:50.593+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:21:50.990+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:21:50.990+0000] {manager.py:504} INFO - Created Permission View: can delete on DAG:tripadvisor_pipeline
+[2023-05-12T16:21:51.002+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:21:51.002+0000] {manager.py:504} INFO - Created Permission View: can edit on DAG:tripadvisor_pipeline
+[2023-05-12T16:21:51.017+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:21:51.016+0000] {manager.py:504} INFO - Created Permission View: can read on DAG:tripadvisor_pipeline
+[2023-05-12T16:21:51.021+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:21:51.020+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:21:51.056+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:21:51.055+0000] {dag.py:2726} INFO - Creating ORM DAG for tripadvisor_pipeline
+[2023-05-12T16:21:51.086+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:21:51.086+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:21:51.086141+00:00, run_after=2023-05-12T16:21:51.086141+00:00
+[2023-05-12T16:21:51.127+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 1.037 seconds
+[2023-05-12T16:22:21.384+0000] {processor.py:153} INFO - Started process (PID=198) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:22:21.389+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:22:21.395+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:21.395+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:22:21.756+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:22:21.780+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:21.780+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:22:21.803+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:21.802+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:22:21.802765+00:00, run_after=2023-05-12T16:22:21.802765+00:00
+[2023-05-12T16:22:21.819+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.440 seconds
+[2023-05-12T16:22:52.178+0000] {processor.py:153} INFO - Started process (PID=222) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:22:52.206+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:22:52.224+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:52.223+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:22:52.728+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:22:52.792+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:52.792+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:22:52.837+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:22:52.837+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:22:52.836652+00:00, run_after=2023-05-12T16:22:52.836652+00:00
+[2023-05-12T16:22:52.867+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.693 seconds
+[2023-05-12T16:23:23.197+0000] {processor.py:153} INFO - Started process (PID=249) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:23:23.254+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:23:23.272+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:23.271+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:23:23.820+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:23:23.858+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:23.857+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:23:23.886+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:23.886+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:23:23.886158+00:00, run_after=2023-05-12T16:23:23.886158+00:00
+[2023-05-12T16:23:23.914+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.722 seconds
+[2023-05-12T16:23:54.674+0000] {processor.py:153} INFO - Started process (PID=274) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:23:54.676+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:23:54.678+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:54.678+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:23:55.119+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:23:55.152+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:55.152+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:23:55.180+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:23:55.180+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:23:55.180083+00:00, run_after=2023-05-12T16:23:55.180083+00:00
+[2023-05-12T16:23:55.204+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.535 seconds
+[2023-05-12T16:24:25.502+0000] {processor.py:153} INFO - Started process (PID=299) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:24:25.505+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:24:25.507+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:25.507+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:24:25.776+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:24:25.809+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:25.807+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:24:25.947+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:25.947+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:24:25.947037+00:00, run_after=2023-05-12T16:24:25.947037+00:00
+[2023-05-12T16:24:25.963+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.473 seconds
+[2023-05-12T16:24:56.309+0000] {processor.py:153} INFO - Started process (PID=324) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:24:56.312+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:24:56.314+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:56.313+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:24:56.565+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:24:56.707+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:56.707+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:24:56.729+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:24:56.729+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:24:56.729098+00:00, run_after=2023-05-12T16:24:56.729098+00:00
+[2023-05-12T16:24:56.746+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.444 seconds
+[2023-05-12T16:25:27.004+0000] {processor.py:153} INFO - Started process (PID=349) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:25:27.009+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:25:27.014+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:27.014+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:25:27.873+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:25:27.925+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:27.924+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:25:27.975+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:27.975+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:25:27.974719+00:00, run_after=2023-05-12T16:25:27.974719+00:00
+[2023-05-12T16:25:28.011+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 1.017 seconds
+[2023-05-12T16:25:58.427+0000] {processor.py:153} INFO - Started process (PID=375) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:25:58.429+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:25:58.431+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:58.431+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:25:58.827+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:25:58.863+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:58.863+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:25:58.890+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:25:58.890+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:25:58.889868+00:00, run_after=2023-05-12T16:25:58.889868+00:00
+[2023-05-12T16:25:58.912+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.491 seconds
+[2023-05-12T16:26:29.307+0000] {processor.py:153} INFO - Started process (PID=400) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:26:29.310+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:26:29.313+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:26:29.313+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:26:29.672+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:26:29.696+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:26:29.696+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:26:29.719+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:26:29.719+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:26:29.719308+00:00, run_after=2023-05-12T16:26:29.719308+00:00
+[2023-05-12T16:26:29.736+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.437 seconds
+[2023-05-12T16:27:00.305+0000] {processor.py:153} INFO - Started process (PID=425) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:27:00.308+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:27:00.310+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:27:00.310+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:27:00.673+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:27:00.700+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:27:00.699+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:27:00.722+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:27:00.722+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:27:00.722153+00:00, run_after=2023-05-12T16:27:00.722153+00:00
+[2023-05-12T16:27:00.738+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.439 seconds
+[2023-05-12T16:27:30.885+0000] {processor.py:153} INFO - Started process (PID=450) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:27:30.889+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:27:30.892+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:27:30.892+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:27:31.779+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:27:31.837+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:27:31.836+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:27:31.886+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:27:31.885+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:27:31.885653+00:00, run_after=2023-05-12T16:27:31.885653+00:00
+[2023-05-12T16:27:31.940+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 1.064 seconds
+[2023-05-12T16:28:02.350+0000] {processor.py:153} INFO - Started process (PID=479) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:28:02.353+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:28:02.357+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:02.357+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:28:02.661+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:28:02.879+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:02.693+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:28:02.912+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:02.912+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:28:02.911848+00:00, run_after=2023-05-12T16:28:02.911848+00:00
+[2023-05-12T16:28:02.935+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.591 seconds
+[2023-05-12T16:28:33.304+0000] {processor.py:153} INFO - Started process (PID=512) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:28:33.308+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:28:33.317+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:33.313+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:28:33.997+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:28:34.158+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:34.158+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:28:34.180+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:28:34.180+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:28:34.179914+00:00, run_after=2023-05-12T16:28:34.179914+00:00
+[2023-05-12T16:28:34.196+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.907 seconds
+[2023-05-12T16:29:04.610+0000] {processor.py:153} INFO - Started process (PID=537) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:29:04.613+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:29:04.617+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:04.617+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:29:04.987+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:29:05.010+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:05.010+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:29:05.032+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:05.032+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:29:05.032389+00:00, run_after=2023-05-12T16:29:05.032389+00:00
+[2023-05-12T16:29:05.049+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.444 seconds
+[2023-05-12T16:29:35.389+0000] {processor.py:153} INFO - Started process (PID=561) to work on /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:29:35.393+0000] {processor.py:743} INFO - Processing file /opt/airflow/dags/pipeline_tripadvisor.py for tasks to queue
+[2023-05-12T16:29:35.396+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:35.396+0000] {dagbag.py:532} INFO - Filling up the DagBag from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:29:35.899+0000] {processor.py:753} INFO - DAG(s) dict_keys(['tripadvisor_pipeline']) retrieved from /opt/airflow/dags/pipeline_tripadvisor.py
+[2023-05-12T16:29:35.961+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:35.960+0000] {dag.py:2705} INFO - Sync 1 DAGs
+[2023-05-12T16:29:36.010+0000] {logging_mixin.py:137} INFO - [2023-05-12T16:29:36.010+0000] {dag.py:3456} INFO - Setting next_dagrun for tripadvisor_pipeline to 2023-04-28T16:29:36.009692+00:00, run_after=2023-05-12T16:29:36.009692+00:00
+[2023-05-12T16:29:36.056+0000] {processor.py:175} INFO - Processing /opt/airflow/dags/pipeline_tripadvisor.py took 0.675 seconds

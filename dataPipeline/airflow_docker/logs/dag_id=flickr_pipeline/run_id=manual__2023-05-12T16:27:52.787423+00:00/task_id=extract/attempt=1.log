@@ -1,0 +1,113 @@
+[2023-05-12T16:27:54.541+0000] {taskinstance.py:1090} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: flickr_pipeline.extract manual__2023-05-12T16:27:52.787423+00:00 [queued]>
+[2023-05-12T16:27:54.557+0000] {taskinstance.py:1090} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: flickr_pipeline.extract manual__2023-05-12T16:27:52.787423+00:00 [queued]>
+[2023-05-12T16:27:54.560+0000] {taskinstance.py:1288} INFO - 
+--------------------------------------------------------------------------------
+[2023-05-12T16:27:54.565+0000] {taskinstance.py:1289} INFO - Starting attempt 1 of 4
+[2023-05-12T16:27:54.568+0000] {taskinstance.py:1290} INFO - 
+--------------------------------------------------------------------------------
+[2023-05-12T16:27:54.588+0000] {taskinstance.py:1309} INFO - Executing <Task(PythonOperator): extract> on 2023-05-12 16:27:52.787423+00:00
+[2023-05-12T16:27:54.598+0000] {standard_task_runner.py:55} INFO - Started process 473 to run task
+[2023-05-12T16:27:54.606+0000] {standard_task_runner.py:82} INFO - Running: ['***', 'tasks', 'run', 'flickr_pipeline', 'extract', 'manual__2023-05-12T16:27:52.787423+00:00', '--job-id', '3', '--raw', '--subdir', 'DAGS_FOLDER/pipeline.py', '--cfg-path', '/tmp/tmpt9vz4_un']
+[2023-05-12T16:27:54.614+0000] {standard_task_runner.py:83} INFO - Job 3: Subtask extract
+[2023-05-12T16:27:54.765+0000] {task_command.py:389} INFO - Running <TaskInstance: flickr_pipeline.extract manual__2023-05-12T16:27:52.787423+00:00 [running]> on host bacf38067978
+[2023-05-12T16:27:54.933+0000] {taskinstance.py:1518} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=ratikabhuwalka
+AIRFLOW_CTX_DAG_ID=flickr_pipeline
+AIRFLOW_CTX_TASK_ID=extract
+AIRFLOW_CTX_EXECUTION_DATE=2023-05-12T16:27:52.787423+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2023-05-12T16:27:52.787423+00:00
+[2023-05-12T16:27:54.944+0000] {core.py:332} INFO - Calling {'method': 'flickr.photos.search', 'format': 'parsed-json', 'nojsoncallback': 1}
+[2023-05-12T16:27:56.242+0000] {logging_mixin.py:137} INFO - test               id          owner  ... geo_is_friend geo_is_family
+0    52892386533   82461392@N00  ...             0             0
+1    52892164615   32121816@N00  ...             0             0
+2    52890775760  145014284@N02  ...             0             0
+3    52890828213  145014284@N02  ...             0             0
+4    52889773717  145014284@N02  ...             0             0
+..           ...            ...  ...           ...           ...
+245  52833248773   66064297@N00  ...             0             0
+246  52832228852   47222519@N07  ...             0             0
+247  52832396861   47222519@N07  ...             0             0
+248  52827372779   48289257@N00  ...             0             0
+249  52831661103   47222519@N07  ...             0             0
+
+[250 rows x 25 columns]
+[2023-05-12T16:27:56.248+0000] {core.py:332} INFO - Calling {'method': 'flickr.photos.search', 'format': 'parsed-json', 'nojsoncallback': 1}
+[2023-05-12T16:27:58.436+0000] {logging_mixin.py:137} INFO - test               id         owner  ... geo_is_friend geo_is_family
+0    52891264283  86383385@N00  ...             0             0
+1    52890236652  86383385@N00  ...             0             0
+2    52889856027  36497840@N02  ...             0             0
+3    52889822624  25520425@N03  ...             0             0
+4    52889654746  25520425@N03  ...             0             0
+..           ...           ...  ...           ...           ...
+245  52807725925  74877815@N05  ...             0             0
+246  52807315146  74877815@N05  ...             0             0
+247  52806389383  74877815@N05  ...             0             0
+248  52806389368  74877815@N05  ...             0             0
+249  52805975273  74877815@N05  ...             0             0
+
+[250 rows x 25 columns]
+[2023-05-12T16:27:58.439+0000] {core.py:332} INFO - Calling {'method': 'flickr.photos.search', 'format': 'parsed-json', 'nojsoncallback': 1}
+[2023-05-12T16:28:00.048+0000] {logging_mixin.py:137} INFO - test               id         owner  ... geo_is_friend geo_is_family
+0    52892349278  66727626@N00  ...             0             0
+1    52890318268  85863089@N08  ...             0             0
+2    52889992479  85863089@N08  ...             0             0
+3    52888300745  80365963@N00  ...             0             0
+4    52887345722  80365963@N00  ...             0             0
+..           ...           ...  ...           ...           ...
+245  52786166789  85863089@N08  ...             0             0
+246  52773184336  51464120@N00  ...             0             0
+247  52773440834  51464120@N00  ...             0             0
+248  52773182031  51464120@N00  ...             0             0
+249  52773112808   8999207@N04  ...             0             0
+
+[250 rows x 25 columns]
+[2023-05-12T16:28:00.052+0000] {core.py:332} INFO - Calling {'method': 'flickr.photos.search', 'format': 'parsed-json', 'nojsoncallback': 1}
+[2023-05-12T16:28:01.639+0000] {logging_mixin.py:137} INFO - test               id          owner  ... geo_is_friend geo_is_family
+0    52888957636  198271395@N06  ...             0             0
+1    52884716107   92318075@N00  ...             0             0
+2    52879345657   66885639@N07  ...             0             0
+3    52865019735   57968392@N04  ...             0             0
+4    52854045995   25360342@N02  ...             0             0
+..           ...            ...  ...           ...           ...
+245  52678986766   59886769@N03  ...             0             0
+246  52642495597   85464137@N00  ...             0             0
+247  52615206002   38359273@N00  ...             0             0
+248  52612488376   61993874@N08  ...             0             0
+249  52519672342   22007612@N05  ...             0             0
+
+[250 rows x 25 columns]
+[2023-05-12T16:28:01.647+0000] {core.py:332} INFO - Calling {'method': 'flickr.photos.search', 'format': 'parsed-json', 'nojsoncallback': 1}
+[2023-05-12T16:28:04.073+0000] {logging_mixin.py:137} INFO - test               id          owner  ... geo_is_friend geo_is_family
+0    52892212183   25955895@N03  ...             0             0
+1    52890804845   15427108@N05  ...             0             0
+2    52889689043   25955895@N03  ...             0             0
+3    52884887254   25955895@N03  ...             0             0
+4    52880620867   25955895@N03  ...             0             0
+..           ...            ...  ...           ...           ...
+245  52818479253   46074871@N00  ...             0             0
+246  52817017427  196272861@N02  ...             0             0
+247  52817865203  196272861@N02  ...             0             0
+248  52817415226  196272861@N02  ...             0             0
+249  52795865741    9864195@N05  ...             0             0
+
+[250 rows x 25 columns]
+[2023-05-12T16:28:04.078+0000] {core.py:332} INFO - Calling {'method': 'flickr.photos.search', 'format': 'parsed-json', 'nojsoncallback': 1}
+[2023-05-12T16:28:05.099+0000] {logging_mixin.py:137} INFO - test               id            owner  ... geo_is_friend geo_is_family
+0    52891206151  44124339301@N01  ...             0             0
+1    52891656208  44124339301@N01  ...             0             0
+2    52890776356     21228941@N00  ...             0             0
+3    52890159067     19159227@N06  ...             0             0
+4    52890815079     29043563@N00  ...             0             0
+..           ...              ...  ...           ...           ...
+245  52837596263     47713580@N07  ...             0             0
+246  52837090426     47713580@N07  ...             0             0
+247  52837264724     47713580@N07  ...             0             0
+248  52836653270     47713580@N07  ...             0             0
+249  52836250171     47713580@N07  ...             0             0
+
+[250 rows x 25 columns]
+[2023-05-12T16:28:05.102+0000] {python.py:177} INFO - Done. Returned value was: None
+[2023-05-12T16:28:05.118+0000] {taskinstance.py:1332} INFO - Marking task as SUCCESS. dag_id=flickr_pipeline, task_id=extract, execution_date=20230512T162752, start_date=20230512T162754, end_date=20230512T162805
+[2023-05-12T16:28:05.174+0000] {local_task_job.py:212} INFO - Task exited with return code 0
+[2023-05-12T16:28:05.206+0000] {taskinstance.py:2596} INFO - 1 downstream tasks scheduled from follow-on schedule check
